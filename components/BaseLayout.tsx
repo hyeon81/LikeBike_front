@@ -3,13 +3,14 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
+import { Stack } from "@mui/material";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
   return (
     <MobileWrapper>
       <Container>
         <Header />
-        {children}
+        <Stack padding={2}>{children}</Stack>
       </Container>
     </MobileWrapper>
   );
@@ -33,6 +34,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 460px;
+  min-height: 100vh;
   height: 100%;
   background-color: white;
 `;

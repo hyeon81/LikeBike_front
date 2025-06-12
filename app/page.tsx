@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
@@ -9,7 +9,15 @@ export default function Home() {
 
   return (
     <Container>
-      <RewardMain onClick={() => router.push("/reward")}>리워드</RewardMain>
+      <RewardMain>
+        리워드
+        <Button onClick={() => router.push("/reward/guide")}>
+          자전거 타기 레벨 안내
+        </Button>
+        <Button onClick={() => router.push("/reward")}>
+          자전거 타기 레벨 점수 내역
+        </Button>
+      </RewardMain>
       <Stack flexDirection="row" gap="16px">
         <BikeLogMain onClick={() => router.push("/bikelog")}>
           자전거 타기 인증
@@ -35,7 +43,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   gap: 24px;
-  padding: 16px;
 `;
 
 const Base = styled.div`
@@ -50,7 +57,9 @@ const Base = styled.div`
   align-items: center;
 `;
 
-const RewardMain = styled(Base)``;
+const RewardMain = styled(Base)`
+  cursor: default;
+`;
 
 const BikeLogMain = styled(Base)``;
 
