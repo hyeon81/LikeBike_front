@@ -4,13 +4,16 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import { Stack } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
+  const pathname = usePathname();
+
   return (
     <MobileWrapper>
       <Container>
-        <Header />
-        <Stack padding={2}>{children}</Stack>
+        {pathname !== "/signin" && pathname !== "/signup" && <Header />}
+        <ChildrenContainer>{children}</ChildrenContainer>
       </Container>
     </MobileWrapper>
   );
@@ -25,7 +28,6 @@ const MobileWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  min-height: 100vh;
   background-color: grey;
 `;
 
@@ -34,7 +36,14 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 460px;
-  min-height: 100vh;
   height: 100%;
   background-color: white;
+`;
+
+const ChildrenContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: 16px;
 `;
