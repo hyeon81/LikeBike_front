@@ -3,16 +3,15 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
-import { Stack } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
-  const pathname = usePathname();
+
 
   return (
     <MobileWrapper>
       <Container>
-        {pathname !== "/signin" && pathname !== "/signup" && <Header />}
+        <Header />
         <ChildrenContainer>{children}</ChildrenContainer>
       </Container>
     </MobileWrapper>

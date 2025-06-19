@@ -10,8 +10,6 @@ import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 export default function Home() {
-  const router = useRouter();
-
   return (
     <Container>
       <RewardMain />

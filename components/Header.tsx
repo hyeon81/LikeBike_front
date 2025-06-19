@@ -1,14 +1,27 @@
+"use client";
+
 import { Avatar } from "@mui/material";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styled from "styled-components";
 
 const Header = () => {
+  const pathname = usePathname();
   const router = useRouter();
+
+  if (pathname == "/signin" || pathname == "/signup") return <></>;
+
   return (
     <Container>
-      <Image src="/images/logo.svg" alt="logo" width={231} height={36} />
-      <Avatar onClick={() => router.push("/my")} />
+      <Image
+        src="/images/logo.svg"
+        alt="logo"
+        width={231}
+        height={36}
+        onClick={() => router.push("/")}
+        style={{ cursor: "pointer" }}
+      />
+      <Avatar onClick={() => router.push("/my")} sx={{ cursor: "pointer" }} />
     </Container>
   );
 };
