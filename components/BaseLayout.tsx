@@ -6,8 +6,6 @@ import Header from "./Header";
 import { usePathname, useRouter } from "next/navigation";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
-
-
   return (
     <MobileWrapper>
       <Container>
@@ -36,6 +34,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 460px;
   height: 100%;
+  min-height: 100vh;
   background-color: white;
 `;
 
@@ -43,6 +42,7 @@ const ChildrenContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+  flex: 1;
   padding: 16px;
 `;
