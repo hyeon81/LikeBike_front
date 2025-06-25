@@ -1,11 +1,32 @@
-const Wrong = () => {
+import { QUIZ_STATUS, QuizStatus } from "@/app/quiz/start/page";
+import { Button } from "@mui/material";
+
+interface Props {
+  setStatus: (status: QuizStatus) => void;
+}
+
+const Wrong = ({ setStatus }: Props) => {
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <h1 className="text-4xl font-bold text-red-600">오답입니다.</h1>
+      <h1 className="text-4xl font-bold">오답입니다.</h1>
       <p className="mt-4 text-lg text-gray-700">
         안타깝게도 고르신 번호는 정답이 아닙니다... 한 번 더 문제를 풀어보시는
         건 어떨까요?
       </p>
+      <div className="flex flex-col items-center mt-8 gap-4 flex-row">
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600  cursor-pointer"
+          onClick={() => setStatus(QUIZ_STATUS.QUIZ)}
+        >
+          다시 풀기
+        </button>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
+          onClick={() => setStatus(QUIZ_STATUS.COMMENTARY)}
+        >
+          해설 보기
+        </button>
+      </div>
     </div>
   );
 };
