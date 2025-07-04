@@ -3,16 +3,13 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
-import { Stack } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
-  const pathname = usePathname();
-
   return (
     <MobileWrapper>
       <Container>
-        {pathname !== "/signin" && pathname !== "/signup" && <Header />}
+        <Header />
         <ChildrenContainer>{children}</ChildrenContainer>
       </Container>
     </MobileWrapper>
@@ -37,6 +34,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 460px;
   height: 100%;
+  min-height: 100vh;
   background-color: white;
 `;
 
@@ -44,6 +42,7 @@ const ChildrenContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+  flex: 1;
   padding: 16px;
 `;
