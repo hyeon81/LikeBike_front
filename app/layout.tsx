@@ -48,7 +48,7 @@ export default function RootLayout({
           async
           type="text/javascript"
         /> */}
-        <AppRouterCacheProvider>
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <BaseLayout>{children}</BaseLayout>
         </AppRouterCacheProvider>
       </body>
