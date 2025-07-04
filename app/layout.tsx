@@ -24,6 +24,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("Kakao JS API Key:", process.env.NEXT_PUBLIC_KAKAO_JS_API_KEY);
   return (
     <html lang="en">
       <head>
@@ -38,9 +39,15 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
         />
       </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <script
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_API_KEY}`}
+          async
+          type="text/javascript"
+        /> */}
         <AppRouterCacheProvider>
           <BaseLayout>{children}</BaseLayout>
         </AppRouterCacheProvider>

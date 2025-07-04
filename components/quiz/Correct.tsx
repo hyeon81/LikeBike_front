@@ -1,4 +1,5 @@
 import { QUIZ_STATUS, QuizStatus } from "@/app/quiz/start/page";
+import Button from "../common/Button";
 
 interface Props {
   setStatus: (status: QuizStatus) => void;
@@ -13,18 +14,12 @@ const Correct = ({ setStatus }: Props) => {
         꼭 지켜주세요^0^
       </p>
       <div className="flex flex-col items-center mt-8 gap-4 flex-row">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600  cursor-pointer"
-          onClick={() => setStatus(QUIZ_STATUS.COMMENTARY)}
-        >
+        <Button onClick={() => setStatus(QUIZ_STATUS.COMMENTARY)}>
           정답 해설 확인하기
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
-          onClick={() => setStatus(QUIZ_STATUS.RESULT)}
-        >
+        </Button>
+        <Button onClick={() => setStatus(QUIZ_STATUS.RESULT)}>
           적립 포인트 확인하기
-        </button>
+        </Button>
       </div>
     </div>
   );

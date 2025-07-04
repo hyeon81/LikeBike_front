@@ -14,18 +14,10 @@ const Wrong = ({ setStatus }: Props) => {
         건 어떨까요?
       </p>
       <div className="flex flex-col items-center mt-8 gap-4 flex-row">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600  cursor-pointer"
-          onClick={() => setStatus(QUIZ_STATUS.QUIZ)}
-        >
-          다시 풀기
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
-          onClick={() => setStatus(QUIZ_STATUS.COMMENTARY)}
-        >
+        <Button onClick={() => setStatus(QUIZ_STATUS.QUIZ)}>다시 풀기</Button>
+        <Button onClick={() => setStatus(QUIZ_STATUS.COMMENTARY)}>
           해설 보기
-        </button>
+        </Button>
       </div>
     </div>
   );
