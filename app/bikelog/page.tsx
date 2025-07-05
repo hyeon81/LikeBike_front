@@ -7,6 +7,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Button from "@/components/common/Button";
+import BikeLogMain from "@/components/bikelog/BikeLogGuide";
+import BikeLogGuide from "@/components/bikelog/BikeLogGuide";
+import BikeLogList from "@/components/bikelog/BikeLogList";
 
 export default function Home() {
   const [value, setValue] = React.useState("1");
@@ -24,35 +27,13 @@ export default function Home() {
         </TabList>
       </Box>
       <TabPanel value="1">
-        <div>
-          - [6시 ~ 22시] 사이에 [1시간 이상] 자전거 타기
-          <br />
-          - [자전거 타기 시작/종료 시] 인증하기 버튼 누르기
-          <br />- 버튼을 누른 후 [안전모, 자전거] 촬영하기
-        </div>
-
-        <div>인증하기 예시</div>
-        {[1, 2, 3, 4].map((v) => (
-          <div className="w-24 h-8 bg-black relative">
-            <div className="absolute w-full bottom-0">O</div>
-          </div>
-        ))}
-        <Button>자전거 타기 인증하기</Button>
+        <BikeLogGuide />
       </TabPanel>
-      <TabPanel value="2">내역보기</TabPanel>
+      <TabPanel value="2">
+        <BikeLogList />
+      </TabPanel>
     </TabContext>
     // <div>
     //   <div>여러분의 안전한 라이딩을 인증해주세요!</div>
-    //   <label htmlFor="file">
-    //     <Button>파일 업로드</Button>
-    //   </label>
-    //   <input
-    //     type="file"
-    //     id="file"
-    //     accept="image/*"
-    //     capture="environment"
-    //     onChange={(e) => console.log("e", e)}
-    //   />
-    // </div>
   );
 }

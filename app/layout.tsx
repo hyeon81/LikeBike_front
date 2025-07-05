@@ -24,7 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log("Kakao JS API Key:", process.env.NEXT_PUBLIC_KAKAO_JS_API_KEY);
   return (
     <html lang="en">
       <head>
