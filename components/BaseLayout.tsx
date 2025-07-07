@@ -4,15 +4,20 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import { usePathname, useRouter } from "next/navigation";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
+  const queryClient = new QueryClient();
+
   return (
-    <MobileWrapper>
-      <Container>
-        <Header />
-        <ChildrenContainer>{children}</ChildrenContainer>
-      </Container>
-    </MobileWrapper>
+    <QueryClientProvider client={queryClient}>
+      <MobileWrapper>
+        <Container>
+          <Header />
+          <ChildrenContainer>{children}</ChildrenContainer>
+        </Container>
+      </MobileWrapper>
+    </QueryClientProvider>
   );
 };
 

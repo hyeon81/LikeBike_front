@@ -1,4 +1,4 @@
-import { QUIZ_STATUS, QuizStatus } from "@/app/quiz/start/page";
+import { QUIZ_STATUS, QuizStatus } from "@/app/quiz/page";
 import Button from "../common/Button";
 
 interface Props {
