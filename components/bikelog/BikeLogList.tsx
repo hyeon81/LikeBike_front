@@ -1,8 +1,12 @@
+import BikeLog from "./BikeLog";
+
 const BikeLogList = () => {
   return (
-    <>
-      <div>자전거 타기 시작</div>
-    </>
+    <div className="flex flex-col gap-4">
+      <BikeLog />
+      <BikeLog />
+      <BikeLog />
+    </div>
   );
 };
 
