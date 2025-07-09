@@ -1,5 +1,6 @@
-import { QUIZ_STATUS, QuizStatus } from "@/app/quiz/page";
+import { QuizStatus } from "@/app/quiz/page";
 import Button from "../common/Button";
+import { QUIZ_STATUS } from "@/constant/quiz";
 
 interface Props {
   setStatus: (status: QuizStatus) => void;
