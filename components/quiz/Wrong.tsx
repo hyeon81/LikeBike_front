@@ -1,4 +1,5 @@
-import { QUIZ_STATUS, QuizStatus } from "@/app/quiz/page";
+import { QuizStatus } from "@/app/quiz/page";
+import { QUIZ_STATUS } from "@/constant/quiz";
 import { Button } from "@mui/material";
 
 interface Props {

@@ -3,6 +3,7 @@
 import { getQuiz } from "@/api/getQuiz";
 import Correct from "@/components/quiz/Correct";
 import Wrong from "@/components/quiz/Wrong";
+import { QUIZ_STATUS } from "@/constant/quiz";
 import {
   Button,
   FormControl,
@@ -14,14 +15,6 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
-
-export const QUIZ_STATUS = {
-  QUIZ: "quiz",
-  CORRECT: "correct",
-  WRONG: "wrong",
-  COMMENTARY: "commentary",
-  RESULT: "result",
-};
 
 export type QuizStatus = (typeof QUIZ_STATUS)[keyof typeof QUIZ_STATUS];
 
