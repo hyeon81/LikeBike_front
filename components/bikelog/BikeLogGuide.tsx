@@ -8,7 +8,7 @@ const BikeLogGuide = () => {
   const [bikePreview, setBikePreview] = useState("");
   const [bikeFile, setBikeFile] = useState(null);
 
-  const handleCapture = (target) => {
+  const handleCapture = (target: any) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
@@ -19,7 +19,7 @@ const BikeLogGuide = () => {
     }
   };
 
-  const handleBikeCapture = (target) => {
+  const handleBikeCapture = (target: any) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
