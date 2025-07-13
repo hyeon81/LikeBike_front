@@ -18,7 +18,7 @@ export default async function Home() {
 
   const data = await res.json();
 
-  const titles = data.results.map((page: any) => {
+  const titles = data?.results?.map((page: any) => {
     const properties = page.properties;
     console.log("properties", properties);
     // 제목 필드 이름 확인 (Title, 제목 등 상황에 따라 다름)
@@ -77,6 +77,7 @@ export default async function Home() {
   description: [],
   is_inline: false,
   properties: {
+    '생성일': { id: 'GUoy', name: '생성일', type: 'created_time', created_time: {} },
     '생성일': { id: 'GUoy', name: '생성일', type: 'created_time', created_time: {} },
     '썸네일': { id: '%5Bxke', name: '썸네일', type: 'files', files: {} },
     '제목': { id: 'title', name: '제목', type: 'title', title: {} }
