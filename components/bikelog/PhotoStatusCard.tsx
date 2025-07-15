@@ -1,9 +1,10 @@
 interface Props {
   text: string;
   status: "inprogress" | "success" | "error";
+  imgUrl?: string;
 }
 
-const PhotoStatusCard = ({ text, status }: Props) => {
+const PhotoStatusCard = ({ text, status, imgUrl }: Props) => {
   const statusValue = {
     inprogress: {
       text: "검토 중",
@@ -21,6 +22,7 @@ const PhotoStatusCard = ({ text, status }: Props) => {
   return (
     <div className="w-24 h-36 bg-black relative ">
       <div className="bg-white border-1 size-fit p-1 z-10">{text}</div>
+      {imgUrl && <img src={imgUrl} alt="인증 사진" width={120} height={120} />}
       <div
         className={`absolute w-full bottom-0 ${statusValue[status]?.color ?? "bg-orange-500"} text-white text-center`}
       >

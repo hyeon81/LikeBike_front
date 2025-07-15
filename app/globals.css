@@ -11,6 +11,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-primary: #00b493;
+  --color-secondary: #9cdbcf;
+  --color-secondary-light: #ccf0e9; /* 서브 강조 색상 (밝은 청록) */
+  --color-error: #ff7272;
+  --color-gray-background: #f6f6f6; /* Light gray background */
+  --color-gray-lightest: #e6e6e6;
+  --color-gray-light: #c8c8c8;
+  --color-gray-medium: #969696;
+  --color-gray-dark: #646464;
+  --color-text-primary: #323232; /* Dark text color */
 }
 
 @media (prefers-color-scheme: dark) {

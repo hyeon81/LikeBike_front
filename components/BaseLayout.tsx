@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Header from "./Header";
 import { usePathname, useRouter } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { COLORS } from "@/constant/color";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient();
@@ -40,7 +41,7 @@ const Container = styled.div`
   max-width: 460px;
   height: 100%;
   min-height: 100vh;
-  background-color: white;
+  background-color: ${COLORS.GRAY_BACKGROUND};
 `;
 
 const ChildrenContainer = styled.div`

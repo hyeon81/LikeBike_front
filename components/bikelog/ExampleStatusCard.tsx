@@ -5,17 +5,19 @@ interface Props {
 
 const ExampleStatusCard = ({ chipText, status }: Props) => {
   return (
-    <div className="w-24 h-36 bg-black relative ">
-      <div className="bg-white border-1 size-fit p-1 z-10">안전모</div>
+    <div className="w-[140px] h-[160px] bg-black relative">
+      <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-1 left-1 text-xs">
+        {chipText}
+      </div>
       {status == "success" ? (
         <div
-          className={`absolute w-full bottom-0 bg-green-700 text-white text-center`}
+          className={`absolute w-full bottom-0 bg-primary text-white text-center`}
         >
           O
         </div>
       ) : (
         <div
-          className={`absolute w-full bottom-0 bg-red-700 text-white text-center`}
+          className={`absolute w-full bottom-0 bg-error text-white text-center`}
         >
           X
         </div>
