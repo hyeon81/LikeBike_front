@@ -54,14 +54,13 @@ export default function Home() {
 
   return (
     <div>
-      <div>{quiz.question}</div>
-      <Image
-        src="/quiz/quiz1.png"
-        alt="Quiz Image"
-        width={500}
-        height={300}
-        style={{ borderRadius: "8px", margin: "16px 0" }}
-      />
+      <div className="bg-secondary-light rounded-2xl h-[280px] w-full flex flex-col items-center justify-center ">
+        <div>00월 00일 문제</div>
+        <div>안전한 자전거 권장 속도 기준은?</div>
+      </div>
+      <a href="#">
+        <div>hint: 한화의 구단 순위</div>
+      </a>
       <FormControl>
         <RadioGroup
           name="quiz1"

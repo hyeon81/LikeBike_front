@@ -21,17 +21,20 @@ const RewardMain = () => {
         width={"100%"}
         marginTop={"16px"}
       >
-        <a href={process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL}>
-          <RewardButton bgcolor="#969696">
-            <Image
-              src={"/icons/notice.svg"}
-              alt="notice"
-              width={16}
-              height={16}
-            />
-            <Box textAlign={"center"}>자전거 타기 레벨 안내</Box>
-          </RewardButton>
-        </a>
+        <RewardButton
+          bgcolor="#969696"
+          onClick={() => {
+            location.href = process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL ?? "";
+          }}
+        >
+          <Image
+            src={"/icons/notice.svg"}
+            alt="notice"
+            width={16}
+            height={16}
+          />
+          <Box textAlign={"center"}>자전거 타기 레벨 안내</Box>
+        </RewardButton>
         <RewardButton onClick={() => router.push("/reward")} bgcolor="#00B493">
           자전거 타기 레벨 점수 내역
         </RewardButton>

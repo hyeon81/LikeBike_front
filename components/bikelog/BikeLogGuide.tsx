@@ -3,6 +3,7 @@ import Button from "../common/Button";
 import ExampleStatusCard from "./ExampleStatusCard";
 import uploadImage from "@/api/uploadImage";
 import Image from "next/image";
+import createBikeLog from "@/api/bikelog/createBikeLog";
 
 const BubbleChat = ({ text }: { text: string }) => {
   return (
@@ -45,19 +46,22 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
 
   const handleUpload = async () => {
     if (hatFile && bikeFile) {
-      await uploadImage(hatFile);
-      await uploadImage(bikeFile);
-      console.log("upload success");
-      alert("자전거 타기 인증이 완료되었습니다!");
-      setHatPreview("");
-      setBikePreview("");
-      setHatFile(null);
-      setBikeFile(null);
-      setValue(2); // Switch to the BikeLogList tab after successful upload
+      try {
+        await createBikeLog({
+          bike_photo: bikeFile,
+          safety_gear_photo: hatFile,
+        });
+        alert("자전거 타기 인증이 완료되었습니다!");
+        setHatPreview("");
+        setBikePreview("");
+        setHatFile(null);
+        setBikeFile(null);
+        setValue(2); // 인증 내역 보기로 이동
+      } catch (error) {
+        alert("인증에 실패했습니다. 다시 시도해주세요: " + error);
+      }
     } else {
-      console.error(
-        "Both hatFile and bikeFile must be selected before uploading."
-      );
+      alert("모든 사진을 업로드해주세요!");
     }
   };
 
@@ -67,7 +71,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       <div className="bg-secondary-light p-3 text-center mt-8">
         ① 하단의 자전거 타기 인증{" "}
         <strong className="underline">[시작 버튼]</strong> 누르기
-        <br />② 버튼을 누른 후
+        <br />② 버튼을 누른 후{" "}
         <strong className="underline">[안전모+사용자, 자전거]</strong> 촬영하기
       </div>
       <div className="flex flex-row gap-2 overflow-x-auto">
@@ -81,11 +85,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           </div>
         ))}
       </div>
-      <BubbleChat text={"여기 시작 버튼을 눌러주세요!"} />
-      <button className="bg-secondary-light p-10 text-center mt-8 rounded-2xl">
-        <div>아직 인증 점수를 받지 않았어요!</div>
-        <div>자전거 타기 인증 시작</div>
-      </button>
+
       <div>
         <label
           htmlFor="hat-image"
@@ -140,7 +140,15 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           <img src={bikePreview} alt={"snap"} width="500" height="500"></img>
         )}
       </div>
-      <Button onClick={handleUpload}>자전거 타기 인증 시작 버튼</Button>
+
+      <BubbleChat text={"여기 시작 버튼을 눌러주세요!"} />
+      <button
+        className="bg-secondary-light p-10 text-center mt-8 rounded-2xl cursor-pointer"
+        onClick={handleUpload}
+      >
+        <div>아직 인증 점수를 받지 않았어요!</div>
+        <div className="text-2xl font-bold">자전거 타기 인증 시작</div>
+      </button>
     </div>
   );
 };

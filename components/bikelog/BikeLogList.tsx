@@ -1,26 +1,24 @@
-import { getImages } from "@/api/getImages";
-import BikeLog from "./BikeLog";
 import { useQuery } from "@tanstack/react-query";
+import getBikeLog from "@/api/bikelog/getBikeLog";
+import { IBikeLog } from "@/types/bikeLog";
+import BikeLog from "./BikeLog";
 
 const BikeLogList = () => {
-  const { data } = useQuery({
+  const { data } = useQuery<IBikeLog[]>({
     queryKey: ["bikeLogs"],
-    queryFn: getImages,
+    queryFn: getBikeLog,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
 
+  console.log("BikeLogList data:", data);
+
   // 응답 데이터에서 이미지 URL 추출
-  const images =
-    data && Array.isArray(data[0]?.files)
-      ? data[0].files.map((file: any) => file.url)
-      : [];
 
   return (
-    <div className="flex flex-col gap-4">
-      {images.length === 0 && <div>이미지가 없습니다.</div>}
-      {images.map((url: string, idx: number) => (
-        <BikeLog key={idx} imageUrl={url} />
+    <div className="flex flex-col gap-6">
+      {data?.map((log: IBikeLog, idx: number) => (
+        <BikeLog key={idx} {...log} />
       ))}
     </div>
   );
