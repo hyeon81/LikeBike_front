@@ -35,16 +35,31 @@ export default function Home() {
     }
 
     if (quiz?.id) {
-      await attemptQuiz(String(quiz.id), selectedValue);
-    }
+      const res = await attemptQuiz(String(quiz.id), selectedValue);
 
-    // 퀴즈 시도
-    // if (status === QUIZ_STATUS.CORRECT) {
-    //   return <Correct setStatus={setStatus} />;
-    // } else if (status === QUIZ_STATUS.WRONG) {
-    //   return <Wrong setStatus={setStatus} />;
-    // }
+      if (res?.is_correct === true) {
+        setStatus(QUIZ_STATUS.CORRECT);
+      } else {
+        setStatus(QUIZ_STATUS.WRONG);
+      }
+    }
   };
+
+  if (status === QUIZ_STATUS.CORRECT) {
+    //세로 중앙 정렬
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-amber-200">
+        <Correct setStatus={setStatus} />
+      </div>
+    );
+  }
+  if (status === QUIZ_STATUS.WRONG) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-red-200">
+        <Wrong setStatus={setStatus} />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -69,7 +84,7 @@ export default function Home() {
         ))}
       </div>
       <Button onClick={handleClick} style={{ marginTop: "16px" }}>
-        제출
+        제출하기
       </Button>
     </div>
   );
