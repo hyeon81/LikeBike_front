@@ -8,7 +8,10 @@ interface IQuizAttemptRes {
   reward_given: boolean;
 }
 
-export const attemptQuiz = async (quizId: string, selectedAnswer: string) => {
+export const attemptQuiz = async (
+  quizId: string,
+  selectedAnswer: string
+): Promise<IQuizAttemptRes> => {
   try {
     const response = await axiosInstance.post<IResponse<IQuizAttemptRes>>(
       `/quizzes/${quizId}/attempt`,
@@ -25,7 +28,7 @@ export const attemptQuiz = async (quizId: string, selectedAnswer: string) => {
       reward_given: true,
     };
 
-    return response;
+    // return response;
   } catch (error) {
     console.error("Error attempting quiz:", error);
     throw new Error("Failed to attempt quiz");
