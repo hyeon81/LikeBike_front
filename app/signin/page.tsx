@@ -12,7 +12,12 @@ export default function Home() {
       <Image src="/images/logo.svg" alt="logo" width={231} height={36} />
       <ImageContainer
         onClick={() => {
-          router.push("/");
+          const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${window.location.origin}/oauth&response_type=code`;
+          if (kakaoLoginUrl) {
+            window.location.href = kakaoLoginUrl;
+          } else {
+            console.error("Kakao login URL is not defined.");
+          }
         }}
       >
         <Image alt="login" src={"/images/kakao_login_medium_wide.png"} fill />
