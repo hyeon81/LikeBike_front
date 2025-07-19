@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Button from "../common/Button";
 import ExampleStatusCard from "./ExampleStatusCard";
-import uploadImage from "@/api/uploadImage";
 import Image from "next/image";
 import createBikeLog from "@/api/bikelog/createBikeLog";
 
