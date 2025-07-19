@@ -1,6 +1,5 @@
-import styled from "styled-components";
-import ScoreLabel from "./ScoreLabel";
 import { useRouter } from "next/navigation";
+import ScoreLabel from "./ScoreLabel";
 
 const MainBase = ({
   title,
@@ -16,38 +15,18 @@ const MainBase = ({
   const router = useRouter();
 
   return (
-    <MainBaseContainer onClick={() => router.push(path)} bgcolor={bgcolor}>
+    <div
+      className="rounded-[30px] flex-1 cursor-pointer flex flex-col justify-center items-center min-h-[100px] relative"
+      style={{ backgroundColor: bgcolor }}
+      onClick={() => router.push(path)}
+    >
       <ScoreLabel />
-      <Chip>{chipTitle}</Chip>
-      <Title>{title}</Title>
-    </MainBaseContainer>
+      <div className="bg-white px-3 py-1 rounded-[30px] text-xs">
+        {chipTitle}
+      </div>
+      <div className="text-[20px] font-bold text-white">{title}</div>
+    </div>
   );
 };
 
 export default MainBase;
-
-export const MainBaseContainer = styled.div<{ bgcolor?: string }>`
-  border-radius: 30px;
-  background-color: ${(props) => props.bgcolor};
-  flex: 1;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100px;
-  position: relative;
-`;
-
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-`;
-
-const Chip = styled.div`
-  background-color: #ffffff;
-  padding: 3px 9px;
-  border-radius: 30px;
-  font-size: 12px;
-`;

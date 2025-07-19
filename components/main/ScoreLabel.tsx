@@ -1,30 +1,12 @@
 import Image from "next/image";
-import styled from "styled-components";
 
 const ScoreLabel = () => {
   return (
-    <Container>
+    <div className="absolute flex flex-col justify-center items-center top-[-4px] right-7">
       <Image src={"/icons/union.svg"} width={54} height={41} alt="union" />
-      <Label>+10점</Label>
-    </Container>
+      <div className="absolute top-2 text-white text-xs">+10점</div>
+    </div>
   );
 };
 
 export default ScoreLabel;
-
-const Container = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  top: -4px;
-  right: 28px;
-`;
-
-const Label = styled.div`
-  position: absolute;
-  top: 8px;
-  color: #ffffff;
-  font-size: 12px;
-`;

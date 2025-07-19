@@ -1,94 +1,44 @@
-import { Box, Button, Stack } from "@mui/material";
-import styled from "styled-components";
-import { MainBaseContainer } from "./MainBase";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const RewardMain = () => {
   const router = useRouter();
   return (
-    <Container>
-      <ContentText>
-        <span>권호정</span> 님의 자전거 타기 레벨은 <span>관심인</span> 입니다.
-      </ContentText>
+    <div className="cursor-default p-8 bg-[rgba(230,230,230,0.4)] rounded-[32px] flex flex-col items-center justify-center">
+      <div className="mb-4 font-medium">
+        <span className="underline">권호정</span> 님의 자전거 타기 레벨은{" "}
+        <span className="underline">관심인</span> 입니다.
+      </div>
 
-      <LevelBox>
-        <Level percentage={50} opacity={0.5} />
-      </LevelBox>
-      <Stack
-        flexDirection={"row"}
-        gap={"16px"}
-        width={"100%"}
-        marginTop={"16px"}
-      >
-        <RewardButton
-          bgcolor="#969696"
+      <div className="w-full h-[5vh] bg-white border border-black mb-4 flex items-center">
+        <div
+          className="h-full border-r border-black"
+          style={{
+            width: "50%",
+            backgroundColor: "rgba(0,180,147,0.5)",
+          }}
+        />
+      </div>
+
+      <div className="flex flex-row gap-4 w-full mt-4">
+        <button
+          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs"
           onClick={() => {
             location.href = process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL ?? "";
           }}
         >
-          <Image
-            src={"/icons/notice.svg"}
-            alt="notice"
-            width={16}
-            height={16}
-          />
-          <Box textAlign={"center"}>자전거 타기 레벨 안내</Box>
-        </RewardButton>
-        <RewardButton onClick={() => router.push("/reward")} bgcolor="#00B493">
+          <Image src="/icons/notice.svg" alt="notice" width={16} height={16} />
+          <span className="text-center">자전거 타기 레벨 안내</span>
+        </button>
+        <button
+          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs"
+          onClick={() => router.push("/reward")}
+        >
           자전거 타기 레벨 점수 내역
-        </RewardButton>
-      </Stack>
-    </Container>
+        </button>
+      </div>
+    </div>
   );
 };
 
 export default RewardMain;
-
-const Container = styled(MainBaseContainer)`
-  cursor: default;
-  padding: 32px;
-  background-color: rgba(230, 230, 230, 0.4);
-  border-radius: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ContentText = styled.div`
-  margin-bottom: 16px;
-  font-weight: 500;
-
-  span {
-    text-decoration: underline;
-  }
-`;
-
-const LevelBox = styled.div`
-  width: 100%;
-  height: 5vh;
-  background-color: white;
-  border: 1px solid black;
-`;
-
-const Level = styled.div<{ percentage: number; opacity: number }>`
-  width: ${(props) => props.percentage}%;
-  height: 100%;
-  background-color: ${(props) => `rgba(0, 180, 147, ${props.opacity})`};
-  border-right: 1px solid black;
-`;
-
-const RewardButton = styled(Button)<{ bgcolor: string }>`
-  width: 100%;
-  height: 100%;
-  border-radius: 32px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: white;
-  background-color: ${(props) => props.bgcolor};
-  font-size: 12px;
-`;
