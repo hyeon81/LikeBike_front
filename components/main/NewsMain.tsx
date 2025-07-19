@@ -1,13 +1,38 @@
-import styled from "styled-components";
-import { MainBaseContainer } from "./MainBase";
 import { useRouter } from "next/navigation";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { NewsItem } from "@/app/api/news/route";
 
 const NewsMain = () => {
+  const router = useRouter();
+
+  const getNewsFromNotion = async () => {
+    // Fetch news data from Notion API
+    const response = await fetch("/api/news");
+    if (!response.ok) {
+      throw new Error("Failed to fetch news");
+    }
+    const data = await response.json();
+    return data as NewsItem[];
+  };
+
+  //react query를 사용하여 뉴스 데이터를 가져옴
+  const { data: news, isLoading } = useQuery<NewsItem[] | undefined>({
+    queryKey: ["news"],
+    queryFn: getNewsFromNotion,
+  });
+
+  console.log("news", news);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   const settings = {
     dots: true,
     infinite: true,
@@ -20,42 +45,27 @@ const NewsMain = () => {
   };
 
   return (
-    <Container className="slider-container">
+    <div className="cursor-pointer h-full min-h-[100px] slider-container">
       <Slider {...settings}>
-        <Content>
-          <Image
-            alt="banner"
-            fill
-            src={"/images/bikebanner.png"}
-            style={{
-              borderRadius: "30px",
-            }}
-          />
-        </Content>
-        <Content>두번째</Content>
-        <Content>세번째</Content>
+        {news?.map((item) => (
+          <Link key={item.id} href={`${item.url}`}>
+            <div
+              key={item.id}
+              className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] min-h-[200px] rounded-[30px] relative"
+            >
+              <Image
+                alt="banner"
+                fill
+                src={item?.thumbnail ?? "/icons/logo.png"}
+                className="rounded-[30px] object-cover"
+                priority
+              />
+            </div>
+          </Link>
+        ))}
       </Slider>
-    </Container>
+    </div>
   );
 };
 
 export default NewsMain;
-
-const Container = styled.div`
-  cursor: pointer;
-  height: 100%;
-  min-height: 100px;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  background-color: #f0f0f0;
-  min-height: 200px;
-  border-radius: 30px;
-  position: relative;
-`;

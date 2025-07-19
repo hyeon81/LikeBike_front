@@ -5,30 +5,19 @@ import CourseMain from "@/components/main/CourseMain";
 import NewsMain from "@/components/main/NewsMain";
 import QuizMain from "@/components/main/QuizMain";
 import RewardMain from "@/components/main/RewardMain";
-import { Box, Button, Stack } from "@mui/material";
-import { useRouter } from "next/navigation";
-import styled from "styled-components";
 
 export default function Home() {
   return (
-    <Container>
+    <div className="flex flex-col w-full h-full gap-6">
       <RewardMain />
-      <Stack flexDirection="row" gap="16px" height={"100%"}>
+      <div className="flex flex-row gap-4 h-full">
         <BikeLogMain />
-        <Stack flex="1" gap="16px">
+        <div className="flex flex-1 flex-col gap-4">
           <QuizMain />
           <CourseMain />
-        </Stack>
-      </Stack>
+        </div>
+      </div>
       <NewsMain />
-    </Container>
+    </div>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  gap: 24px;
-`;

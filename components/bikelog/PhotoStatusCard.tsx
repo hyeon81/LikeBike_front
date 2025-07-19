@@ -1,33 +1,34 @@
+import { LOG_STATUS } from "@/types/bikeLog";
+
 interface Props {
   text: string;
-  status: "inprogress" | "success" | "error";
+  status: keyof typeof LOG_STATUS;
   imgUrl?: string;
 }
 
 const PhotoStatusCard = ({ text, status, imgUrl }: Props) => {
-  const statusValue = {
-    inprogress: {
-      text: "검토 중",
-      color: "bg-orange-500",
-    },
-    success: {
-      text: "지급 완료",
-      color: "bg-green-500",
-    },
-    error: {
-      text: "지급 실패",
-      color: "bg-red-500",
-    },
-  };
   return (
-    <div className="w-24 h-36 bg-black relative ">
-      <div className="bg-white border-1 size-fit p-1 z-10">{text}</div>
-      {imgUrl && <img src={imgUrl} alt="인증 사진" width={120} height={120} />}
-      <div
-        className={`absolute w-full bottom-0 ${statusValue[status]?.color ?? "bg-orange-500"} text-white text-center`}
-      >
-        {statusValue[status]?.text ?? "검토 중"}
+    <div className="flex flex-col gap-2">
+      <div className="w-full h-50 bg-black relative ">
+        <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-1 left-1 text-md">
+          {text}
+        </div>
+        {imgUrl && (
+          <img
+            src={imgUrl}
+            alt="인증 사진"
+            style={{
+              objectFit: "cover",
+            }}
+          />
+        )}
+        <div
+          className={`absolute w-full bottom-0 ${LOG_STATUS[status]?.color} text-white text-center`}
+        >
+          {LOG_STATUS[status]?.text}
+        </div>
       </div>
+      <div>올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!</div>
     </div>
   );
 };

@@ -1,18 +1,5 @@
 "use client";
 
-import { COLORS } from "@/constant/color";
-import { Avatar, Divider, Stack, Typography } from "@mui/material";
-import Image from "next/image";
-import styled from "styled-components";
-
 export default function Home() {
-  return <Container>세팅 페이지</Container>;
+  return <div className="flex flex-col gap-4 p-2 pt-4">세팅 페이지</div>;
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 8px;
-  padding-top: 16px;
-`;
