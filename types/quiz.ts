@@ -4,5 +4,5 @@ export interface IQuiz {
   answers: string[];
   correct_answer: string;
   explanation: string;
-  hint: string;
+  hint_link: string;
 }

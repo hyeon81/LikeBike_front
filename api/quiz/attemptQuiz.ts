@@ -20,15 +20,7 @@ export const attemptQuiz = async (
       }
     );
 
-    // 목업 데이터 리턴
-    return {
-      experience_earned: 10,
-      is_correct: selectedAnswer === "건강을 위해", // Assuming this is the correct answer
-      points_earned: 5,
-      reward_given: true,
-    };
-
-    // return response;
+    return response?.data?.data;
   } catch (error) {
     console.error("Error attempting quiz:", error);
     throw new Error("Failed to attempt quiz");
