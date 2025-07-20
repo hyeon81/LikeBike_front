@@ -3,7 +3,7 @@ import Button from "../common/Button";
 import { QUIZ_STATUS } from "@/constant/quiz";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
-import updateScore from "@/api/user/updateScore";
+import updateScore from "@/apis/user/updateScore";
 
 interface Props {
   status: QuizStatus;

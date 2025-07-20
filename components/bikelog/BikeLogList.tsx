@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getBikeLog from "@/api/bikelog/getBikeLog";
+import getBikeLog from "@/apis/bikelog/getBikeLog";
 import { IBikeLog } from "@/types/bikeLog";
 import BikeLog from "./BikeLog";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { axiosInstance } from "@/api/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 import { ACCESS_TOKEN } from "@/constant/storageName";
 import { CircularProgress } from "@mui/material";
 import { useEffect } from "react";
