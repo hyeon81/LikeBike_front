@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../common/Button";
 import ExampleStatusCard from "./ExampleStatusCard";
 import Image from "next/image";
-import createBikeLog from "@/api/bikelog/createBikeLog";
+import createBikeLog from "@/apis/bikelog/createBikeLog";
 
 const BubbleChat = ({ text }: { text: string }) => {
   return (

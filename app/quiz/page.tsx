@@ -1,7 +1,7 @@
 "use client";
 
-import { attemptQuiz } from "@/api/quiz/attemptQuiz";
-import { getQuiz } from "@/api/quiz/getQuiz";
+import { attemptQuiz } from "@/apis/quiz/attemptQuiz";
+import { getQuiz } from "@/apis/quiz/getQuiz";
 import Button from "@/components/common/Button";
 import Result from "@/components/quiz/Result";
 import { QUIZ_STATUS } from "@/constant/quiz";

@@ -1,7 +1,7 @@
 import { IUserProfile } from "@/types/user";
 import { create } from "zustand";
 import axios from "axios";
-import { getProfile } from "@/api/user/getProfile";
+import { getProfile } from "@/apis/user/getProfile";
 
 const useUserStore = create<{
   user: IUserProfile | null;
