@@ -7,20 +7,26 @@ export const axiosInstance = axios.create({
   timeout: 1000,
 });
 
-axiosInstance.interceptors.response.use(
-  (response) => {
+// 요청 시 토큰 자동 삽입
+axiosInstance.interceptors.request.use(
+  (config) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
-      response.config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     } else {
-      delete response.config.headers.Authorization;
+      delete config.headers.Authorization;
     }
-    return response;
+    return config;
   },
+  (error) => Promise.reject(error)
+);
+
+// 응답 에러 처리 및 토큰 재발급
+axiosInstance.interceptors.response.use(
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // 401 에러이고, 재시도하지 않은 경우 -> refresh 토큰 요청
     if (
       error.response &&
       error.response.status === 401 &&
@@ -31,11 +37,16 @@ axiosInstance.interceptors.response.use(
       try {
         const newAccessToken = await refreshAccessToken();
 
+        // 토큰 업데이트 후 재요청
         axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return axiosInstance(originalRequest);
       } catch (refreshError) {
+        localStorage.removeItem(ACCESS_TOKEN);
+        console.error("Token refresh failed:", refreshError);
+        // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
+        window.location.href = "/signin";
         return Promise.reject(refreshError);
       }
     }

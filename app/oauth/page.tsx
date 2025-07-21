@@ -29,8 +29,9 @@ const OAuthPage = () => {
         throw new Error("Failed to authenticate with OAuth");
       }
     } else {
-      alert("로그인에 실패했습니다. 다시 시도해주세요.");
-      window.location.href = "/signin";
+      if (confirm("로그인에 실패했습니다. 다시 시도해주세요.")) {
+        window.location.href = "/signin";
+      }
     }
   };
 
