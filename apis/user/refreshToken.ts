@@ -5,7 +5,7 @@ export const refreshAccessToken = async () => {
   try {
     const response = await axiosInstance.post<
       IResponse<{ accessToken: string }>
-    >("/user/refresh", {
+    >("/users/refresh", {
       headers: {
         "Content-Type": "application/json",
       },

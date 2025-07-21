@@ -46,7 +46,7 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem(ACCESS_TOKEN);
         console.error("Token refresh failed:", refreshError);
         // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
-        window.location.href = "/signin";
+        // window.location.href = "/signin";
         return Promise.reject(refreshError);
       }
     }
