@@ -1,5 +1,4 @@
 import { getProfile } from "@/apis/user/getProfile";
-import useUserStore from "@/store/useUserStore";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
