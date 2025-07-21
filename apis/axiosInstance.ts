@@ -7,14 +7,15 @@ export const axiosInstance = axios.create({
   timeout: 1000,
 });
 
-// 요청 시 토큰 자동 삽입
 axiosInstance.interceptors.request.use(
   (config) => {
+    // 경로가 signin, signup, oauth가 아닌 경우에만 토큰을 헤더에 추가
+    // 토큰 없으면 리퀘스트 안보냄
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
-      delete config.headers.Authorization;
+      return config; // 토큰이 없으면 요청을 보내지 않음
     }
     return config;
   },
@@ -51,7 +52,7 @@ axiosInstance.interceptors.response.use(
     //   }
     // }
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem(ACCESS_TOKEN);
+      // localStorage.removeItem(ACCESS_TOKEN);
       console.error("Unauthorized access - token removed");
       // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
     }

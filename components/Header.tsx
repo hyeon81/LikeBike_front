@@ -9,13 +9,15 @@ import { usePathname, useRouter } from "next/navigation";
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const notAllowedPaths = ["/signin", "/signup", "/oauth"];
+
   const { data: user } = useQuery({
     queryKey: ["profile"],
     queryFn: getProfile,
+    enabled: !notAllowedPaths.includes(pathname),
   });
 
-  if (pathname == "/signin" || pathname == "/signup" || pathname == "/oauth")
-    return <></>;
+  if (notAllowedPaths.includes(pathname)) return <></>;
 
   return (
     <div className="w-full h-16 flex flex-row items-center justify-between px-4 mt-1">
