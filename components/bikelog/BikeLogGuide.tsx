@@ -6,7 +6,7 @@ import createBikeLog from "@/apis/bikelog/createBikeLog";
 
 const BubbleChat = ({ text }: { text: string }) => {
   return (
-    <div className="relative flex justify-center">
+    <div className="relative flex justify-center z-20">
       <div className="bg-text-primary rounded-4xl px-6 py-2 text-white shadow-md max-w-md absolute top-0 left-0">
         {text}
         <span className="absolute left-10 -bottom-4 w-0 h-0 border-l-[16px] border-l-transparent  border-r-transparent border-t-[16px] border-t-text-primary"></span>
@@ -73,6 +73,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         <br />② 버튼을 누른 후{" "}
         <strong className="underline">[안전모+사용자, 자전거]</strong> 촬영하기
       </div>
+      <BubbleChat text={"인증 기준"} />
       <div className="flex flex-row gap-2 overflow-x-auto">
         {[1, 2, 3, 4].map((v) => (
           <div key={v}>

@@ -1,14 +1,18 @@
 "use client";
 
-import useUserStore from "@/store/useUserStore";
+import { getProfile } from "@/apis/user/getProfile";
 import { Avatar } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user } = useUserStore();
+  const { data: user } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getProfile,
+  });
 
   if (pathname == "/signin" || pathname == "/signup" || pathname == "/oauth")
     return <></>;

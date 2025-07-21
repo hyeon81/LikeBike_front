@@ -31,9 +31,10 @@ const RewardMain = () => {
         <span className="underline">({data?.points}</span>점)입니다.
       </div>
 
-      <div className="w-full h-[50px] bg-white border border-black mb-4 flex items-center">
+      <div className="relative w-full h-[50px] bg-white border-2 border-black mb-4 flex items-center ">
+        <div className="absolute left-[25%] top-0 h-[50px] border-r border-red-500 z-10"></div>
         <div
-          className="border-r border-black h-[50px] "
+          className="border-r border-black h-[50px]"
           style={{
             width: `${(data?.experience_points ?? 0) / 400}%`,
             backgroundColor: "rgba(0,180,147,0.5)",
