@@ -25,30 +25,35 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    // const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
+    // if (
+    //   error.response &&
+    //   error.response.status === 401 &&
+    //   !originalRequest._retry
+    // ) {
+    //   originalRequest._retry = true;
 
-      try {
-        const newAccessToken = await refreshAccessToken();
+    //   try {
+    //     const newAccessToken = await refreshAccessToken();
 
-        // 토큰 업데이트 후 재요청
-        axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+    //     // 토큰 업데이트 후 재요청
+    //     axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+    //     originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem(ACCESS_TOKEN);
-        console.error("Token refresh failed:", refreshError);
-        // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
-        // window.location.href = "/signin";
-        return Promise.reject(refreshError);
-      }
+    //     return axiosInstance(originalRequest);
+    //   } catch (refreshError) {
+    //     localStorage.removeItem(ACCESS_TOKEN);
+    //     console.error("Token refresh failed:", refreshError);
+    //     // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
+    //     // window.location.href = "/signin";
+    //     return Promise.reject(refreshError);
+    //   }
+    // }
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem(ACCESS_TOKEN);
+      console.error("Unauthorized access - token removed");
+      // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
     }
 
     return Promise.reject(error);
