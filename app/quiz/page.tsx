@@ -2,7 +2,10 @@
 
 import { attemptQuiz } from "@/apis/quiz/attemptQuiz";
 import { getQuiz } from "@/apis/quiz/getQuiz";
+import BubbleChat from "@/components/common/BubbleChat";
 import Button from "@/components/common/Button";
+import WhiteBox from "@/components/common/WhiteBox";
+import Quiz from "@/components/quiz/Quiz";
 import Result from "@/components/quiz/Result";
 import { QUIZ_STATUS } from "@/constant/quiz";
 import {
@@ -25,11 +28,11 @@ export default function Home() {
   const { data } = useQuery({ queryKey: ["quiz"], queryFn: getQuiz });
   const quiz = data?.[0]; // Assuming you want the first quiz
 
-  const [selectedValue, setSelectedValue] = useState("");
   const [status, setStatus] = useState<QuizStatus>(QUIZ_STATUS.QUIZ);
+
   const isCorrect = useRef<boolean | null>(null);
 
-  const handleClick = async () => {
+  const handleClick = async (selectedValue: string) => {
     if (selectedValue == "") {
       alert("답안을 선택해주세요.");
       return;
@@ -47,64 +50,26 @@ export default function Home() {
     }
   };
 
-  if (status === QUIZ_STATUS.CORRECT || status === QUIZ_STATUS.WRONG) {
-    //세로 중앙 정렬
-    return (
-      <div className="flex flex-col items-center justify-center h-full bg-amber-200">
-        <Result status={status} setStatus={setStatus} />
-      </div>
-    );
-  }
-
-  if (status === QUIZ_STATUS.COMMENTARY) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full bg-green-200">
-        <div className="text-2xl font-bold">해설</div>
-        <div className="mt-4">
-          {quiz?.explanation ? quiz.explanation : "해설이 없습니다."}
-        </div>
-
-        <Button
-          onClick={() =>
-            setStatus(
-              isCorrect.current ? QUIZ_STATUS.CORRECT : QUIZ_STATUS.WRONG
-            )
-          }
-          style={{ marginTop: "16px" }}
-        >
-          이전으로 돌아가기
-        </Button>
-      </div>
-    );
-  }
-
   return (
     <div>
-      <div className="bg-secondary-light rounded-2xl h-[280px] w-full flex flex-col items-center justify-center ">
-        <div className="text-2xl font-bold">
-          {dayjs().format("MM월 DD일")} 문제
-        </div>
-        <div>{quiz?.question ?? ""}</div>
+      <div className="pb-4">
+        <BubbleChat text={"이렇게 퀴즈를 풀어주세요!"} />
       </div>
-      <Link href={quiz?.hint_link ?? ""} className="text-blue-500 underline">
-        <div className="p-2">힌트 보러 가기</div>
-      </Link>
-      <div>
-        {quiz?.answers.map((v, idx) => (
-          <div key={idx}>
-            <Checkbox
-              name={`answer-${idx}`}
-              value={v}
-              checked={selectedValue === v}
-              onChange={(e) => setSelectedValue(e.target.value)}
-            />
-            {v}
+      <WhiteBox>
+        하루 한 번, 자전거 안전 퀴즈 풀기
+        <br /> 정답을 맞히고 점수 받기 해설까지
+        <br />
+        확인하고 추가 점수 받기
+      </WhiteBox>
+      {status == QUIZ_STATUS.QUIZ && (
+        <Quiz quiz={quiz} handleClick={handleClick} />
+      )}
+      {status === QUIZ_STATUS.CORRECT ||
+        (status === QUIZ_STATUS.WRONG && (
+          <div className="flex flex-col items-center justify-center h-full bg-amber-200">
+            <Result status={status} setStatus={setStatus} />
           </div>
         ))}
-      </div>
-      <Button onClick={handleClick} style={{ marginTop: "16px" }}>
-        제출하기
-      </Button>
     </div>
   );
 }

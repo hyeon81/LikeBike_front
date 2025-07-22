@@ -3,7 +3,7 @@ import { axiosInstance } from "../axiosInstance";
 const updateScore = async (score: number) => {
   try {
     const response = await axiosInstance.put("/users/score", {
-      score,
+      points: score,
     });
 
     if (response.status < 200 || response.status >= 300) {

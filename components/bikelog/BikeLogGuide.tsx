@@ -3,17 +3,8 @@ import Button from "../common/Button";
 import ExampleStatusCard from "./ExampleStatusCard";
 import Image from "next/image";
 import createBikeLog from "@/apis/bikelog/createBikeLog";
-
-const BubbleChat = ({ text }: { text: string }) => {
-  return (
-    <div className="relative flex justify-center z-20">
-      <div className="bg-text-primary rounded-4xl px-6 py-2 text-white shadow-md max-w-md absolute top-0 left-0">
-        {text}
-        <span className="absolute left-10 -bottom-4 w-0 h-0 border-l-[16px] border-l-transparent  border-r-transparent border-t-[16px] border-t-text-primary"></span>
-      </div>
-    </div>
-  );
-};
+import PrimaryBox from "../common/PrimaryBox";
+import BubbleChat from "../common/BubbleChat";
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const [hatPreview, setHatPreview] = useState("");
@@ -67,12 +58,12 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   return (
     <div className="flex flex-col gap-5">
       <BubbleChat text={"이렇게 인증해주세요!"} />
-      <div className="bg-secondary-light p-3 text-center mt-8">
+      <PrimaryBox>
         ① 하단의 자전거 타기 인증{" "}
         <strong className="underline">[시작 버튼]</strong> 누르기
         <br />② 버튼을 누른 후{" "}
         <strong className="underline">[안전모+사용자, 자전거]</strong> 촬영하기
-      </div>
+      </PrimaryBox>
       <BubbleChat text={"인증 기준"} />
       <div className="flex flex-row gap-2 overflow-x-auto">
         {[1, 2, 3, 4].map((v) => (
