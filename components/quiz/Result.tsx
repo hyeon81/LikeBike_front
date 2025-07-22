@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import updateScore from "@/apis/user/updateScore";
 import { HAS_SEEN_EXPLANATION } from "@/constant/storageName";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   status: QuizStatus;
@@ -15,6 +15,15 @@ interface Props {
 const Result = ({ status, setStatus }: Props) => {
   const router = useRouter();
   const [showCommentary, setShowCommentary] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (showModal) {
+      setTimeout(() => {
+        setShowModal(false);
+      }, 3000);
+    }
+  }, [showModal]);
 
   const onClickCommentary = async () => {
     console.log("onClickCommentary called");
@@ -27,14 +36,20 @@ const Result = ({ status, setStatus }: Props) => {
       return;
     } else {
       localStorage.setItem(HAS_SEEN_EXPLANATION, dayjs().format("YYYY-MM-DD"));
-      // Navigate to the commentary page or perform any other action
-      console.log("Navigating to commentary page");
+
       await updateScore(5);
+      setShowModal(true);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center h-full relative">
+      {showModal && (
+        <div className="absolute bg-white bg-opacity-50 p-8 text-center ">
+          자전거 안전 퀴즈 해설을 확인하고 추가 점수{" "}
+          <strong className="underline">5</strong>점을 받았어요!
+        </div>
+      )}
       <div className="flex flex-col items-center justify-center">
         <div className="text-8xl font-bold">
           {status === QUIZ_STATUS.CORRECT ? "O" : "X"}
