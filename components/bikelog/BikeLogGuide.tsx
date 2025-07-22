@@ -134,7 +134,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
 
       <BubbleChat text={"여기 시작 버튼을 눌러주세요!"} />
       <button
-        className="bg-secondary-light p-10 text-center mt-8 rounded-2xl cursor-pointer"
+        className="bg-secondary-light p-10 text-center rounded-2xl cursor-pointer"
         onClick={handleUpload}
       >
         <div>아직 인증 점수를 받지 않았어요!</div>

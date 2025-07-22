@@ -5,9 +5,7 @@ interface PrimaryBoxProps {
 }
 
 const PrimaryBox = ({ children }: PrimaryBoxProps) => {
-  return (
-    <div className="bg-secondary-light p-3 text-center mt-8">{children}</div>
-  );
+  return <div className="bg-secondary-light p-3 text-center">{children}</div>;
 };
 
 export default PrimaryBox;
