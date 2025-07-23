@@ -5,5 +5,5 @@ export const getQuizStatus = async (): Promise<number> => {
 
   const response = await axiosInstance.get(PATH);
   console.log("Quiz status response:", response);
-  return response?.data?.data?.status;
+  return response?.data?.data?.attempted;
 };
