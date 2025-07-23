@@ -5,6 +5,8 @@ import Image from "next/image";
 import createBikeLog from "@/apis/bikelog/createBikeLog";
 import PrimaryBox from "../common/PrimaryBox";
 import BubbleChat from "../common/BubbleChat";
+import { useQuery } from "@tanstack/react-query";
+import { getBikeCount } from "@/apis/bikelog/getBikeCount";
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const [hatPreview, setHatPreview] = useState("");
@@ -12,6 +14,12 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const [bikePreview, setBikePreview] = useState("");
   const [bikeFile, setBikeFile] = useState(null);
 
+  const { data: bikeCount } = useQuery({
+    queryKey: ["bikeCount"],
+    queryFn: getBikeCount,
+  });
+
+  console.log("Bike count:", bikeCount);
   const handleCapture = (target: any) => {
     if (target.files) {
       if (target.files.length !== 0) {

@@ -3,6 +3,8 @@ import { Checkbox } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Button from "../common/Button";
+import { useQuery } from "@tanstack/react-query";
+import { getQuizStatus } from "@/apis/quiz/getQuizStaus";
 
 const Quiz = ({
   quiz,
@@ -12,6 +14,12 @@ const Quiz = ({
   handleClick: (selectedValue: string) => void;
 }) => {
   const [selectedValue, setSelectedValue] = useState("");
+  const { data: quizStatus } = useQuery({
+    queryKey: ["quizStatus"],
+    queryFn: getQuizStatus,
+  });
+
+  console.log("Quiz Status:", quizStatus);
 
   return (
     <>

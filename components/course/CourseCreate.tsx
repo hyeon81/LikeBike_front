@@ -7,8 +7,17 @@ import WhiteBox from "../common/WhiteBox";
 import CommonModal from "../common/CommonModal";
 import PrimaryBox from "../common/PrimaryBox";
 import { createCourse } from "@/apis/course/createCourse";
+import { useQuery } from "@tanstack/react-query";
+import { getCourseCount } from "@/apis/course/getCourseCount";
 
 const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
+  const { data: courseCount } = useQuery({
+    queryKey: ["courseCount"],
+    queryFn: getCourseCount,
+  });
+
+  console.log("Course Status:", courseCount);
+
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
   const [imgPreview, setImgPreview] = useState<string | null>(null);
@@ -26,7 +35,7 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
           location_name: locationName.current?.value || "", // Replace with actual location name
           review: review.current?.value || "", // Replace with actual review
           photo: image,
-      });
+        });
         setModalIsOpen(true);
       } catch (error) {
         console.error("Error creating course:", error);
