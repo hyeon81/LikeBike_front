@@ -46,7 +46,7 @@ const RewardMain = () => {
 
       <div className="flex flex-row gap-4 w-full mt-1">
         <button
-          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs p-2"
+          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs p-2 cursor-pointer"
           onClick={() => {
             location.href = process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL ?? "";
           }}
@@ -55,7 +55,7 @@ const RewardMain = () => {
           <span className="text-center">자전거 타기 레벨 안내</span>
         </button>
         <button
-          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs p-2"
+          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs p-2 cursor-pointer"
           onClick={() => router.push("/reward")}
         >
           자전거 타기 레벨 점수 내역

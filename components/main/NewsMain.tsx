@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { NewsItem } from "@/app/api/news/route";
+import { CircularProgress } from "@mui/material";
 
 const NewsMain = () => {
   const router = useRouter();
@@ -30,7 +31,11 @@ const NewsMain = () => {
   console.log("news", news);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-full">
+        <CircularProgress />
+      </div>
+    );
   }
 
   const settings = {

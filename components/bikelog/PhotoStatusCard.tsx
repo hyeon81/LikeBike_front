@@ -1,18 +1,28 @@
 import { LOG_STATUS } from "@/types/bikeLog";
 
 interface Props {
-  text: string;
+  chipText?: string;
   status: keyof typeof LOG_STATUS;
   imgUrl?: string;
+  strongText: string;
+  text: string;
 }
 
-const PhotoStatusCard = ({ text, status, imgUrl }: Props) => {
+const PhotoStatusCard = ({
+  chipText,
+  status,
+  imgUrl,
+  strongText,
+  text,
+}: Props) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="w-full h-50 bg-black relative ">
-        <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-1 left-1 text-md">
-          {text}
-        </div>
+        {chipText && (
+          <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-1 left-1 chipText-md">
+            {chipText}
+          </div>
+        )}
         {imgUrl && (
           <img
             src={imgUrl}
@@ -28,7 +38,10 @@ const PhotoStatusCard = ({ text, status, imgUrl }: Props) => {
           {LOG_STATUS[status]?.text}
         </div>
       </div>
-      <div>올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!</div>
+      <div className="text-sm flex flex-col gap-1">
+        <strong>{strongText}</strong>
+        {text}
+      </div>
     </div>
   );
 };

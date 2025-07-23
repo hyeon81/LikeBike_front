@@ -62,9 +62,9 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
           </Button>
         </div>
       </CommonModal>
-      <div>
+      <div className="flex flex-col gap-2">
         <WhiteBox>
-          <div>코스 추천하고, 추가 포인트를 얻어볼까요?</div>
+          <div>코스를 추천하고, 추가 포인트를 얻어볼까요?</div>
           <div>나만의 장소와 이유를 소개하고, 공유해주세요!</div>
         </WhiteBox>
         <PrimaryBox>

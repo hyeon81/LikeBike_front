@@ -2,6 +2,7 @@ import Image from "next/image";
 import PhotoStatusCard from "./PhotoStatusCard";
 import { IBikeLog, LOG_STATUS, UserBikeLog } from "@/types/bikeLog";
 import dayjs from "dayjs";
+import ToggleContent from "../common/ToggleContent";
 
 require("dayjs/locale/ko");
 dayjs.locale("ko");
@@ -11,23 +12,32 @@ const BikeLog = ({
   safety_gear_photo_url,
   verification_status,
   started_at,
-}: UserBikeLog) => {
+  defaultOpen,
+}: UserBikeLog & {
+  defaultOpen?: boolean;
+}) => {
   return (
-    <div className="flex flex-col gap-1 items-center">
-      <div className="font-bold">{`[${LOG_STATUS[verification_status].text}] ${dayjs(started_at).format("YYYY년 MM월 DD일, a hh시 mm분")}`}</div>
+    <ToggleContent
+      defaultValue={defaultOpen}
+      title={`${LOG_STATUS[verification_status].text} - ${dayjs(started_at).format("YYYY년 MM월 DD일, a hh시 mm분")}`}
+    >
       <div className="flex flex-row gap-4 px-10">
         <PhotoStatusCard
           status={verification_status}
-          text="자전거"
+          chipText="자전거"
           imgUrl={bike_photo_url}
+          strongText="[-]"
+          text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!`}
         />
         <PhotoStatusCard
           status={verification_status}
-          text="안전모"
+          chipText="안전모"
           imgUrl={safety_gear_photo_url}
+          strongText="[-]"
+          text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!`}
         />
       </div>
-    </div>
+    </ToggleContent>
   );
 };
 
