@@ -2,7 +2,7 @@ import Button from "@/components/common/Button";
 import { Input } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import WhiteBox from "../common/WhiteBox";
 import CommonModal from "../common/CommonModal";
 import PrimaryBox from "../common/PrimaryBox";
@@ -14,17 +14,19 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
   const [imgPreview, setImgPreview] = useState<string | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const locationName = useRef<HTMLInputElement>(null); // Placeholder for location name
+  const review = useRef<HTMLTextAreaElement>(null); // Placeholder for review content
+
   const onSubmit = async () => {
     if (image) {
-      // Handle the submission logic here
       console.log("Image submitted:", image);
-      // Call your API to submit the course data
+
       try {
         await createCourse({
-          content: "추천 코스 내용", // Replace with actual content
-          title: "추천 코스 제목", // Replace with actual title
-          img: image,
-        });
+          location_name: locationName.current?.value || "", // Replace with actual location name
+          review: review.current?.value || "", // Replace with actual review
+          photo: image,
+      });
         setModalIsOpen(true);
       } catch (error) {
         console.error("Error creating course:", error);
@@ -75,8 +77,11 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
       </div>
       <div className="flex flex-col gap-4">
         <input
+          type="text"
           placeholder="장소입력"
+          maxLength={15}
           className="border border-gray-300 rounded-md p-2"
+          ref={locationName}
         />
         <label
           htmlFor="file-upload"
@@ -117,6 +122,7 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
           rows={4}
           maxLength={30}
           className="border border-gray-300 rounded-md p-2"
+          ref={review}
         />
         <Button onClick={onSubmit}>인증하기</Button>
       </div>

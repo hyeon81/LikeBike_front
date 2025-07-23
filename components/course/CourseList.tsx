@@ -35,9 +35,9 @@ const CourseList = () => {
               <div className="w-[150px]">
                 <PhotoStatusCard
                   status={course.status as keyof typeof LOG_STATUS}
-                  imgUrl=""
+                  imgUrl={course.photo_url}
                   strongText="[추천 이유]"
-                  text={course?.content}
+                  text={course?.review}
                 />
               </div>
             </ToggleContent>

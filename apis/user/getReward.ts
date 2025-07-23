@@ -12,7 +12,7 @@ interface IReward {
 
 export const getReward = async () => {
   const response =
-    await axiosInstance.get<IResponse<IReward[]>>(`/user/rewards`);
+    await axiosInstance.get<IResponse<IReward[]>>(`/users/rewards`);
 
   if (response.status !== 200) {
     throw new Error("Failed to fetch reward data");

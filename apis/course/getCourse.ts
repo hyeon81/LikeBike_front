@@ -2,24 +2,23 @@ import { IResponse } from "@/types/base";
 import { axiosInstance } from "../axiosInstance";
 
 interface ICourse {
-  id: number;
-  content: string;
   created_at: string;
-  updated_at: string;
-  title: string;
-  post_type: string;
+  id: number;
+  location_name: string;
+  photo_url: string;
+  points_awarded: number;
+  review: string;
+  reviewed_at: string | null;
+  reviewed_by_admin_id: number | null;
   status: string;
   user_id: number;
-  username: string;
-  comments_count: number;
-  likes_count: number;
-  level?: number; // Optional field
 }
+
+const PATH = "/users/course-recommendations";
 
 export const getCourse: () => Promise<ICourse[]> = async () => {
   try {
-    const response =
-      await axiosInstance.get<IResponse<ICourse[]>>(`/community/posts`);
+    const response = await axiosInstance.get<IResponse<ICourse[]>>(`${PATH}`);
     return response?.data?.data;
     // return [
     //   {

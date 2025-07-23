@@ -23,7 +23,7 @@ const RewardMain = () => {
   //     "username": "김현지"
   // }
   return (
-    <div className="cursor-default p-8 bg-[rgba(230,230,230,0.4)] rounded-[32px] flex flex-col items-center justify-center">
+    <div className="cursor-default p-6 bg-[rgba(230,230,230,0.4)] rounded-[32px] flex flex-col items-center justify-center">
       <div className="mb-4 font-medium">
         <span className="underline">{data?.username}</span> 님의 자전거 타기
         레벨은 <span className="underline">{data?.level_name}</span>{" "}
