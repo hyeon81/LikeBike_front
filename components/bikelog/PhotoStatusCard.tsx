@@ -17,7 +17,7 @@ const PhotoStatusCard = ({
 }: Props) => {
   return (
     <div className="flex flex-col gap-2">
-      <div className="w-full h-50 bg-black relative ">
+      <div className="w-full h-50 bg-black relative">
         {chipText && (
           <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-1 left-1 chipText-md">
             {chipText}
@@ -29,6 +29,8 @@ const PhotoStatusCard = ({
             alt="인증 사진"
             style={{
               objectFit: "cover",
+              width: "100%",
+              height: "100%",
             }}
           />
         )}

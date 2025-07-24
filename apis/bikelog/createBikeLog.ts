@@ -2,8 +2,8 @@ import axios from "axios";
 import { axiosInstance } from "../axiosInstance";
 
 interface BikeLogReq {
-  bike_photo: string;
-  safety_gear_photo: string;
+  bike_photo: File;
+  safety_gear_photo: File;
 }
 
 const createBikeLog = async (body: BikeLogReq) => {

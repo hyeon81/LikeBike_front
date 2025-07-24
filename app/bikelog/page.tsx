@@ -4,7 +4,6 @@ import * as React from "react";
 
 import BikeLogGuide from "@/components/bikelog/BikeLogGuide";
 import BikeLogList from "@/components/bikelog/BikeLogList";
-import { COLORS } from "@/constant/color";
 import TabList from "@/components/common/TabList";
 
 export default function Home() {
