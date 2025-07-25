@@ -5,4 +5,5 @@ export interface IQuiz {
   correct_answer: string;
   explanation: string;
   hint_link: string;
+  display_date: string;
 }

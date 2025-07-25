@@ -19,7 +19,7 @@ const BikeLog = ({
   return (
     <ToggleContent
       defaultValue={defaultOpen}
-      title={`${LOG_STATUS[verification_status].text} - ${dayjs(started_at).format("YYYY년 MM월 DD일, a hh시 mm분")}`}
+      title={`${LOG_STATUS[verification_status].text} - ${dayjs(started_at?.replace("GMT", "")).format("YYYY년 MM월 DD일, A hh시 mm분")}`}
     >
       <div className="flex flex-row gap-4 px-10">
         <PhotoStatusCard

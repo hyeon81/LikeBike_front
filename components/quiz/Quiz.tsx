@@ -20,6 +20,10 @@ const Quiz = ({
   });
 
   console.log("Quiz Status:", quizStatus);
+  console.log("quiz", quiz);
+  if (!quiz) {
+    return <div>오늘의 퀴즈가 게시되지 않았습니다.</div>;
+  }
 
   return (
     <>

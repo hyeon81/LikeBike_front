@@ -6,6 +6,8 @@ import dayjs from "dayjs";
 import updateScore from "@/apis/user/updateScore";
 import { HAS_SEEN_EXPLANATION } from "@/constant/storageName";
 import { useEffect, useState } from "react";
+import BubbleChat from "../common/BubbleChat";
+import ButtonModal from "../common/ButtonModal";
 
 interface Props {
   status: QuizStatus;
@@ -14,21 +16,10 @@ interface Props {
 
 const Result = ({ status, setStatus }: Props) => {
   const router = useRouter();
-  const [showCommentary, setShowCommentary] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    if (showModal) {
-      setTimeout(() => {
-        setShowModal(false);
-      }, 3000);
-    }
-  }, [showModal]);
-
   const onClickCommentary = async () => {
-    console.log("onClickCommentary called");
-    setShowCommentary(!showCommentary);
-    // Assuming you want to navigate to the commentary page
+    setShowModal(true);
     const res = localStorage.getItem(HAS_SEEN_EXPLANATION);
 
     if (res == dayjs().format("YYYY-MM-DD")) {
@@ -43,15 +34,24 @@ const Result = ({ status, setStatus }: Props) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full relative">
-      {showModal && (
-        <div className="absolute bg-white bg-opacity-50 p-8 text-center ">
-          자전거 안전 퀴즈 해설을 확인하고 추가 점수{" "}
-          <strong className="underline">5</strong>점을 받았어요!
-        </div>
-      )}
-      <div className="flex flex-col items-center justify-center">
-        <div className="text-8xl font-bold">
+    <div className="flex flex-col items-center justify-center h-full relative w-full">
+      <ButtonModal
+        isOpen={showModal}
+        title="퀴즈 해설을 확인하고 추가 점수를 받으세요!"
+        buttonText="자전거 레벨 점수 내역 보러가기"
+        contents={[
+          "추가 점수 5점이 자동 지급됩니다. (홈 > 자전거 레벨 점수 내역)",
+          "추가 점수는 문제당 1회 지급됩니다.(최초 1회만 점수 인정)",
+        ]}
+        onClickButton={() => {
+          setShowModal(false);
+        }}
+      />
+
+      <div className="flex flex-col items-center justify-center py-10 mt-3 border-2 border-gray-lightest bg-white w-full ">
+        <div
+          className={`text-[160px] font-bold w-[200px] h-[200px] border-2 rounded-2xl flex items-center justify-center border-black ${status === QUIZ_STATUS.CORRECT ? "text-primary" : "text-error"}`}
+        >
           {status === QUIZ_STATUS.CORRECT ? "O" : "X"}
         </div>
         <p className="mt-4 text-2xl font-bold">
@@ -62,18 +62,18 @@ const Result = ({ status, setStatus }: Props) => {
             ? "5점 적립 완료"
             : "다음 기회에 적립을 도전하세요!"}
         </p>
-        <div className="mt-4">
-          <div className="cursor-pointer" onClick={onClickCommentary}>
-            {showCommentary ? "▲" : "▼"} 오늘의 자전거 안전 퀴즈 해설 확인하기
-          </div>
-          {showCommentary && (
-            <div>
-              ‘러브 버그’는 암수 한 쌍이 함께 붙어 다니는! <br />
-              00000
-              <br /> 0000
-              <br /> 00
-            </div>
-          )}
+        <div className="w-full flex flex-col items-center justify-center">
+          <button
+            className="p-2 px-6 bg-black text-white rounded-full my-4 cursor-pointer"
+            onClick={onClickCommentary}
+          >
+            퀴즈 해설 확인하기
+          </button>
+        </div>
+        <div className="text-center">
+          [퀴즈 해설 확인하기] 추가 점수는 문제당 1회 지급됩니다.
+          <br />
+          (버튼을 누른 최초 1회만 점수 인정)
         </div>
         {/* <div className="flex items-center mt-8 gap-4 flex-row">
           <Button onClick={() => router.push("/")}>홈으로 돌아가기</Button>

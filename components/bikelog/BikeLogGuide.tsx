@@ -22,7 +22,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
     queryFn: getBikeCount,
   });
 
-  console.log("bikeCount", bikeCount);
+  const isAlreadyCertified = bikeCount && bikeCount > 0;
 
   const handleUpload = async () => {
     if (hatFile.current && bikeFile.current) {
@@ -46,13 +46,13 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   return (
     <div className="flex flex-col gap-5">
       <ButtonModal
-        title="‘자전거 타기 인증’을 완료했어요"
+        title="‘자전거 타기 인증’ 완료!"
         contents={[
           "점수 지급에 1~2일이 소요됩니다. (홈 > 자전거레벨 점수내역)",
           "[인증 내역 보기]에서 인증 결과를 확인할 수 있습니다.",
           "[안전모+사용자, 자전거] 모두 인증 성공 시, 점수가 지급됩니다",
         ]}
-        buttonText="확인"
+        buttonText="인증 내역 보기"
         onClickButton={() => {
           setValue(2);
           setCompleteModalOpen(false);
@@ -115,14 +115,27 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         ))}
       </div>
 
-      <BubbleChat text={"여기 시작 버튼을 눌러주세요!"} />
-      <button
-        className="bg-secondary-light p-10 text-center rounded-2xl cursor-pointer"
-        onClick={() => setHatUploadModalOpen(true)}
-      >
-        <div>아직 인증 점수를 받지 않았어요!</div>
-        <div className="text-2xl font-bold">자전거 타기 인증 시작</div>
-      </button>
+      <BubbleChat
+        text={
+          isAlreadyCertified
+            ? "오늘의 인증을 완료했어요!"
+            : "여기 시작 버튼을 눌러주세요!"
+        }
+      />
+      {isAlreadyCertified ? (
+        <button className="bg-gray-lightest p-10 text-center rounded-2xl text-gray-medium">
+          <div>하루 한 번, 점수를 받을 수 있어요!</div>
+          <div className="text-2xl font-bold">자전거 타기 인증 완료</div>
+        </button>
+      ) : (
+        <button
+          className="bg-secondary-light p-10 text-center rounded-2xl cursor-pointer"
+          onClick={() => setHatUploadModalOpen(true)}
+        >
+          <div>아직 인증 점수를 받지 않았어요!</div>
+          <div className="text-2xl font-bold">자전거 타기 인증 시작</div>
+        </button>
+      )}
     </div>
   );
 };

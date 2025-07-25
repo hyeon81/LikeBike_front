@@ -46,7 +46,9 @@ const ButtonModal = ({
           <strong className="text-lg">{title}</strong>
           <div>
             {contents.map((content, index) => (
-              <p key={index}>{content}</p>
+              <p className="text-sm" key={index}>
+                {content}
+              </p>
             ))}
           </div>
         </div>

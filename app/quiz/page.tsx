@@ -26,7 +26,10 @@ export type QuizStatus = (typeof QUIZ_STATUS)[keyof typeof QUIZ_STATUS];
 
 export default function Home() {
   const { data } = useQuery({ queryKey: ["quiz"], queryFn: getQuiz });
-  const quiz = data?.[0]; // Assuming you want the first quiz
+  console.log("Quiz Data:", data);
+  const quiz = data?.find(
+    (v) => v.display_date === dayjs().format("YYYY-MM-DD")
+  );
 
   const [status, setStatus] = useState<QuizStatus>(QUIZ_STATUS.QUIZ);
 
@@ -66,7 +69,7 @@ export default function Home() {
       )}
       {status === QUIZ_STATUS.CORRECT ||
         (status === QUIZ_STATUS.WRONG && (
-          <div className="flex flex-col items-center justify-center h-full bg-amber-200">
+          <div className="flex flex-col items-center justify-center h-full">
             <Result status={status} setStatus={setStatus} />
           </div>
         ))}
