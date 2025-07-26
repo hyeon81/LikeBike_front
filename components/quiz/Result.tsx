@@ -12,14 +12,14 @@ import ButtonModal from "../common/ButtonModal";
 interface Props {
   status: QuizStatus;
   setStatus: (status: QuizStatus) => void;
-  commentary?: string;
+  explanation?: string;
 }
 
-const Result = ({ status, setStatus, commentary }: Props) => {
+const Result = ({ status, setStatus, explanation }: Props) => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
 
-  const onClickCommentary = async () => {
+  const onClickExplanation = async () => {
     setShowModal(true);
     const res = localStorage.getItem(HAS_SEEN_EXPLANATION);
 
@@ -40,7 +40,7 @@ const Result = ({ status, setStatus, commentary }: Props) => {
         isOpen={showModal}
         title="퀴즈 해설을 확인하고 추가 점수를 받으세요!"
         buttonText="확인"
-        contents={["해설: ", commentary ?? "해설이 없습니다."]}
+        contents={["해설: ", explanation ?? "해설이 없습니다."]}
         onClickButton={() => {
           setShowModal(false);
         }}
@@ -66,7 +66,7 @@ const Result = ({ status, setStatus, commentary }: Props) => {
           </div>
           <button
             className="p-2 px-6  bg-black text-white rounded-full my-4 cursor-pointer"
-            onClick={onClickCommentary}
+            onClick={onClickExplanation}
           >
             퀴즈 해설 확인하기
           </button>

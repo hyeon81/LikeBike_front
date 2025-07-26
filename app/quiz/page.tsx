@@ -76,7 +76,7 @@ export default function Home() {
           <Result
             status={status}
             setStatus={setStatus}
-            commentary={data?.commentary || "해설이 없습니다."}
+            explanation={data?.explanation || "해설이 없습니다."}
           />
         </div>
       )}
