@@ -2,7 +2,6 @@
 
 import { getProfile } from "@/apis/user/getProfile";
 import logout from "@/apis/user/logout";
-import { COLORS } from "@/constant/color";
 import { Avatar, Divider, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -34,7 +33,7 @@ export default function Home() {
         <Avatar />
         <Stack flexDirection="column">
           <Typography variant="body1">{userInfo?.username}</Typography>
-          <Typography color={COLORS.GRAY_DARK} variant="body2">
+          <Typography color="gray" variant="body2">
             {userInfo?.email}
           </Typography>
         </Stack>

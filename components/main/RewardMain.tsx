@@ -7,8 +7,6 @@ const RewardMain = () => {
   const router = useRouter();
   const { data } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
 
-  console.log("RewardMain data", data);
-
   //   {
   //     "benefits": "기본 퀴즈 참여 가능",
   //     "created_at": "Mon, 21 Jul 2025 21:55:47 GMT",
@@ -22,29 +20,47 @@ const RewardMain = () => {
   //     "profile_image_url": "http://k.kakaocdn.net/dn/bQdp6r/btsPiuqSQh9/Fr2uyPtH0L6JWKy8Z81NjK/img_640x640.jpg",
   //     "username": "김현지"
   // }
+
+  const levelValue = [
+    { name: "관심인", point: 0 },
+    { name: "입문자", point: 100 },
+    { name: "초보자", point: 200 },
+    { name: "중급자", point: 300 },
+    { name: "숙련자", point: 400 },
+    { name: "전문가", point: 500 },
+  ];
+
   return (
-    <div className="cursor-default p-6 bg-[rgba(230,230,230,0.4)] rounded-[32px] flex flex-col items-center justify-center">
+    <div className="card">
       <div className="mb-4 font-medium">
-        <span className="underline">{data?.username}</span> 님의 자전거 타기
-        레벨은 <span className="underline">{data?.level_name}</span>{" "}
+        <span className="underline">{data?.username}</span> 님의 자전거 레벨은{" "}
+        <span className="underline">{data?.level_name}</span>{" "}
         <span className="underline">({data?.points}</span>점)입니다.
       </div>
 
-      <div className="relative w-full h-[50px] bg-white border-2 border-black mb-4 flex items-center ">
-        <div className="absolute left-[20%] top-0 h-[48px] border-r border-black border-1 z-10"></div>
-        <div className="absolute left-[40%] top-0 h-[48px] border-r border-black border-1 z-10"></div>
-        <div className="absolute left-[60%] top-0 h-[48px] border-r border-black border-1 z-10"></div>
-        <div className="absolute left-[80%] top-0 h-[48px] border-r border-black border-1 z-10"></div>
+      <div className="relative w-full h-[50px] bg-white border-2 border-black flex items-center ">
+        <div className="absolute left-[20%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
+        <div className="absolute left-[40%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
+        <div className="absolute left-[60%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
+        <div className="absolute left-[80%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
         <div
-          className="border-r border-black h-[50px]"
+          className="h-[50px]"
           style={{
-            width: `${((data?.experience_points ?? 0) / 500) * 100}%`,
-            backgroundColor: "rgba(0,180,147,0.5)",
+            width: `${((data?.points ?? 0) / 500) * 100}%`,
+            backgroundColor: `rgba(0,180,147,${(data?.points ?? 0) / 500})`,
           }}
         />
       </div>
-
-      <div className="flex flex-row gap-4 w-full mt-1">
+      <div className="flex flex-row justify-between text-xs text-center w-full mt-1">
+        {levelValue.map((item, index) => (
+          <div key={index}>
+            <div className="-mx-3">
+              {item.name} <br />({item.point}점)
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-row gap-4 w-full mt-4">
         <button
           className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs p-2 cursor-pointer"
           onClick={() => {
@@ -52,13 +68,13 @@ const RewardMain = () => {
           }}
         >
           <Image src="/icons/notice.svg" alt="notice" width={16} height={16} />
-          <span className="text-center">자전거 타기 레벨 안내</span>
+          <span className="text-center">자전거 레벨 안내</span>
         </button>
         <button
           className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs p-2 cursor-pointer"
           onClick={() => router.push("/reward")}
         >
-          자전거 타기 레벨 점수 내역
+          자전거 레벨 점수 내역
         </button>
       </div>
     </div>

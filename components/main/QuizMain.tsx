@@ -8,10 +8,10 @@ const QuizMain = () => {
 
   return (
     <MainBase
-      bgcolor="#00B493"
-      chipTitle="주 1회"
+      chipTitle="매일"
       path="/quiz"
       title="자전거 안전 퀴즈"
+      scoreText="최대 10점"
     />
   );
 };

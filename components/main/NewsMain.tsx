@@ -56,7 +56,7 @@ const NewsMain = () => {
           <Link key={item.id} href={`${item.url}`}>
             <div
               key={item.id}
-              className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] min-h-[200px] rounded-[30px] relative"
+              className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] min-h-[170px] rounded-[30px] relative"
             >
               <Image
                 alt="banner"

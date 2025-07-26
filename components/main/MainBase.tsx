@@ -4,27 +4,29 @@ import ScoreLabel from "./ScoreLabel";
 const MainBase = ({
   title,
   chipTitle,
-  bgcolor,
   path,
+  scoreText,
+  children,
 }: {
   title: string;
   chipTitle: string;
-  bgcolor: string;
   path: string;
+  scoreText: string;
+  children?: React.ReactNode;
 }) => {
   const router = useRouter();
 
   return (
     <div
-      className="rounded-[30px] flex-1 cursor-pointer flex flex-col justify-center items-center min-h-[100px] relative"
-      style={{ backgroundColor: bgcolor }}
+      className="card relative gap-2 text-center flex-1"
       onClick={() => router.push(path)}
     >
-      <ScoreLabel />
-      <div className="bg-white px-3 py-1 rounded-[30px] text-xs">
+      <ScoreLabel text={scoreText} />
+      {children && children}
+      <div className="bg-secondary px-3 py-1 rounded-[30px] text-xs">
         {chipTitle}
       </div>
-      <div className="text-[20px] font-bold text-white">{title}</div>
+      <div className="text-[20px] font-bold whitespace-nowrap">{title}</div>
     </div>
   );
 };

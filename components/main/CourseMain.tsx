@@ -7,10 +7,10 @@ const CourseMain = () => {
   const router = useRouter();
   return (
     <MainBase
-      bgcolor="#66D2BE"
-      chipTitle="상시"
+      chipTitle="주 2회"
       path="/course"
       title="자전거 코스 추천"
+      scoreText="+10점"
     />
   );
 };

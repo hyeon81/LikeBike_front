@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getBikeCount } from "@/apis/bikelog/getBikeCount";
 import UploadModal from "./UploadModal";
 import ButtonModal from "../common/ButtonModal";
+import WhiteBox from "../common/WhiteBox";
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const hatFile = useRef<File | null>(null);
@@ -21,6 +22,46 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
     queryKey: ["bikeCount"],
     queryFn: getBikeCount,
   });
+
+  const exampleImages = [
+    {
+      status: true,
+      chipText: "안전모+사용자",
+      description: "안전모를 착용한 사용자 얼굴이 보이는 정면 사진",
+      imageIdx: 1,
+    },
+    {
+      status: false,
+      chipText: "안전모+사용자",
+      description: "안전모를 착용한 사용자 얼굴이 가려진 정면 사진",
+      imageIdx: 2,
+    },
+    {
+      status: false,
+      chipText: "안전모+사용자",
+      description: "안전모를 착용한 사용자를 확인할 수 없는 사진",
+      imageIdx: 3,
+    },
+    {
+      status: true,
+      chipText: "자전거",
+      description: "브레이크, 벨, 전조등, 후미등, 거치대가 확인되는 자전거",
+      imageIdx: 4,
+    },
+    {
+      status: false,
+      chipText: "자전거",
+      description:
+        "브레이크, 벨, 전조등, 후미등, 거치대가 1개 이상 없는 자전거",
+      imageIdx: 5,
+    },
+    {
+      status: false,
+      chipText: "자전거",
+      description: "자전거 도로 주행이 불가/금지된 전동 자전거",
+      imageIdx: 6,
+    },
+  ];
 
   const isAlreadyCertified = bikeCount && bikeCount > 0;
 
@@ -96,20 +137,34 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         }}
       />
       <BubbleChat text={"이렇게 인증해주세요!"} />
-      <PrimaryBox>
+      <WhiteBox>
         ① 하단의 자전거 타기 인증{" "}
         <strong className="underline">[시작 버튼]</strong> 누르기
-        <br />② 버튼을 누른 후{" "}
-        <strong className="underline">[안전모+사용자, 자전거]</strong> 촬영하기
-      </PrimaryBox>
+        <br />② <strong className="underline">
+          {" "}
+          [안전모+사용자, 자전거]
+        </strong>{" "}
+        인증 기준에 맞춰 촬영하기
+      </WhiteBox>
       <BubbleChat text={"인증 기준"} />
       <div className="flex flex-row gap-2 overflow-x-auto">
-        {[1, 2, 3, 4].map((v) => (
-          <div key={v}>
-            <ExampleStatusCard status="success" chipText="안전모+사용자" />
+        {exampleImages.map((v, idx) => (
+          <div key={idx}>
+            <ExampleStatusCard
+              status={v.status ? "success" : "error"}
+              chipText={v.chipText}
+            >
+              <Image
+                src={`/images/bikelog/image${v.imageIdx}.png`}
+                alt="example"
+                width={120}
+                height={160}
+                className="object-cover h-full pb-4"
+              />
+            </ExampleStatusCard>
             <div className="text-xs mt-2 flex flex-col gap-1">
-              <strong>[인증 성공] </strong>
-              안전모를 착용한 사용자 얼굴이 보이는 정면 사진
+              <strong>[인증 {v.status ? "성공" : "실패"}] </strong>
+              {v.description}
             </div>
           </div>
         ))}

@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import ScoreLabel from "./ScoreLabel";
+import Image from "next/image";
 import MainBase from "./MainBase";
 
 const BikeLogMain = () => {
@@ -8,11 +7,15 @@ const BikeLogMain = () => {
 
   return (
     <MainBase
-      bgcolor="#009277"
       chipTitle="매일"
       path="/bikelog"
       title="자전거 타기 인증"
-    />
+      scoreText="+30점"
+    >
+      <div className="mt-5">
+        <Image width={100} height={100} src="/icons/bike.svg" alt="bike" />
+      </div>
+    </MainBase>
   );
 };
 

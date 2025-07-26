@@ -1,32 +1,26 @@
 export const REWARD_LEVEL = {
   0: {
     name: "관심인",
-    percentage: 0,
-    opacity: 0,
-  },
-  10: {
-    name: "입문자",
-    percentage: 5,
-    opacity: 0.2,
-  },
-  50: {
-    name: "초보자",
-    percentage: 25,
-    opacity: 0.4,
+    color: "#ccf0e9",
   },
   100: {
-    name: "중급자",
-    percentage: 50,
-    opacity: 0.6,
-  },
-  150: {
-    name: "숙련자",
-    percentage: 75,
-    opacity: 0.8,
+    name: "입문자",
+    color: "#99e1d4",
   },
   200: {
+    name: "초보자",
+    color: "#66d2be",
+  },
+  300: {
+    name: "중급자",
+    color: "#33c3a9",
+  },
+  400: {
+    name: "숙련자",
+    color: "#00b493",
+  },
+  500: {
     name: "전문가",
-    percentage: 100,
-    opacity: 1.0,
+    color: "#00b493",
   },
 };

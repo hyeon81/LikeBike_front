@@ -46,9 +46,9 @@ const Result = ({ status, setStatus, explanation }: Props) => {
         }}
       />
 
-      <div className="flex flex-col items-center justify-center py-10 mt-3 border-2 border-gray-lightest bg-white w-full ">
+      <div className="flex flex-col items-center justify-center py-10 mt-3 border-[1.5px] border-gray-lightest bg-white w-full ">
         <div
-          className={`text-[160px] font-bold w-[200px] h-[200px] border-2 rounded-2xl flex items-center justify-center border-black ${status === QUIZ_STATUS.CORRECT ? "text-primary" : "text-error"}`}
+          className={`text-[160px] font-bold w-[200px] h-[200px] border-[1.5px] rounded-2xl flex items-center justify-center border-black ${status === QUIZ_STATUS.CORRECT ? "text-primary" : "text-error"}`}
         >
           {status === QUIZ_STATUS.CORRECT ? "O" : "X"}
         </div>

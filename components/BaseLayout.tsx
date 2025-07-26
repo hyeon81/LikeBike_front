@@ -4,7 +4,6 @@ import { ReactNode, useEffect, useState } from "react";
 import Header from "./Header";
 import { usePathname, useRouter } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { COLORS } from "@/constant/color";
 import { CircularProgress } from "@mui/material";
 import { ACCESS_TOKEN } from "@/constant/storageName";
 
@@ -46,10 +45,7 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col justify-center items-center w-full h-full bg-gray-400">
-        <div
-          className="flex flex-col w-full max-w-[460px] h-full min-h-screen"
-          style={{ backgroundColor: COLORS.GRAY_BACKGROUND }}
-        >
+        <div className="flex flex-col w-full max-w-[460px] h-full min-h-screen bg-gray-background">
           <Header />
           <div className="flex flex-col w-full h-full flex-1 p-4">
             {children}
