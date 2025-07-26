@@ -5,6 +5,10 @@ import { getCourse } from "@/apis/course/getCourse";
 import ToggleContent from "../common/ToggleContent";
 import PhotoStatusCard from "../bikelog/PhotoStatusCard";
 import { LOG_STATUS } from "@/types/bikeLog";
+import dayjs from "dayjs";
+
+require("dayjs/locale/ko");
+dayjs.locale("ko");
 
 const CourseList = () => {
   const { data, error, isLoading } = useQuery({
@@ -28,7 +32,7 @@ const CourseList = () => {
         {data && data.length > 0 ? (
           data.map((course, idx) => (
             <ToggleContent
-              title={`${idx + 1}회차 인증내역`}
+              title={`${idx + 1}회차 - ${dayjs(course.created_at?.replace("GMT", "")).format("YYYY년 MM월 DD일, A hh시 mm분")}`}
               defaultValue={idx === 0}
               key={course.id}
             >

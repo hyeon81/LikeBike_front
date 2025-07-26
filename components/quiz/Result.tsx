@@ -12,9 +12,10 @@ import ButtonModal from "../common/ButtonModal";
 interface Props {
   status: QuizStatus;
   setStatus: (status: QuizStatus) => void;
+  commentary?: string;
 }
 
-const Result = ({ status, setStatus }: Props) => {
+const Result = ({ status, setStatus, commentary }: Props) => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
 
@@ -38,11 +39,8 @@ const Result = ({ status, setStatus }: Props) => {
       <ButtonModal
         isOpen={showModal}
         title="퀴즈 해설을 확인하고 추가 점수를 받으세요!"
-        buttonText="자전거 레벨 점수 내역 보러가기"
-        contents={[
-          "추가 점수 5점이 자동 지급됩니다. (홈 > 자전거 레벨 점수 내역)",
-          "추가 점수는 문제당 1회 지급됩니다.(최초 1회만 점수 인정)",
-        ]}
+        buttonText="확인"
+        contents={["해설: ", commentary ?? "해설이 없습니다."]}
         onClickButton={() => {
           setShowModal(false);
         }}
@@ -60,11 +58,14 @@ const Result = ({ status, setStatus }: Props) => {
         <p className="mt-2 text-lg">
           {status === QUIZ_STATUS.CORRECT
             ? "5점 적립 완료"
-            : "다음 기회에 적립을 도전하세요!"}
+            : "내일 다시 도전해주세요!"}
         </p>
-        <div className="w-full flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center relative mt-10 mb-2">
+          <div className="left-0 absolute top-[-28px]">
+            <BubbleChat text="+5점" isPrimary={true} />
+          </div>
           <button
-            className="p-2 px-6 bg-black text-white rounded-full my-4 cursor-pointer"
+            className="p-2 px-6  bg-black text-white rounded-full my-4 cursor-pointer"
             onClick={onClickCommentary}
           >
             퀴즈 해설 확인하기
@@ -75,11 +76,12 @@ const Result = ({ status, setStatus }: Props) => {
           <br />
           (버튼을 누른 최초 1회만 점수 인정)
         </div>
-        {/* <div className="flex items-center mt-8 gap-4 flex-row">
+      </div>
+
+      {/* <div className="flex items-center mt-8 gap-4 flex-row">
           <Button onClick={() => router.push("/")}>홈으로 돌아가기</Button>
           <Button onClick={onClickCommentary}>해설 보러가기 (+5점)</Button>
         </div> */}
-      </div>
     </div>
   );
 };

@@ -120,6 +120,10 @@ const UploadModal = ({
               src={preview}
               alt={"snap"}
               width="100%"
+              style={{
+                aspectRatio: "1/1",
+                objectFit: "cover",
+              }}
               height="100%"
               className="bg-gray-200 min-h-[200px]"
             />

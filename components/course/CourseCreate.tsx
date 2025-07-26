@@ -17,6 +17,7 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
   });
 
   console.log("Course Status:", courseCount);
+  const isAlreadyCertified = courseCount && courseCount > 0;
 
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);

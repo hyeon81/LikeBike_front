@@ -1,9 +1,13 @@
 import { axiosInstance } from "../axiosInstance";
 
-export const getQuizStatus = async (): Promise<number> => {
+interface IQuizStatusResponse {
+  attempted: boolean;
+  is_correct: boolean;
+}
+
+export const getQuizStatus = async (): Promise<IQuizStatusResponse> => {
   const PATH = `/quizzes/today/status`;
 
   const response = await axiosInstance.get(PATH);
-  console.log("Quiz status response:", response);
-  return response?.data?.data?.attempted;
+  return response?.data?.data?.[0].attempted;
 };

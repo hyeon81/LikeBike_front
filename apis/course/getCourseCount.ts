@@ -5,5 +5,5 @@ export const getCourseCount = async (): Promise<number> => {
 
   const response = await axiosInstance.get(PATH);
   console.log("Course count response:", response);
-  return response?.data?.data?.count;
+  return response?.data?.data?.[0].count;
 };

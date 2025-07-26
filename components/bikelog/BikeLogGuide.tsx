@@ -31,7 +31,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           bike_photo: bikeFile.current,
           safety_gear_photo: hatFile.current,
         });
-        alert("자전거 타기 인증이 완료되었습니다!");
+        // alert("자전거 타기 인증이 완료되었습니다!");
         hatFile.current = null;
         bikeFile.current = null;
         setCompleteModalOpen(true);
