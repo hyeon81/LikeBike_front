@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import BaseLayout from "@/components/BaseLayout";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
+
+const notoSansKR = Noto_Sans_KR({
+  variable: "--font-noto-sans-kr",
   subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -25,13 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${notoSansKR.className} antialiased font-noto`}>
         <AppRouterCacheProvider>
           <BaseLayout>{children}</BaseLayout>
         </AppRouterCacheProvider>
