@@ -18,7 +18,7 @@ const MainBase = ({
 
   return (
     <div
-      className="card relative gap-2 text-center flex-1"
+      className="card relative gap-2 text-center flex-1 cursor-pointer"
       onClick={() => router.push(path)}
     >
       <ScoreLabel text={scoreText} />

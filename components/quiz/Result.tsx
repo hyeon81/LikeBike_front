@@ -8,6 +8,8 @@ import { HAS_SEEN_EXPLANATION } from "@/constant/storageName";
 import { useEffect, useState } from "react";
 import BubbleChat from "../common/BubbleChat";
 import ButtonModal from "../common/ButtonModal";
+import EmSpan from "../common/EmSpan";
+import SCORE from "@/constant/score";
 
 interface Props {
   status: QuizStatus;
@@ -29,7 +31,7 @@ const Result = ({ status, setStatus, explanation }: Props) => {
     } else {
       localStorage.setItem(HAS_SEEN_EXPLANATION, dayjs().format("YYYY-MM-DD"));
 
-      await updateScore(5);
+      await updateScore(SCORE.HAS_SEEN_EXPLANATION);
       setShowModal(true);
     }
   };
@@ -52,10 +54,15 @@ const Result = ({ status, setStatus, explanation }: Props) => {
         >
           {status === QUIZ_STATUS.CORRECT ? "O" : "X"}
         </div>
-        <p className="mt-4 text-2xl font-bold">
-          {status === QUIZ_STATUS.CORRECT ? "정답입니다!" : "오답입니다!"}
+        <p className="mt-6 text-2xl font-bold">
+          <span
+            className={`emphasis text-${status === QUIZ_STATUS.CORRECT ? "primary" : "error"}`}
+          >
+            {status === QUIZ_STATUS.CORRECT ? "정답" : "오답"}
+          </span>
+          입니다!
         </p>
-        <p className="mt-2 text-lg">
+        <p className="mt-1 text-2xl">
           {status === QUIZ_STATUS.CORRECT
             ? "5점 적립 완료"
             : "내일 다시 도전해주세요!"}
@@ -72,7 +79,8 @@ const Result = ({ status, setStatus, explanation }: Props) => {
           </button>
         </div>
         <div className="text-center">
-          [퀴즈 해설 확인하기] 추가 점수는 문제당 1회 지급됩니다.
+          <EmSpan>[퀴즈 해설 확인하기]</EmSpan> 추가 점수는 문제당 1회
+          지급됩니다.
           <br />
           (버튼을 누른 최초 1회만 점수 인정)
         </div>

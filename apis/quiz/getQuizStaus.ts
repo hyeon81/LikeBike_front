@@ -9,5 +9,5 @@ export const getQuizStatus = async (): Promise<IQuizStatusResponse> => {
   const PATH = `/quizzes/today/status`;
 
   const response = await axiosInstance.get(PATH);
-  return response?.data?.data?.[0].attempted;
+  return response?.data?.data?.[0];
 };

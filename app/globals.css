@@ -40,5 +40,13 @@ html body {
 }
 
 .card {
-  @apply cursor-default p-6 bg-white rounded-[32px] flex flex-col items-center justify-center border-[1.5px] border-gray-lightest;
+  @apply p-6 bg-white rounded-[32px] flex flex-col items-center justify-center border-[1.5px] border-gray-lightest;
+}
+
+.default-border {
+  @apply border-gray-lightest border-[1.5px];
+}
+
+.emphasis {
+  @apply font-semibold underline;
 }

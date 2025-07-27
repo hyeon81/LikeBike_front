@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReactModal from "react-modal";
+import CommonModal from "./CommonModal";
 
 interface ButtonModalProps {
   title: string; // Title for the modal
@@ -17,38 +18,15 @@ const ButtonModal = ({
   isOpen,
 }: ButtonModalProps) => {
   return (
-    <ReactModal
-      isOpen={isOpen}
-      contentLabel="Bike Count Modal"
-      style={{
-        content: {
-          top: "50%",
-          left: "50%",
-          right: "auto",
-          bottom: "auto",
-          marginRight: "-50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 40,
-          width: "80%",
-          maxWidth: "400px",
-          height: "auto",
-          padding: 0,
-          boxShadow: "0 0 4px 0 rgba(0, 0, 0, 0.5)",
-        },
-        overlay: {
-          zIndex: 30,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        },
-      }}
-    >
-      <div className="p-6 flex flex-col text-center">
-        <div className="flex flex-col gap-1 mb-8">
-          <strong className="text-lg">{title}</strong>
-          <div>
+    <CommonModal modalIsOpen={isOpen}>
+      <div className="flex flex-col text-center">
+        <div className="flex flex-col gap-1 mb-6">
+          <strong className="text-xl">{title}</strong>
+          <div className="flex flex-col gap-1 mt-1">
             {contents.map((content, index) => (
-              <p className="text-sm" key={index}>
+              <li className="text-xs font-normal" key={index}>
                 {content}
-              </p>
+              </li>
             ))}
           </div>
         </div>
@@ -59,7 +37,7 @@ const ButtonModal = ({
           {buttonText}
         </button>
       </div>
-    </ReactModal>
+    </CommonModal>
   );
 };
 

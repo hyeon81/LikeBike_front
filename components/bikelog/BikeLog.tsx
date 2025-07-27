@@ -19,12 +19,12 @@ const BikeLog = ({
   return (
     <ToggleContent
       defaultValue={defaultOpen}
-      title={`${LOG_STATUS[verification_status].text} - ${dayjs(started_at?.replace("GMT", "")).format("YYYY년 MM월 DD일, A hh시 mm분")}`}
+      title={`[${LOG_STATUS[verification_status].text}] ${dayjs(started_at?.replace("GMT", "")).format("YYYY-MM-DD, A hh시 mm분")}`}
     >
-      <div className="flex flex-row gap-4 px-10">
+      <div className="flex flex-row gap-4 px-10 pt-2">
         <PhotoStatusCard
           status={verification_status}
-          chipText="자전거"
+          chipText="자전거+사용자"
           imgUrl={bike_photo_url}
           strongText="[-]"
           text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!`}

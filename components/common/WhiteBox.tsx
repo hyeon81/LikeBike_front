@@ -6,7 +6,7 @@ interface WhiteBoxProps {
 
 const WhiteBox = ({ children }: WhiteBoxProps) => {
   return (
-    <div className="bg-white px-2 py-4 text-center border-[1.5px] border-gray-lightest ">
+    <div className="bg-white px-2 py-4 text-center border-[1.5px] border-gray-lightest flex flex-col gap-1">
       {children}
     </div>
   );

@@ -4,10 +4,10 @@ import { axiosInstance } from "../axiosInstance";
 interface IReward {
   created_at: string;
   id: number;
-  points: number;
   reward_reason: string;
   source_type: string;
   user_id: number;
+  experience_points: number; // Assuming this is the field you want to return
 }
 
 export const getReward = async () => {

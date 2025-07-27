@@ -7,7 +7,7 @@ interface Props {
 const ExampleStatusCard = ({ chipText, status, children }: Props) => {
   return (
     <div className="w-[120px] h-[160px] bg-black relative">
-      <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-2 left-2 text-xs font-[400]">
+      <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-2 left-2 text-xs font-normal">
         {chipText}
       </div>
       <div className="h-full">{children}</div>

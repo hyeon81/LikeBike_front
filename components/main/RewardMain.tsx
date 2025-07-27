@@ -1,42 +1,39 @@
 import { getProfile } from "@/apis/user/getProfile";
+import { REWARD_LEVEL } from "@/constant/rewardLevel";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 const RewardMain = () => {
   const router = useRouter();
   const { data } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
 
-  //   {
-  //     "benefits": "기본 퀴즈 참여 가능",
-  //     "created_at": "Mon, 21 Jul 2025 21:55:47 GMT",
-  //     "description": "자전거 여행을 시작하는 단계",
-  //     "email": "4356684687@kakao",
-  //     "experience_points": 0,
-  //     "id": 1,
-  //     "level": 1,
-  //     "level_name": "초보자",
-  //     "points": 0,
-  //     "profile_image_url": "http://k.kakaocdn.net/dn/bQdp6r/btsPiuqSQh9/Fr2uyPtH0L6JWKy8Z81NjK/img_640x640.jpg",
-  //     "username": "김현지"
-  // }
+  const points = data?.experience_points;
 
-  const levelValue = [
-    { name: "관심인", point: 0 },
-    { name: "입문자", point: 100 },
-    { name: "초보자", point: 200 },
-    { name: "중급자", point: 300 },
-    { name: "숙련자", point: 400 },
-    { name: "전문가", point: 500 },
-  ];
+  const level = useMemo(() => {
+    if (!points) return undefined;
+    if (points < 100) return REWARD_LEVEL[0];
+    if (points < 200) return REWARD_LEVEL[1];
+    if (points < 300) return REWARD_LEVEL[2];
+    if (points < 400) return REWARD_LEVEL[3];
+    if (points < 500) return REWARD_LEVEL[4];
+    return REWARD_LEVEL[5];
+  }, [points]);
 
   return (
     <div className="card">
-      <div className="mb-4 font-medium">
-        <span className="underline">{data?.username}</span> 님의 자전거 레벨은{" "}
-        <span className="underline">{data?.level_name}</span>{" "}
-        <span className="underline">({data?.points}</span>점)입니다.
-      </div>
+      {data ? (
+        <div className="mb-4 font-medium">
+          <span className="underline">{data?.username}</span> 님의 자전거 레벨은{" "}
+          <span className="underline">{level?.name}</span>{" "}
+          <span className="underline">({points}</span>점)입니다.
+        </div>
+      ) : (
+        <div className="mb-4 font-medium">
+          <span className="underline">데이터 로딩에 실패했습니다.</span>
+        </div>
+      )}
 
       <div className="relative w-full h-[50px] bg-white border-2 border-black flex items-center ">
         <div className="absolute left-[20%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
@@ -46,13 +43,13 @@ const RewardMain = () => {
         <div
           className="h-[50px]"
           style={{
-            width: `${((data?.points ?? 0) / 500) * 100}%`,
-            backgroundColor: `rgba(0,180,147,${(data?.points ?? 0) / 500})`,
+            width: `${((points ?? 0) / 500) * 100}%`,
+            backgroundColor: `rgba(0,180,147,${(points ?? 0) / 500})`,
           }}
         />
       </div>
       <div className="flex flex-row justify-between text-xs text-center w-full mt-1">
-        {levelValue.map((item, index) => (
+        {REWARD_LEVEL.map((item, index) => (
           <div key={index}>
             <div className="-mx-3">
               {item.name} <br />({item.point}점)

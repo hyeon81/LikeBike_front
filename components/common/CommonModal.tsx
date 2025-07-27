@@ -2,25 +2,18 @@ import ReactModal from "react-modal";
 
 interface CommonModalProps {
   modalIsOpen: boolean;
-  afterOpenModal?: () => void;
-  closeModal: () => void;
   customStyles?: ReactModal.Styles;
   children: React.ReactNode;
 }
 
 const CommonModal = ({
   modalIsOpen,
-  afterOpenModal,
-  closeModal,
   customStyles,
   children,
 }: CommonModalProps) => {
   return (
     <ReactModal
       isOpen={modalIsOpen}
-      onAfterOpen={afterOpenModal}
-      onRequestClose={closeModal}
-      ariaHideApp={false}
       style={{
         content: {
           top: "50%",
@@ -29,14 +22,20 @@ const CommonModal = ({
           bottom: "auto",
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
-          maxWidth: "460px",
-          width: "90%",
-          padding: "20px",
+          zIndex: 40,
+          width: "80%",
+          maxWidth: "400px",
+          height: "auto",
+          padding: "1rem",
+          paddingTop: "1.5rem",
+          boxShadow: "0 0 4px 0 rgba(0, 0, 0, 0.5)",
+          wordBreak: "keep-all",
         },
         overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.75)",
+          zIndex: 30,
+          backgroundColor: "rgba(0, 0, 0, 0)",
+          // backgroundColor: "rgba(0, 0, 0, 0.5)",
         },
-        ...customStyles,
       }}
     >
       {children}

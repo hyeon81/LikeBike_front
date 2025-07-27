@@ -10,6 +10,7 @@ import { getBikeCount } from "@/apis/bikelog/getBikeCount";
 import UploadModal from "./UploadModal";
 import ButtonModal from "../common/ButtonModal";
 import WhiteBox from "../common/WhiteBox";
+import EmSpan from "../common/EmSpan";
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const hatFile = useRef<File | null>(null);
@@ -85,7 +86,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       <ButtonModal
         title="‘자전거 타기 인증’ 완료!"
         contents={[
@@ -138,13 +139,12 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       />
       <BubbleChat text={"이렇게 인증해주세요!"} />
       <WhiteBox>
-        ① 하단의 자전거 타기 인증{" "}
-        <strong className="underline">[시작 버튼]</strong> 누르기
-        <br />② <strong className="underline">
-          {" "}
-          [안전모+사용자, 자전거]
-        </strong>{" "}
-        인증 기준에 맞춰 촬영하기
+        <div>
+          ① 하단의 자전거 타기 인증 <EmSpan>[시작 버튼]</EmSpan> 누르기
+        </div>
+        <div>
+          ② <EmSpan>[안전모+사용자, 자전거]</EmSpan> 인증 기준에 맞춰 촬영하기
+        </div>
       </WhiteBox>
       <BubbleChat text={"인증 기준"} />
       <div className="flex flex-row gap-2 overflow-x-auto">

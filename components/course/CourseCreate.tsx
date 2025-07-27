@@ -50,7 +50,7 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
     <div className="flex flex-col gap-4">
       <CommonModal
         modalIsOpen={modalIsOpen}
-        closeModal={() => setModalIsOpen(false)}
+        // closeModal={() => setModalIsOpen(false)}
       >
         코스 추천하기를 N회차를 완료하셨습니다! <br />
         * 운영자 검토 후 1~2일 이내로 포인트가 적립됩니다. <br />* 베스트 코스는

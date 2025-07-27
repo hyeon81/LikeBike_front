@@ -5,6 +5,7 @@ import { getQuiz } from "@/apis/quiz/getQuiz";
 import { getQuizStatus } from "@/apis/quiz/getQuizStaus";
 import BubbleChat from "@/components/common/BubbleChat";
 import Button from "@/components/common/Button";
+import EmSpan from "@/components/common/EmSpan";
 import WhiteBox from "@/components/common/WhiteBox";
 import Quiz from "@/components/quiz/Quiz";
 import Result from "@/components/quiz/Result";
@@ -63,10 +64,13 @@ export default function Home() {
         <BubbleChat text={"이렇게 퀴즈를 풀어주세요!"} />
       </div>
       <WhiteBox>
-        하루 한 번, 자전거 안전 퀴즈 풀기
-        <br /> 정답을 맞히고 점수 받기 해설까지
-        <br />
-        확인하고 추가 점수 받기
+        <div>① 하루 한 번, 자전거 안전 퀴즈 풀기</div>
+        <div>
+          ② <EmSpan>[정답]</EmSpan>을 맞히고 점수 받기{" "}
+        </div>
+        <div>
+          ③ <EmSpan>[해설]</EmSpan>까지 확인하고 추가 점수 받기
+        </div>
       </WhiteBox>
       {status == QUIZ_STATUS.QUIZ && (
         <Quiz quiz={data} handleClick={handleClick} />

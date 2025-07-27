@@ -1,4 +1,5 @@
 import { LOG_STATUS } from "@/types/bikeLog";
+import Image from "next/image";
 
 interface Props {
   chipText?: string;
@@ -17,32 +18,28 @@ const PhotoStatusCard = ({
 }: Props) => {
   return (
     <div className="flex flex-col gap-2">
-      <div className="w-full h-50 bg-black relative">
+      <div className="bg-black relative">
         {chipText && (
-          <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-1 left-1 chipText-md">
+          <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-2 left-2 text-xs font-normal">
             {chipText}
           </div>
         )}
         {imgUrl && (
-          <img
+          <Image
             src={imgUrl}
             alt="인증 사진"
-            style={{
-              objectFit: "cover",
-              width: "100%",
-              height: "100%",
-            }}
+            width={120}
+            height={160}
+            objectFit="cover"
           />
         )}
-        <div
-          className={`absolute w-full bottom-0 ${LOG_STATUS[status]?.color} text-white text-center`}
-        >
+        <div className={`${LOG_STATUS[status]?.color} text-white text-center`}>
           {LOG_STATUS[status]?.text}
         </div>
       </div>
       <div className="text-sm flex flex-col gap-1">
         <strong>{strongText}</strong>
-        {text}
+        <div className="font-normal">{text}</div>
       </div>
     </div>
   );
