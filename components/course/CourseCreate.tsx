@@ -134,7 +134,20 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
           className="border border-gray-300 rounded-md p-2"
           ref={review}
         />
-        <Button onClick={onSubmit}>인증하기</Button>
+        <Button
+          onClick={onSubmit}
+          style={
+            isAlreadyCertified
+              ? {
+                  backgroundColor: "gray",
+                  cursor: "not-allowed",
+                }
+              : {}
+          }
+          disabled={!!isAlreadyCertified}
+        >
+          {isAlreadyCertified ? "주 2회 인증을 완료하셨습니다" : "인증하기"}
+        </Button>
       </div>
     </div>
   );

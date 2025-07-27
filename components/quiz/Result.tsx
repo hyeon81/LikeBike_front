@@ -72,13 +72,13 @@ const Result = ({ status, setStatus, explanation }: Props) => {
             <BubbleChat text="+5점" isPrimary={true} />
           </div>
           <button
-            className="p-2 px-6  bg-black text-white rounded-full my-4 cursor-pointer"
+            className="p-2 px-6 bg-black text-white rounded-full my-4 cursor-pointer"
             onClick={onClickExplanation}
           >
             퀴즈 해설 확인하기
           </button>
         </div>
-        <div className="text-center">
+        <div className="text-center px-4">
           <EmSpan>[퀴즈 해설 확인하기]</EmSpan> 추가 점수는 문제당 1회
           지급됩니다.
           <br />

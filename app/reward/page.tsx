@@ -12,8 +12,8 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex flex-row items-center whitespace-nowrap gap-2">
-        <span className="text-lg font-bold ">적립 내역:</span>
+      <div className="flex flex-row gap-2">
+        <span className="text-lg font-bold whitespace-nowrap">적립 내역:</span>
         <span>지난 기간 동안 적립 된 포인트 내역을 볼 수 있어요.</span>
       </div>
       <div className="mt-4">

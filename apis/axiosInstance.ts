@@ -22,39 +22,51 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// 토큰 재발급 중복 요청 방지를 위한 플래그
+let isRefreshing = false;
+
 // 응답 에러 처리 및 토큰 재발급
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // const originalRequest = error.config;
+    const originalRequest = error.config;
 
-    // if (
-    //   error.response &&
-    //   error.response.status === 401 &&
-    //   !originalRequest._retry
-    // ) {
-    //   originalRequest._retry = true;
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshing
+    ) {
+      originalRequest._retry = true;
+      isRefreshing = true;
 
-    //   try {
-    //     const newAccessToken = await refreshAccessToken();
+      try {
+        const newAccessToken = await refreshAccessToken();
 
-    //     // 토큰 업데이트 후 재요청
-    //     axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
-    //     originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        // 토큰 업데이트 후 재요청
+        localStorage.setItem(ACCESS_TOKEN, newAccessToken);
+        axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-    //     return axiosInstance(originalRequest);
-    //   } catch (refreshError) {
-    //     localStorage.removeItem(ACCESS_TOKEN);
-    //     console.error("Token refresh failed:", refreshError);
-    //     // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
-    //     // window.location.href = "/signin";
-    //     return Promise.reject(refreshError);
-    //   }
-    // }
+        isRefreshing = false;
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        isRefreshing = false;
+        localStorage.removeItem(ACCESS_TOKEN);
+        console.error("Token refresh failed:", refreshError);
+
+        // 알림 표시 후 로그인 페이지로 리다이렉트
+        alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+        window.location.href = "/signin";
+        return Promise.reject(refreshError);
+      }
+    }
+
+    // 401이지만 이미 재시도했거나 재발급 중인 경우
     if (error.response && error.response.status === 401) {
-      // localStorage.removeItem(ACCESS_TOKEN);
-      console.error("Unauthorized access - token removed");
-      // 여기서 로그인 페이지로 리다이렉트하거나 사용자에게 알림을 표시
+      console.error(
+        "Unauthorized access - token refresh failed or already attempted"
+      );
     }
 
     return Promise.reject(error);
