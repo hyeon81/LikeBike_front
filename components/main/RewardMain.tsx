@@ -45,6 +45,7 @@ const RewardMain = () => {
           style={{
             width: `${((points ?? 0) / 500) * 100}%`,
             backgroundColor: `rgba(0,180,147,${(points ?? 0) / 500})`,
+            borderRight: "1.5px solid black",
           }}
         />
       </div>
