@@ -13,14 +13,14 @@ export const attemptQuiz = async (
   selectedAnswer: string
 ): Promise<IQuizAttemptRes> => {
   try {
-    const response = await axiosInstance.post<IResponse<IQuizAttemptRes>>(
+    const response = await axiosInstance.post<IResponse<IQuizAttemptRes[]>>(
       `/quizzes/${quizId}/attempt`,
       {
         answer: selectedAnswer,
       }
     );
 
-    return response?.data?.data;
+    return response?.data?.data?.[0];
   } catch (error) {
     console.error("Error attempting quiz:", error);
     throw new Error("Failed to attempt quiz");

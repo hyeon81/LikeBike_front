@@ -90,11 +90,11 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       <ButtonModal
         title="‘자전거 타기 인증’ 완료!"
         contents={[
-          "점수 지급에 1~2일이 소요됩니다. (홈 > 자전거레벨 점수내역)",
-          "[인증 내역 보기]에서 인증 결과를 확인할 수 있습니다.",
-          "[안전모+사용자, 자전거] 모두 인증 성공 시, 점수가 지급됩니다",
+          "점수 지급에 1~2일이 소요됩니다.",
+          "2가지 사진 모두 인정 시, 점수가 지급됩니다.",
         ]}
-        buttonText="인증 내역 보기"
+        isList
+        buttonText="자전거 인증 내역 보기"
         onClickButton={() => {
           setValue(2);
           setCompleteModalOpen(false);

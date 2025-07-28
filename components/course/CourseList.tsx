@@ -40,7 +40,7 @@ const CourseList = () => {
                 <PhotoStatusCard
                   status={course.status as keyof typeof LOG_STATUS}
                   imgUrl={course.photo_url}
-                  strongText="[추천 이유]"
+                  strongText={"[" + course.location_name + "]"}
                   text={course?.review}
                 />
               </div>

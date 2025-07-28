@@ -62,7 +62,7 @@ const UploadModal = ({
         }}
       >
         <div className="p-6 flex flex-col text-center">
-          <div className="flex flex-col gap-1 mb-8">
+          <div className="flex flex-col gap-1 mb-6">
             <strong className="text-lg">{title}</strong>
             <div>
               {contents.map((content, index) => (
@@ -72,7 +72,7 @@ const UploadModal = ({
           </div>
           <label
             htmlFor={`${prefix}-image`}
-            className="bg-black text-white py-2 px-4 rounded-lg cursor-pointer"
+            className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
           >
             인증 사진 촬영하기
           </label>

@@ -9,8 +9,9 @@ import PrimaryBox from "../common/PrimaryBox";
 import { createCourse } from "@/apis/course/createCourse";
 import { useQuery } from "@tanstack/react-query";
 import { getCourseCount } from "@/apis/course/getCourseCount";
+import { RIVER_LIST } from "@/constant/riverList";
 
-const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
+const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const { data: courseCount } = useQuery({
     queryKey: ["courseCount"],
     queryFn: getCourseCount,
@@ -24,7 +25,7 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
   const [imgPreview, setImgPreview] = useState<string | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const locationName = useRef<HTMLInputElement>(null); // Placeholder for location name
+  const locationName = useRef<HTMLSelectElement>(null); // Placeholder for location name
   const review = useRef<HTMLTextAreaElement>(null); // Placeholder for review content
 
   const onSubmit = async () => {
@@ -67,7 +68,7 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
           <Button
             onClick={() => {
               setModalIsOpen(false);
-              setValue(2);
+              goToList();
             }}
           >
             나의 인증 내역 보러가기
@@ -86,13 +87,20 @@ const CourseCreate = ({ setValue }: { setValue: (status: number) => void }) => {
         </PrimaryBox>
       </div>
       <div className="flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="장소입력"
-          maxLength={15}
+        <select
           className="border border-gray-300 rounded-md p-2"
           ref={locationName}
-        />
+          defaultValue=""
+        >
+          <option value="" disabled>
+            장소 선택
+          </option>
+          {RIVER_LIST.map((river) => (
+            <option key={river} value={river}>
+              {river}
+            </option>
+          ))}
+        </select>
         <label
           htmlFor="file-upload"
           className="bg-secondary-light rounded-2xl h-[280px] w-full flex items-center justify-center cursor-pointer"

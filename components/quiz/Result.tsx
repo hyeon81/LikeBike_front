@@ -40,11 +40,11 @@ const Result = ({ status, setStatus, explanation }: Props) => {
     <div className="flex flex-col items-center justify-center h-full relative w-full">
       <ButtonModal
         isOpen={showModal}
-        title="퀴즈 해설을 확인하고 추가 점수를 받으세요!"
-        buttonText="확인"
-        contents={["해설: ", explanation ?? "해설이 없습니다."]}
+        title="‘퀴즈 해설 확인’ 완료"
+        buttonText="추가 점수 받은 내역 확인하러 가기"
+        contents={[explanation ?? "해설이 없습니다."]}
         onClickButton={() => {
-          setShowModal(false);
+          router.push("/reward");
         }}
       />
 

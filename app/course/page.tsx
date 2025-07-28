@@ -1,12 +1,18 @@
 "use client";
 
+import { getCourse } from "@/apis/course/getCourse";
 import TabList from "@/components/common/TabList";
 import CourseCreate from "@/components/course/CourseCreate";
 import CourseList from "@/components/course/CourseList";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function Home() {
   const [value, setValue] = useState(1);
+  const { refetch } = useQuery({
+    queryKey: ["courseList"],
+    queryFn: getCourse,
+  });
 
   return (
     <div>
@@ -19,7 +25,16 @@ export default function Home() {
         </TabList>
       </div>
       <div className="bg-white p-4">
-        {value == 1 ? <CourseCreate setValue={setValue} /> : <CourseList />}
+        {value == 1 ? (
+          <CourseCreate
+            goToList={() => {
+              refetch();
+              setValue(2);
+            }}
+          />
+        ) : (
+          <CourseList />
+        )}
       </div>
     </div>
   );
