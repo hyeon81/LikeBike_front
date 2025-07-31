@@ -4,7 +4,7 @@ import { refreshAccessToken } from "./user/refreshToken";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 1000,
+  timeout: 5000,
 });
 
 axiosInstance.interceptors.request.use(

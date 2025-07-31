@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <Container>
       <InfoContainer>
-        <Avatar />
+        <Avatar src={userInfo?.profile_image_url ?? ""} />
         <Stack flexDirection="column">
           <Typography variant="body1">{userInfo?.username}</Typography>
           <Typography color="gray" variant="body2">

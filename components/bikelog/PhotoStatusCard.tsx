@@ -31,6 +31,9 @@ const PhotoStatusCard = ({
             width={120}
             height={160}
             objectFit="cover"
+            style={{
+              width: "100%",
+            }}
           />
         )}
         <div className={`${LOG_STATUS[status]?.color} text-white text-center`}>

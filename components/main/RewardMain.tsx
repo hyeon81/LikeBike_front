@@ -27,7 +27,10 @@ const RewardMain = () => {
         <div className="mb-4 font-medium">
           <span className="underline">{data?.username}</span> 님의 자전거 레벨은{" "}
           <span className="underline">{level?.name}</span>{" "}
-          <span className="underline">({points}</span>점)입니다.
+          <span>
+            (<span className="underline">{points}</span>
+          </span>
+          점)입니다.
         </div>
       ) : (
         <div className="mb-4 font-medium">

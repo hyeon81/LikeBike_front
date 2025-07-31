@@ -18,7 +18,9 @@ export default function Home() {
       </div>
       <div className="mt-4">
         {data?.map((reward) => {
-          const date = dayjs(reward.created_at).format("YYYY-MM-DD HH:mm");
+          const date = dayjs(reward.created_at?.replace("GMT", "")).format(
+            "YYYY-MM-DD HH:mm"
+          );
 
           return (
             <div key={reward.id} className="flex flex-row justify-between ">
