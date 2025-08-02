@@ -1,11 +1,13 @@
 import { useState } from "react";
 import ReactModal from "react-modal";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface UploadModalProps {
   upload: {
     title: string; // Title for the upload modal
     contents: string[]; // Contents for the upload modal
     isOpen: boolean; // Is the upload modal open
+    setOpen?: (open: boolean) => void; // Optional function to set the open state
   };
   confirm: {
     title: string; // Title for the confirm modal
@@ -15,7 +17,7 @@ interface UploadModalProps {
 }
 
 const UploadModal = ({
-  upload: { title, contents, isOpen },
+  upload: { title, contents, isOpen, setOpen },
   confirm: { title: confirmTitle, onOk },
   prefix,
 }: UploadModalProps) => {
@@ -53,7 +55,7 @@ const UploadModal = ({
             maxWidth: "400px",
             height: "auto",
             padding: 0,
-            boxShadow: "0 0 4px 0 rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.5)",
           },
           overlay: {
             zIndex: 30,
@@ -62,6 +64,9 @@ const UploadModal = ({
         }}
       >
         <div className="p-6 flex flex-col text-center">
+          <div className="cursor-pointer absolute top-2 right-2 z-10 px-4 py-2">
+            <CloseIcon onClick={() => setOpen?.(false)} />
+          </div>
           <div className="flex flex-col gap-1 mb-6">
             <strong className="text-lg">{title}</strong>
             <div>
@@ -74,7 +79,7 @@ const UploadModal = ({
             htmlFor={`${prefix}-image`}
             className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
           >
-            인증 사진 촬영하기
+            사진 촬영하기
           </label>
           <input
             accept="image/*"
@@ -115,7 +120,10 @@ const UploadModal = ({
       >
         <div className="text-lg flex flex-col">
           <div className="p-6 flex flex-col gap-4">
-            <strong>{confirmTitle}</strong>
+            <div className="flex flex-col items-center">
+              <strong>아래 사진으로</strong>
+              <strong>{confirmTitle}</strong>
+            </div>
             <img
               src={preview}
               alt={"snap"}

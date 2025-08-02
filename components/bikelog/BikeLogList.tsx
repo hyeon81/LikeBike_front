@@ -24,14 +24,14 @@ const BikeLogList = () => {
         <div>
           ① <EmSpan>[인증 기준]</EmSpan>에 부합한 사진인지 검토합니다.
         </div>
-        <div>② 인증 사진은 ‘검토 중’ 상태로 전환됩니다.</div>
+        <div>② 사진은 ‘검토 중’ 상태로 전환됩니다.</div>
         <div>
-          ③ 검토 완료 시 검토 결과를 <EmSpan>[O, X]</EmSpan>로 나타냅니다.
+          ③ 검토 결과를 <EmSpan>[O, X]</EmSpan>로 나타냅니다.
         </div>
         <div>
-          ④ <EmSpan>[안전모+사용자, 자전거]</EmSpan> 촬영 사진 모두가
+          ④ <EmSpan>[안전모+사용자, 자전거]</EmSpan> 사진 모두가
           <br />
-          <EmSpan>[인증 성공]</EmSpan>일 경우 점수를 자동 지급합니다.
+          인정되면 점수를 지급 받습니다.
         </div>
       </WhiteBox>
       <div className="flex flex-col gap-6">

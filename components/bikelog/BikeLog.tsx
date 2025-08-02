@@ -27,14 +27,14 @@ const BikeLog = ({
           chipText="자전거+사용자"
           imgUrl={bike_photo_url}
           strongText="[-]"
-          text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!`}
+          text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 30점이 적립돼요!`}
         />
         <PhotoStatusCard
           status={verification_status}
           chipText="안전모"
           imgUrl={safety_gear_photo_url}
           strongText="[-]"
-          text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 20점이 적립돼요!`}
+          text={`올바르게 인증했다면, 자동으로 자전거 타기 점수 30점이 적립돼요!`}
         />
       </div>
     </ToggleContent>

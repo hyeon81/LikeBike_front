@@ -64,12 +64,12 @@ export default function Home() {
         <BubbleChat text={"이렇게 퀴즈를 풀어주세요!"} />
       </div>
       <WhiteBox>
-        <div>① 하루 한 번, 자전거 안전 퀴즈 풀기</div>
+        <div>① 하루 1번, 퀴즈 풀기</div>
         <div>
-          ② <EmSpan>[정답]</EmSpan>을 맞히고 점수 받기{" "}
+          ② <EmSpan>[정답]</EmSpan> 맞히고 점수 받기{" "}
         </div>
         <div>
-          ③ <EmSpan>[해설]</EmSpan>까지 확인하고 추가 점수 받기
+          ③ <EmSpan>[해설]</EmSpan> 확인하고 추가 점수 받기
         </div>
       </WhiteBox>
       {status == QUIZ_STATUS.QUIZ && (

@@ -47,8 +47,8 @@ const RewardMain = () => {
           className="h-[50px]"
           style={{
             width: `${((points ?? 0) / 500) * 100}%`,
-            backgroundColor: `rgba(0,180,147,${(points ?? 0) / 500})`,
-            borderRight: "1.5px solid black",
+            backgroundColor: `rgba(0,180,147,${level?.opacity ?? 0})`,
+            // borderRight: "1.5px solid black",
           }}
         />
       </div>
@@ -61,21 +61,21 @@ const RewardMain = () => {
           </div>
         ))}
       </div>
-      <div className="flex flex-row gap-4 w-full mt-4">
+      <div className="flex flex-row gap-4 w-full mt-4 items-center justify-between">
         <button
-          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs p-2 cursor-pointer"
+          className=" h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs px-4 py-2 cursor-pointer"
           onClick={() => {
             location.href = process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL ?? "";
           }}
         >
           <Image src="/icons/notice.svg" alt="notice" width={16} height={16} />
-          <span className="text-center">자전거 레벨 안내</span>
+          <span className="text-center">레벨 안내</span>
         </button>
         <button
-          className="w-full h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs p-2 cursor-pointer"
+          className="h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs px-4 py-2 cursor-pointer"
           onClick={() => router.push("/reward")}
         >
-          자전거 레벨 점수 내역
+          점수 내역
         </button>
       </div>
     </div>

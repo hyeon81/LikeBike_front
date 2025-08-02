@@ -11,6 +11,8 @@ import UploadModal from "./UploadModal";
 import ButtonModal from "../common/ButtonModal";
 import WhiteBox from "../common/WhiteBox";
 import EmSpan from "../common/EmSpan";
+import imageCompression from "browser-image-compression";
+import { EXAMPLE_IMAGES } from "@/constant/bikelog";
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const hatFile = useRef<File | null>(null);
@@ -24,56 +26,39 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
     queryFn: getBikeCount,
   });
 
-  const exampleImages = [
-    {
-      status: true,
-      chipText: "안전모+사용자",
-      description: "안전모를 착용한 사용자 얼굴이 보이는 정면 사진",
-      imageIdx: 1,
-    },
-    {
-      status: false,
-      chipText: "안전모+사용자",
-      description: "안전모를 착용한 사용자 얼굴이 가려진 정면 사진",
-      imageIdx: 2,
-    },
-    {
-      status: false,
-      chipText: "안전모+사용자",
-      description: "안전모를 착용한 사용자를 확인할 수 없는 사진",
-      imageIdx: 3,
-    },
-    {
-      status: true,
-      chipText: "자전거",
-      description: "브레이크, 벨, 전조등, 후미등, 거치대가 확인되는 자전거",
-      imageIdx: 4,
-    },
-    {
-      status: false,
-      chipText: "자전거",
-      description:
-        "브레이크, 벨, 전조등, 후미등, 거치대가 1개 이상 없는 자전거",
-      imageIdx: 5,
-    },
-    {
-      status: false,
-      chipText: "자전거",
-      description: "자전거 도로 주행이 불가/금지된 전동 자전거",
-      imageIdx: 6,
-    },
-  ];
-
   const isAlreadyCertified = bikeCount && bikeCount > 0;
 
   const handleUpload = async () => {
     if (hatFile.current && bikeFile.current) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1000,
+        useWebWorker: true,
+      };
+
       try {
+        const compressedbikeFile = await imageCompression(
+          bikeFile.current,
+          options
+        );
+        const compressedHatFile = await imageCompression(
+          hatFile.current,
+          options
+        );
+
+        // console.log("Compressed Files:", {
+        //   bike: compressedbikeFile,
+        //   hat: compressedHatFile,
+        // });
+
+        // console.log("size of bikeFile:", compressedbikeFile.size);
+        // console.log("size of hatFile:", compressedHatFile.size);
+
         await createBikeLog({
-          bike_photo: bikeFile.current,
-          safety_gear_photo: hatFile.current,
+          bike_photo: compressedbikeFile,
+          safety_gear_photo: compressedHatFile,
         });
-        // alert("자전거 타기 인증이 완료되었습니다!");
+        alert("자전거 타기 인증이 완료되었습니다!");
         hatFile.current = null;
         bikeFile.current = null;
         setCompleteModalOpen(true);
@@ -91,7 +76,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         title="‘자전거 타기 인증’ 완료!"
         contents={[
           "점수 지급에 1~2일이 소요됩니다.",
-          "2가지 사진 모두 인정 시, 점수가 지급됩니다.",
+          "모든 사진 인정 시, 점수가 지급됩니다.",
         ]}
         isList
         buttonText="자전거 인증 내역 보기"
@@ -103,15 +88,16 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       />
       <UploadModal
         upload={{
-          title: "[안전모+사용자] 인증 사진 촬영",
+          title: "[안전모+사용자] 촬영",
           contents: [
-            "안전모를 착용한 사용자 얼굴이 보이는",
-            "정면 사진을 촬영해주세요.",
+            "안전모를 착용한 사용자 얼굴이",
+            "보이는 정면 사진을 촬영",
           ],
           isOpen: hatUploadModalOpen,
+          setOpen: setHatUploadModalOpen,
         }}
         confirm={{
-          title: "아래 사진으로 [안전모+사용자]를 인증할까요?",
+          title: `[안전모+사용자]를 인증할까요?`,
           onOk: (file) => {
             hatFile.current = file;
             setHatUploadModalOpen(false);
@@ -121,15 +107,16 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       />
       <UploadModal
         upload={{
-          title: "[자전거] 인증 사진 촬영",
+          title: "[자전거] 촬영",
           contents: [
-            "브레이크, 벨, 전조등, 후미등, 거치대가 확인되는",
-            "자전거 사진을 촬영해주세요.",
+            "브레이크, 벨, 전조등, 후미등, 거치대가",
+            " 확인되는 자전거 사진을 촬영",
           ],
           isOpen: bikeUploadModalOpen,
+          setOpen: setBikeUploadModalOpen,
         }}
         confirm={{
-          title: "아래 사진으로 [자전거]를 인증할까요?",
+          title: `[자전거]를 인증할까요?`,
           onOk: async (file) => {
             bikeFile.current = file;
             setBikeUploadModalOpen(false);
@@ -140,15 +127,15 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       <BubbleChat text={"이렇게 인증해주세요!"} />
       <WhiteBox>
         <div>
-          ① 하단의 자전거 타기 인증 <EmSpan>[시작 버튼]</EmSpan> 누르기
+          ① 하단의 <EmSpan>[인증 시작]</EmSpan> 누르기
         </div>
         <div>
-          ② <EmSpan>[안전모+사용자, 자전거]</EmSpan> 인증 기준에 맞춰 촬영하기
+          ② <EmSpan>[안전모+사용자, 자전거]</EmSpan> 촬영하기
         </div>
       </WhiteBox>
       <BubbleChat text={"인증 기준"} />
       <div className="flex flex-row gap-2 overflow-x-auto">
-        {exampleImages.map((v, idx) => (
+        {EXAMPLE_IMAGES.map((v, idx) => (
           <div key={idx}>
             <ExampleStatusCard
               status={v.status ? "success" : "error"}
@@ -171,24 +158,20 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       </div>
 
       <BubbleChat
-        text={
-          isAlreadyCertified
-            ? "오늘의 인증을 완료했어요!"
-            : "여기 시작 버튼을 눌러주세요!"
-        }
+        text={isAlreadyCertified ? "오늘 인증 완료!" : "버튼을 눌러주세요!"}
       />
       {isAlreadyCertified ? (
         <button className="bg-gray-lightest p-10 text-center rounded-2xl text-gray-medium">
-          <div>하루 한 번, 점수를 받을 수 있어요!</div>
-          <div className="text-2xl font-bold">자전거 타기 인증 완료</div>
+          <div>하루 1번, 인증 할 수 있어요!</div>
+          <div className="text-2xl font-bold">인증 완료</div>
         </button>
       ) : (
         <button
           className="bg-secondary-light p-10 text-center rounded-2xl cursor-pointer"
           onClick={() => setHatUploadModalOpen(true)}
         >
-          <div>아직 인증 점수를 받지 않았어요!</div>
-          <div className="text-2xl font-bold">자전거 타기 인증 시작</div>
+          <div>아직 점수를 받지 않았어요!</div>
+          <div className="text-2xl font-bold">인증 시작</div>
         </button>
       )}
     </div>

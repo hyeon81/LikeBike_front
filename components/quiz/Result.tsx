@@ -31,7 +31,7 @@ const Result = ({ status, setStatus, explanation }: Props) => {
     } else {
       localStorage.setItem(HAS_SEEN_EXPLANATION, dayjs().format("YYYY-MM-DD"));
 
-      await updateScore(SCORE.HAS_SEEN_EXPLANATION);
+      await updateScore(SCORE.HAS_SEEN_EXPLANATION, "퀴즈 해설 확인");
       setShowModal(true);
     }
   };
@@ -41,10 +41,10 @@ const Result = ({ status, setStatus, explanation }: Props) => {
       <ButtonModal
         isOpen={showModal}
         title="‘퀴즈 해설 확인’ 완료"
-        buttonText="추가 점수 받은 내역 확인하러 가기"
+        buttonText="점수 내역 확인하기"
         contents={[explanation ?? "해설이 없습니다."]}
         onClickButton={() => {
-          router.push("/reward");
+          router.replace("/reward");
         }}
       />
 
@@ -59,13 +59,17 @@ const Result = ({ status, setStatus, explanation }: Props) => {
             className={`emphasis text-${status === QUIZ_STATUS.CORRECT ? "primary" : "error"}`}
           >
             {status === QUIZ_STATUS.CORRECT ? "정답" : "오답"}
-          </span>
+          </span>{" "}
           입니다!
         </p>
         <p className="mt-1 text-2xl">
-          {status === QUIZ_STATUS.CORRECT
-            ? "5점 적립 완료"
-            : "내일 다시 도전해주세요!"}
+          {status === QUIZ_STATUS.CORRECT ? (
+            <span>
+              안전 퀴즈 <EmSpan>5</EmSpan>점 적립 완료
+            </span>
+          ) : (
+            "내일 다시 도전해주세요!"
+          )}
         </p>
         <div className="flex flex-col items-center justify-center relative mt-10 mb-2">
           <div className="left-0 absolute top-[-28px]">
@@ -75,12 +79,11 @@ const Result = ({ status, setStatus, explanation }: Props) => {
             className="p-2 px-6 bg-black text-white rounded-full my-4 cursor-pointer"
             onClick={onClickExplanation}
           >
-            퀴즈 해설 확인하기
+            해설 확인
           </button>
         </div>
-        <div className="text-center px-4">
-          <EmSpan>[퀴즈 해설 확인하기]</EmSpan> 추가 점수는 문제당 1회
-          지급됩니다.
+        <div className="text-center px-4 text-xs">
+          <EmSpan>[해설 확인]</EmSpan> 추가 점수는 문제당 1회 지급됩니다.
           <br />
           (버튼을 누른 최초 1회만 점수 인정)
         </div>

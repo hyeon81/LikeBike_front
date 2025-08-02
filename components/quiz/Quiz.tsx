@@ -24,7 +24,7 @@ const Quiz = ({
   return (
     <>
       <div className="bg-secondary-light w-full flex flex-col items-center justify-center p-4 mt-4 text-2xl font-bold default-border">
-        {dayjs().format("YYYY-MM-DD")}
+        {dayjs().format("YYYY - MM - DD")}
       </div>
       <div className="p-6 flex flex-col gap-4 default-border bg-white">
         <div>{quiz?.question ? quiz.question : "문제가 없습니다."}</div>
