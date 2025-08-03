@@ -1,7 +1,7 @@
 interface Props {
-  chipText: string;
-  status: "success" | "error";
-  children?: React.ReactNode;
+  chipText: string
+  status: 'success' | 'error'
+  children?: React.ReactNode
 }
 
 const ExampleStatusCard = ({ chipText, status, children }: Props) => {
@@ -11,21 +11,17 @@ const ExampleStatusCard = ({ chipText, status, children }: Props) => {
         {chipText}
       </div>
       <div className="h-full">{children}</div>
-      {status == "success" ? (
-        <div
-          className={`absolute w-full bottom-0 bg-primary text-white text-center`}
-        >
+      {status == 'success' ? (
+        <div className="absolute w-full bottom-0 bg-primary text-white text-center">
           O
         </div>
       ) : (
-        <div
-          className={`absolute w-full bottom-0 bg-error text-white text-center`}
-        >
+        <div className="absolute w-full bottom-0 bg-error text-white text-center">
           X
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ExampleStatusCard;
+export default ExampleStatusCard

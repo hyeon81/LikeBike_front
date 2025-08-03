@@ -1,19 +1,19 @@
-import { useState } from "react";
-import ReactModal from "react-modal";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from '@mui/icons-material/Close'
+import { useState } from 'react'
+import ReactModal from 'react-modal'
 
 interface UploadModalProps {
   upload: {
-    title: string; // Title for the upload modal
-    contents: string[]; // Contents for the upload modal
-    isOpen: boolean; // Is the upload modal open
-    setOpen?: (open: boolean) => void; // Optional function to set the open state
-  };
+    title: string // Title for the upload modal
+    contents: string[] // Contents for the upload modal
+    isOpen: boolean // Is the upload modal open
+    setOpen?: (open: boolean) => void // Optional function to set the open state
+  }
   confirm: {
-    title: string; // Title for the confirm modal
-    onOk: (file: File) => void; // OK button handler
-  };
-  prefix?: string; // Optional prefix for the modal
+    title: string // Title for the confirm modal
+    onOk: (file: File) => void // OK button handler
+  }
+  prefix?: string // Optional prefix for the modal
 }
 
 const UploadModal = ({
@@ -21,45 +21,45 @@ const UploadModal = ({
   confirm: { title: confirmTitle, onOk },
   prefix,
 }: UploadModalProps) => {
-  const [preview, setPreview] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [preview, setPreview] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+  const [confirmOpen, setConfirmOpen] = useState(false)
 
   const handleCapture = (target: any) => {
     if (target.files) {
       if (target.files.length !== 0) {
-        const newFile = target.files[0];
-        const newUrl = URL.createObjectURL(newFile);
-        setPreview(newUrl);
-        setFile(newFile);
-        setConfirmOpen(true);
+        const newFile = target.files[0]
+        const newUrl = URL.createObjectURL(newFile)
+        setPreview(newUrl)
+        setFile(newFile)
+        setConfirmOpen(true)
       }
     }
-  };
+  }
 
   return (
     <>
       <ReactModal
-        isOpen={isOpen}
         contentLabel="Bike Count Modal"
+        isOpen={isOpen}
         style={{
           content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
             zIndex: 40,
-            width: "90%",
-            maxWidth: "400px",
-            height: "auto",
+            width: '90%',
+            maxWidth: '400px',
+            height: 'auto',
             padding: 0,
-            boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.5)",
+            boxShadow: '0 0 20px 0 rgba(0, 0, 0, 0.5)',
           },
           overlay: {
             zIndex: 30,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
           },
         }}
       >
@@ -76,45 +76,45 @@ const UploadModal = ({
             </div>
           </div>
           <label
-            htmlFor={`${prefix}-image`}
             className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
+            htmlFor={`${prefix}-image`}
           >
             사진 촬영하기
           </label>
           <input
             accept="image/*"
-            id={`${prefix}-image`}
-            type="file"
             capture="environment"
+            id={`${prefix}-image`}
             onChange={(e) => handleCapture(e.target)}
             style={{
-              visibility: "hidden",
-              position: "absolute",
+              visibility: 'hidden',
+              position: 'absolute',
               top: 0,
             }}
+            type="file"
           />
         </div>
       </ReactModal>
       <ReactModal
-        isOpen={confirmOpen}
         contentLabel="Bike Count Modal"
+        isOpen={confirmOpen}
         style={{
           content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
             zIndex: 60,
-            width: "90%",
-            maxWidth: "400px",
-            height: "auto",
+            width: '90%',
+            maxWidth: '400px',
+            height: 'auto',
             padding: 0,
           },
           overlay: {
             zIndex: 50,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
           },
         }}
       >
@@ -125,15 +125,15 @@ const UploadModal = ({
               <strong>{confirmTitle}</strong>
             </div>
             <img
-              src={preview}
-              alt={"snap"}
-              width="100%"
-              style={{
-                aspectRatio: "1/1",
-                objectFit: "cover",
-              }}
-              height="100%"
+              alt="snap"
               className="bg-gray-200 min-h-[200px]"
+              height="100%"
+              src={preview}
+              style={{
+                aspectRatio: '1/1',
+                objectFit: 'cover',
+              }}
+              width="100%"
             />
           </div>
           <div className="border-t border-gray-300 flex flex-row w-full h-full">
@@ -148,9 +148,9 @@ const UploadModal = ({
               className="flex-1 flex justify-center items-center p-4 cursor-pointer hover:bg-gray-100"
               onClick={() => {
                 if (file) {
-                  setConfirmOpen(false);
-                  onOk(file);
-                } else alert("파일이 업로드 되지 않았습니다");
+                  setConfirmOpen(false)
+                  onOk(file)
+                } else alert('파일이 업로드 되지 않았습니다')
               }}
             >
               예
@@ -159,7 +159,7 @@ const UploadModal = ({
         </div>
       </ReactModal>
     </>
-  );
-};
+  )
+}
 
-export default UploadModal;
+export default UploadModal

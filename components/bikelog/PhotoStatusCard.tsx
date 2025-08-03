@@ -1,12 +1,13 @@
-import { LOG_STATUS } from "@/types/bikeLog";
-import Image from "next/image";
+import Image from 'next/image'
+
+import { LOG_STATUS } from '@/types/bikeLog'
 
 interface Props {
-  chipText?: string;
-  status: keyof typeof LOG_STATUS;
-  imgUrl?: string;
-  strongText: string;
-  text: string;
+  chipText?: string
+  status: keyof typeof LOG_STATUS
+  imgUrl?: string
+  strongText: string
+  text: string
 }
 
 const PhotoStatusCard = ({
@@ -26,14 +27,14 @@ const PhotoStatusCard = ({
         )}
         {imgUrl && (
           <Image
-            src={imgUrl}
             alt="인증 사진"
-            width={120}
             height={160}
             objectFit="cover"
+            src={imgUrl}
             style={{
-              width: "100%",
+              width: '100%',
             }}
+            width={120}
           />
         )}
         <div className={`${LOG_STATUS[status]?.color} text-white text-center`}>
@@ -45,7 +46,7 @@ const PhotoStatusCard = ({
         <div className="font-normal">{text}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PhotoStatusCard;
+export default PhotoStatusCard

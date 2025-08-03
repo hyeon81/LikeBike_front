@@ -1,14 +1,15 @@
-"use client";
+'use client'
 
-import { getReward } from "@/apis/user/getReward";
-import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+
+import { getReward } from '@/apis/user/getReward'
 
 export default function Home() {
   const { data } = useQuery({
-    queryKey: ["reward"],
+    queryKey: ['reward'],
     queryFn: getReward,
-  });
+  })
 
   return (
     <div>
@@ -18,9 +19,9 @@ export default function Home() {
       </div>
       <div className="mt-4">
         {data?.map((reward) => {
-          const date = dayjs(reward.created_at?.replace("GMT", "")).format(
-            "YYYY-MM-DD HH:mm"
-          );
+          const date = dayjs(reward.created_at?.replace('GMT', '')).format(
+            'YYYY-MM-DD HH:mm',
+          )
 
           return (
             <div key={reward.id} className="flex flex-row justify-between ">
@@ -34,9 +35,9 @@ export default function Home() {
                 <p className="text-gray-500">{reward.reward_reason}</p>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }

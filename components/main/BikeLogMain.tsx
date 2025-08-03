@@ -1,22 +1,20 @@
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import MainBase from "./MainBase";
+import Image from 'next/image'
 
-const BikeLogMain = () => {
-  const router = useRouter();
+import MainBase from './MainBase'
 
+function BikeLogMain() {
   return (
     <MainBase
       chipTitle="매일"
       path="/bikelog"
-      title="자전거 타기 인증"
       scoreText="+30점"
+      title="자전거 타기 인증"
     >
       <div className="mt-5">
-        <Image width={100} height={100} src="/icons/bike.svg" alt="bike" />
+        <Image alt="bike" height={100} src="/icons/bike.svg" width={100} />
       </div>
     </MainBase>
-  );
-};
+  )
+}
 
-export default BikeLogMain;
+export default BikeLogMain

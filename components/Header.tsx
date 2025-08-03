@@ -1,43 +1,44 @@
-"use client";
+'use client'
 
-import { getProfile } from "@/apis/user/getProfile";
-import { Avatar } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import { Avatar } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
+
+import { getProfile } from '@/apis/user/getProfile'
 
 const Header = () => {
-  const pathname = usePathname();
-  const router = useRouter();
+  const pathname = usePathname()
+  const router = useRouter()
 
-  const notAllowedPaths = ["/signin", "/signup", "/oauth"];
-  const isMain = pathname === "/";
+  const notAllowedPaths = ['/signin', '/signup', '/oauth']
+  const isMain = pathname === '/'
 
   const { data: user } = useQuery({
-    queryKey: ["profile"],
+    queryKey: ['profile'],
     queryFn: getProfile,
     enabled: !notAllowedPaths.includes(pathname),
-  });
+  })
 
-  if (notAllowedPaths.includes(pathname)) return <></>;
+  if (notAllowedPaths.includes(pathname)) return null
 
   return (
     <div className="w-full h-16 flex flex-row items-center justify-between px-4 mt-1">
       {isMain ? (
         <>
           <Image
-            src="/images/logo.svg"
             alt="logo"
-            width={231}
-            height={36}
-            onClick={() => router.push("/")}
             className="cursor-pointer"
+            height={36}
+            onClick={() => router.push('/')}
+            src="/images/logo.svg"
+            width={231}
           />
           <Avatar
-            onClick={() => router.push("/my")}
-            sx={{ cursor: "pointer" }}
+            onClick={() => router.push('/my')}
             src={user?.profile_image_url ?? undefined}
+            sx={{ cursor: 'pointer' }}
           />
         </>
       ) : (
@@ -49,7 +50,7 @@ const Header = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

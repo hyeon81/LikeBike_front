@@ -1,16 +1,17 @@
-import { IResponse } from "@/types/base";
-import { axiosInstance } from "../axiosInstance";
-import { IBikeLog } from "@/types/bikeLog";
+import { IResponse } from '@/types/base'
+import { IBikeLog } from '@/types/bikeLog'
+
+import { axiosInstance } from '../axiosInstance'
 
 const getBikeLog: () => Promise<IBikeLog[]> = async () => {
   try {
     const response =
-      await axiosInstance.get<IResponse<IBikeLog[]>>("/users/bike-logs");
+      await axiosInstance.get<IResponse<IBikeLog[]>>('/users/bike-logs')
     if (response.status < 200 || response.status >= 300) {
-      throw new Error("Failed to fetch bike logs");
+      throw new Error('Failed to fetch bike logs')
     }
-    return response?.data?.data;
-    //mockup 데이터 리턴
+    return response?.data?.data
+    // mockup 데이터 리턴
     // return [
     //   {
     //     id: 1,
@@ -42,9 +43,9 @@ const getBikeLog: () => Promise<IBikeLog[]> = async () => {
     //   },
     // ];
   } catch (error) {
-    console.error("Error fetching bike log:", error);
-    throw error;
+    console.error('Error fetching bike log:', error)
+    throw error
   }
-};
+}
 
-export default getBikeLog;
+export default getBikeLog

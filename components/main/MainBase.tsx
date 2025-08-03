@@ -1,5 +1,6 @@
-import { useRouter } from "next/navigation";
-import ScoreLabel from "./ScoreLabel";
+import { useRouter } from 'next/navigation'
+
+import ScoreLabel from './ScoreLabel'
 
 const MainBase = ({
   title,
@@ -8,13 +9,13 @@ const MainBase = ({
   scoreText,
   children,
 }: {
-  title: string;
-  chipTitle: string;
-  path: string;
-  scoreText: string;
-  children?: React.ReactNode;
+  title: string
+  chipTitle: string
+  path: string
+  scoreText: string
+  children?: React.ReactNode
 }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div
@@ -28,7 +29,7 @@ const MainBase = ({
       </div>
       <div className="text-[20px] font-bold whitespace-nowrap">{title}</div>
     </div>
-  );
-};
+  )
+}
 
-export default MainBase;
+export default MainBase

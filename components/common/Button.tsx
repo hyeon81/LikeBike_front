@@ -6,7 +6,7 @@ const Button = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
     >
       {props.children}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

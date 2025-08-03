@@ -1,6 +1,7 @@
-import { IResponse } from "@/types/base";
-import { axiosInstance } from "../axiosInstance";
-import { IUserProfile } from "@/types/user";
+import { IResponse } from '@/types/base'
+import { IUserProfile } from '@/types/user'
+
+import { axiosInstance } from '../axiosInstance'
 
 //   "data": [
 //     {
@@ -21,11 +22,11 @@ import { IUserProfile } from "@/types/user";
 export const getProfile = async () => {
   try {
     const response =
-      await axiosInstance.get<IResponse<IUserProfile[]>>(`/users/profile`);
+      await axiosInstance.get<IResponse<IUserProfile[]>>(`/users/profile`)
     if (response.status < 200 || response.status >= 300) {
-      throw new Error("Failed to fetch user profile");
+      throw new Error('Failed to fetch user profile')
     }
-    return response?.data?.data[0];
+    return response?.data?.data[0]
 
     // return {
     //   benefits: "혜택 정보",
@@ -41,7 +42,7 @@ export const getProfile = async () => {
     //   username: "사용자명",
     // };
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-    throw new Error("Failed to fetch user profile");
+    console.error('Error fetching user profile:', error)
+    throw new Error('Failed to fetch user profile')
   }
-};
+}

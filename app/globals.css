@@ -21,6 +21,8 @@
   --color-gray-medium: #969696;
   --color-gray-dark: #646464;
   --color-text-primary: #323232; /* Dark text color */
+  --color-contrast: #f5c4c4; /* Contrast color for text */
+  --color-contrast-dark: #ff7272;
 }
 
 /* @media (prefers-color-scheme: dark) {

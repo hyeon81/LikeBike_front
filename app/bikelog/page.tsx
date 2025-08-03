@@ -1,19 +1,19 @@
-"use client";
+'use client'
 
-import * as React from "react";
+import * as React from 'react'
 
-import BikeLogGuide from "@/components/bikelog/BikeLogGuide";
-import BikeLogList from "@/components/bikelog/BikeLogList";
-import TabList from "@/components/common/TabList";
+import BikeLogGuide from '@/components/bikelog/BikeLogGuide'
+import BikeLogList from '@/components/bikelog/BikeLogList'
+import TabList from '@/components/common/TabList'
 
 export default function Home() {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(1)
 
   return (
     <div>
       <div className="flex">
         <TabList active={value == 1} onClick={() => setValue(1)}>
-          인증하기
+          추천하기
         </TabList>
         <TabList active={value == 2} onClick={() => setValue(2)}>
           인증 내역 보기
@@ -23,5 +23,5 @@ export default function Home() {
         {value == 1 ? <BikeLogGuide setValue={setValue} /> : <BikeLogList />}
       </div>
     </div>
-  );
+  )
 }

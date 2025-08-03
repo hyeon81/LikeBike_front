@@ -1,14 +1,12 @@
-import { useState } from "react";
-import ReactModal from "react-modal";
-import CommonModal from "./CommonModal";
+import CommonModal from './CommonModal'
 
 interface ButtonModalProps {
-  title: string; // Title for the modal
-  contents: string[]; // Contents for the modal
-  buttonText: string; // Text for the button
-  onClickButton: () => void; // Optional click handler for the button
-  isOpen: boolean; // Optional prop to control modal visibility
-  isList?: boolean; // Optional prop to display contents as a list
+  title: string // Title for the modal
+  contents: string[] // Contents for the modal
+  buttonText: string // Text for the button
+  onClickButton: () => void // Optional click handler for the button
+  isOpen: boolean // Optional prop to control modal visibility
+  isList?: boolean // Optional prop to display contents as a list
 }
 
 const ButtonModal = ({
@@ -27,14 +25,14 @@ const ButtonModal = ({
           <div className="flex flex-col mt-1">
             {contents.map((content, index) =>
               isList ? (
-                <li className="font-normal list-disc pl-4" key={index}>
+                <li key={index} className="font-normal list-disc pl-4">
                   {content}
                 </li>
               ) : (
-                <div className="font-normal" key={index}>
+                <div key={index} className="font-normal">
                   {content}
                 </div>
-              )
+              ),
             )}
           </div>
         </div>
@@ -46,7 +44,7 @@ const ButtonModal = ({
         </button>
       </div>
     </CommonModal>
-  );
-};
+  )
+}
 
-export default ButtonModal;
+export default ButtonModal

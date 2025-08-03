@@ -1,23 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import PrimaryBox from "../common/PrimaryBox";
-import WhiteBox from "../common/WhiteBox";
-import { getCourse } from "@/apis/course/getCourse";
-import ToggleContent from "../common/ToggleContent";
-import PhotoStatusCard from "../bikelog/PhotoStatusCard";
-import { LOG_STATUS } from "@/types/bikeLog";
-import dayjs from "dayjs";
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 
-require("dayjs/locale/ko");
-dayjs.locale("ko");
+import { getCourse } from '@/apis/course/getCourse'
+import { LOG_STATUS } from '@/types/bikeLog'
+
+import PhotoStatusCard from '../bikelog/PhotoStatusCard'
+import PrimaryBox from '../common/PrimaryBox'
+import ToggleContent from '../common/ToggleContent'
+import WhiteBox from '../common/WhiteBox'
+
+require('dayjs/locale/ko')
+dayjs.locale('ko')
 
 const CourseList = () => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["courseList"],
+    queryKey: ['courseList'],
     queryFn: getCourse,
-  });
+  })
 
   return (
-    <div>
+    <>
       <div className="flex flex-col gap-">
         <PrimaryBox>내가 추천한 코스의 인증 완료 내역을 확인하세요</PrimaryBox>
         <WhiteBox>
@@ -30,28 +32,33 @@ const CourseList = () => {
       </div>
       <div className="mt-4 flex flex-col not-only-of-type:gap-4">
         {data && data.length > 0 ? (
-          data.map((course, idx) => (
-            <ToggleContent
-              title={`${idx + 1}회차 - ${dayjs(course.created_at?.replace("GMT", "")).format("YYYY년 MM월 DD일, A hh시 mm분")}`}
-              defaultValue={idx === 0}
-              key={course.id}
-            >
-              <div className="w-[150px]">
-                <PhotoStatusCard
-                  status={course.status as keyof typeof LOG_STATUS}
-                  imgUrl={course.photo_url}
-                  strongText={"[" + course.location_name + "]"}
-                  text={course?.review}
-                />
-              </div>
-            </ToggleContent>
-          ))
+          data.map(
+            (
+              { id, created_at, status, photo_url, location_name, review },
+              idx,
+            ) => (
+              <ToggleContent
+                key={id}
+                defaultValue={idx === 0}
+                title={`${idx + 1}회차 - ${dayjs(created_at?.replace('GMT', '')).format('YYYY년 MM월 DD일, A hh시 mm분')}`}
+              >
+                <div className="w-[150px]">
+                  <PhotoStatusCard
+                    imgUrl={photo_url}
+                    status={status as keyof typeof LOG_STATUS}
+                    strongText={`[${location_name}]`}
+                    text={review}
+                  />
+                </div>
+              </ToggleContent>
+            ),
+          )
         ) : (
           <div>아직 인증 내역이 없습니다.</div>
         )}
       </div>
-    </div>
-  );
-};
+    </>
+  )
+}
 
-export default CourseList;
+export default CourseList

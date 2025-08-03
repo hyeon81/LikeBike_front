@@ -1,18 +1,14 @@
-import styled from "styled-components";
-import { useRouter } from "next/navigation";
-import ScoreLabel from "./ScoreLabel";
-import MainBase from "./MainBase";
+import MainBase from './MainBase'
 
-const CourseMain = () => {
-  const router = useRouter();
+function CourseMain() {
   return (
     <MainBase
       chipTitle="주 2회"
       path="/course"
-      title="자전거 코스 추천"
       scoreText="+10점"
+      title="자전거 코스 추천"
     />
-  );
-};
+  )
+}
 
-export default CourseMain;
+export default CourseMain
