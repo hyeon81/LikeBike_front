@@ -7,6 +7,7 @@ interface ButtonModalProps {
   onClickButton: () => void // Optional click handler for the button
   isOpen: boolean // Optional prop to control modal visibility
   isList?: boolean // Optional prop to display contents as a list
+  isRed?: boolean // Optional prop to style the button
 }
 
 const ButtonModal = ({
@@ -16,6 +17,7 @@ const ButtonModal = ({
   onClickButton,
   isOpen,
   isList,
+  isRed
 }: ButtonModalProps) => {
   return (
     <CommonModal modalIsOpen={isOpen}>
@@ -37,7 +39,7 @@ const ButtonModal = ({
           </div>
         </div>
         <button
-          className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
+          className={`text-white py-2 px-4 rounded-lg cursor-pointer ${isRed ? 'bg-contrast-dark' : 'bg-primary'}`}
           onClick={onClickButton}
         >
           {buttonText}

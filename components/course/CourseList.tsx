@@ -5,10 +5,12 @@ import { getCourse } from '@/apis/course/getCourse'
 import { LOG_STATUS } from '@/types/bikeLog'
 
 import PhotoStatusCard from '../bikelog/PhotoStatusCard'
-import PrimaryBox from '../common/PrimaryBox'
+import BubbleChat from '../common/BubbleChat'
+import EmSpan from '../common/EmSpan'
 import ToggleContent from '../common/ToggleContent'
 import WhiteBox from '../common/WhiteBox'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require('dayjs/locale/ko')
 dayjs.locale('ko')
 
@@ -20,17 +22,23 @@ const CourseList = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-">
-        <PrimaryBox>내가 추천한 코스의 인증 완료 내역을 확인하세요</PrimaryBox>
+      <div className="flex flex-col gap-4">
+        <BubbleChat text="‘추천 내역’ 이란?" />
         <WhiteBox>
-          ① [인증 검토]가 완료된 내역을 확인할 수 있습니다. <br />② 검토 결과는
-          [O, X]로 나타납니다.
-          <br /> ③ 인증 기준은 다음과 같습니다. <br />
-          * 요구하는 내용을 모두 입력했는지 여부
-          <br />* 비속어, 부적절한 내용 존재 여부
+          <div>
+            ① <EmSpan>[올바른 코스 추천]</EmSpan>인지 검토합니다.
+          </div>
+          <div>② 코스 추천은 ‘검토 중’ 상태로 전환됩니다.</div>
+          <div>
+            ③ 검토 결과를 <EmSpan>[O, X]</EmSpan>로 나타냅니다.
+          </div>
+          <div>
+            ④ <EmSpan>[풍경 사진, 추천 이유]</EmSpan> 모두가 <br />
+            인정되면 점수를 지급 받습니다.
+          </div>
         </WhiteBox>
       </div>
-      <div className="mt-4 flex flex-col not-only-of-type:gap-4">
+      <div className="mt-4 flex flex-col gap-4">
         {data && data.length > 0 ? (
           data.map(
             (
@@ -40,15 +48,17 @@ const CourseList = () => {
               <ToggleContent
                 key={id}
                 defaultValue={idx === 0}
-                title={`${idx + 1}회차 - ${dayjs(created_at?.replace('GMT', '')).format('YYYY년 MM월 DD일, A hh시 mm분')}`}
+                title={`[${LOG_STATUS[status as keyof typeof LOG_STATUS].text}] ${dayjs(created_at?.replace('GMT', '')).format('YYYY-MM-DD, A hh시 mm분')}`}
               >
-                <div className="w-[150px]">
-                  <PhotoStatusCard
-                    imgUrl={photo_url}
-                    status={status as keyof typeof LOG_STATUS}
-                    strongText={`[${location_name}]`}
-                    text={review}
-                  />
+                <div className="flex flex-row gap-4 px-10 pt-2">
+                  <div className="w-[150px]">
+                    <PhotoStatusCard
+                      chipText={location_name}
+                      imgUrl={photo_url}
+                      status={status as keyof typeof LOG_STATUS}
+                      text={review}
+                    />
+                  </div>
                 </div>
               </ToggleContent>
             ),

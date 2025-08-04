@@ -1,15 +1,17 @@
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 import { createCourse } from '@/apis/course/createCourse'
 import { getCourseCount } from '@/apis/course/getCourseCount'
-import Button from '@/components/common/Button'
 import { RIVER_LIST } from '@/constant/riverList'
+import PhotoIcon from '@/public/icons/PhotoIcon'
+import { getCompressionImage } from '@/utils/getCompressionImage'
 
-import CommonModal from '../common/CommonModal'
-import PrimaryBox from '../common/PrimaryBox'
+import BubbleChat from '../common/BubbleChat'
+import ButtonModal from '../common/ButtonModal'
+import EmSpan from '../common/EmSpan'
 import WhiteBox from '../common/WhiteBox'
 
 const CourseCreate = ({ goToList }: { goToList: () => void }) => {
@@ -18,26 +20,32 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
     queryFn: getCourseCount,
   })
 
-  console.log('Course Status:', courseCount)
-  const isAlreadyCertified = courseCount && courseCount > 0
-
-  const router = useRouter()
   const [image, setImage] = useState<File | null>(null)
   const [imgPreview, setImgPreview] = useState<string | null>(null)
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [errorModalIsOpen, setErrorModalIsOpen] = useState(false)
 
-  const locationName = useRef<HTMLSelectElement>(null) // Placeholder for location name
-  const review = useRef<HTMLTextAreaElement>(null) // Placeholder for review content
+  const [locationName, setLocationName] = useState<string>('') // Placeholder for location name
+  const [openLocation, setOpenLocation] = useState(false)
+  const [review, setReview] = useState<string>('') // Placeholder for review content
+
+  // const isAlreadyCertified = courseCount && courseCount > 0
+  const isAlreadyCertified = true
 
   const onSubmit = async () => {
-    if (image) {
-      console.log('Image submitted:', image)
+    if (locationName === '' || review === '' || !image) {
+      setErrorModalIsOpen(true)
+      return
+    }
 
+    if (image) {
       try {
+        const compressedImage = await getCompressionImage(image)
+
         await createCourse({
-          location_name: locationName.current?.value || '', // Replace with actual location name
-          review: review.current?.value || '', // Replace with actual review
-          photo: image,
+          location_name: locationName || '', // Replace with actual location name
+          review: review || '', // Replace with actual review
+          photo: compressedImage,
         })
         setModalIsOpen(true)
       } catch (error) {
@@ -48,62 +56,87 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
       alert('이미지를 업로드해주세요.')
     }
   }
+
   return (
     <div className="flex flex-col gap-4">
-      <CommonModal
-        modalIsOpen={modalIsOpen}
-        // closeModal={() => setModalIsOpen(false)}
-      >
-        코스 추천하기를 N회차를 완료하셨습니다! <br />
-        * 운영자 검토 후 1~2일 이내로 포인트가 적립됩니다. <br />* 베스트 코스는
-        새소식을 통해 다른 사람에게도 공유됩니다!
-        <div className="flex gap-2 mt-4">
-          <Button
-            onClick={() => {
-              setModalIsOpen(false)
-              router.push('/')
-            }}
-          >
-            홈으로 돌아가기
-          </Button>
-          <Button
-            onClick={() => {
-              setModalIsOpen(false)
-              goToList()
-            }}
-          >
-            나의 인증 내역 보러가기
-          </Button>
-        </div>
-      </CommonModal>
+      <ButtonModal
+        buttonText="추천 내역 확인하기"
+        contents={[
+          '점수 지급에 1~2일이 소요됩니다.',
+          '점수는 자동 지급됩니다.',
+        ]}
+        isList
+        isOpen={modalIsOpen}
+        isRed
+        onClickButton={() => {
+          setModalIsOpen(false)
+          goToList()
+        }}
+        title="‘자전거 코스 추천’ 제출 실패"
+      />
+      <ButtonModal
+        buttonText="확인"
+        contents={['한강공원 선택 / 사진 업로드 / 추천 이유', '작성 필요']}
+        isOpen={errorModalIsOpen}
+        isRed
+        onClickButton={() => {
+          setErrorModalIsOpen(false)
+        }}
+        title="‘자전거 코스 추천’ 완료"
+      />
+      <BubbleChat text="이렇게 인증해주세요!" />
       <div className="flex flex-col gap-2">
         <WhiteBox>
-          <div>코스를 추천하고, 추가 포인트를 얻어볼까요?</div>
-          <div>나만의 장소와 이유를 소개하고, 공유해주세요!</div>
+          <div>
+            ① 추천하고 싶은 <EmSpan>[한강공원]</EmSpan> 선택하기
+          </div>
+          <div>
+            ② <EmSpan>[풍경 사진]</EmSpan> 업로드하기
+          </div>
+          <div>
+            ③ <EmSpan>[추천 이유]</EmSpan>를 적고 코스 추천 제출하기
+          </div>
         </WhiteBox>
-        <PrimaryBox>
-          ① 장소 입력창에 장소 입력하기(ex: 난지 한강 공원) <br />② 촬영한
-          사진을 업로드
-          <br />③ 추천하는 이유를 30자 이하로 작성하기
-        </PrimaryBox>
       </div>
-      <div className="flex flex-col gap-4">
-        <select
-          ref={locationName}
-          className="border border-gray-300 rounded-md p-2"
-          defaultValue=""
-        >
-          <option disabled value="">
-            장소 선택
-          </option>
-          {RIVER_LIST.map((river) => (
-            <option key={river} value={river}>
-              {river}
-            </option>
-          ))}
-        </select>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
+          <div className="relative flex flex-row w-full justify-center">
+            <BubbleChat isRight text="선택 버튼을 눌러주세요!" />
+          </div>
+          <div
+            className="flex flex-row mt-4 cursor-pointer"
+            onClick={() => setOpenLocation(!openLocation)}
+          >
+            <div
+              className={`border-[1.5px] border-contrast-dark py-2 px-5 ${locationName == '' ? 'text-gray-light' : 'text-black'} flex-1`}
+            >
+              {locationName === ''
+                ? '추천하고 싶은 한강공원을 선택해주세요'
+                : locationName}
+            </div>
+            <div className="w-[47px] h-auto  bg-contrast-dark flex flex-col items-center justify-center">
+              <KeyboardArrowDownIcon fontSize="large" sx={{ color: 'white' }} />
+            </div>
+          </div>
+          {openLocation && (
+            <div className="grid grid-cols-2 gap-2 px-4 py-8 bg-gray-lightest rounded-b-2xl border-[1.5px] border-contrast-dark border-t-0">
+              {RIVER_LIST.map((river) => (
+                <div
+                  key={river}
+                  className={`py-3 text-center cursor-pointer ${locationName == river ? 'bg-contrast-dark text-white' : 'bg-white'}`}
+                  onClick={() => {
+                    setLocationName(river)
+                    setOpenLocation(false)
+                  }}
+                >
+                  {river}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <label
-          className="bgz-secondary-light rounded-2xl h-[280px] w-full flex items-center justify-center cursor-pointer"
+          className={`${isAlreadyCertified ? 'bg-gray-lightest' : 'bg-contrast'} rounded-2xl h-[174px] w-full flex items-center justify-center cursor-pointer`}
           htmlFor="file-upload"
         >
           {imgPreview ? (
@@ -116,7 +149,14 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
               />
             </div>
           ) : (
-            <div className="text-3xl font-bold">사진 업로드하기</div>
+            <div className="flex flex-col items-center justify-center gap-2">
+              <PhotoIcon color={isAlreadyCertified ? '#969696' : '#FF7272'} />
+              <div
+                className={`${isAlreadyCertified ? 'text-gray-medium' : 'text-contrast-dark'}`}
+              >
+                사진 업로드 하기
+              </div>
+            </div>
           )}
         </label>
         <input
@@ -137,26 +177,25 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
           type="file"
         />
         <textarea
-          ref={review}
-          className="border border-gray-300 rounded-md p-2"
-          maxLength={50}
-          placeholder="추천 이유를 입력해주세요 (50자 이내)"
-          rows={4}
+          className="border border-contrast-dark px-8 py-4 outline-none"
+          onChange={(e) => {
+            const value = e.target.value.replace(/\s/g, '')
+            if (value.length <= 50) {
+              setReview(e.target.value)
+            }
+          }}
+          placeholder="추천하는 이유를 50자 이내로 적어주세요"
+          rows={3}
+          style={{ resize: 'none' }}
+          value={review}
         />
-        <Button
+        <button
+          className={`${isAlreadyCertified ? 'bg-gray-lightest text-gray-medium' : 'bg-contrast-dark text-white'} p-4 rounded-xl text-center text-lg font-bold mt-4 cursor-pointer`}
           disabled={!!isAlreadyCertified}
           onClick={onSubmit}
-          style={
-            isAlreadyCertified
-              ? {
-                  backgroundColor: 'gray',
-                  cursor: 'not-allowed',
-                }
-              : {}
-          }
         >
-          {isAlreadyCertified ? '주 2회 인증을 완료하셨습니다' : '인증하기'}
-        </Button>
+          {isAlreadyCertified ? '코스 추천 제출 완료' : '코스 추천 제출하기'}
+        </button>
       </div>
     </div>
   )

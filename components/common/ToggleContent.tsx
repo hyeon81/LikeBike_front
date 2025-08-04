@@ -15,7 +15,7 @@ const ToggleContent = ({
   const [open, setOpen] = useState(defaultValue)
 
   return (
-    <div className="flex flex-col gap-1 items-center">
+    <div className="flex flex-col gap-1">
       <div
         className="cursor-pointer flex flex-row gap-2"
         onClick={() => setOpen(!open)}

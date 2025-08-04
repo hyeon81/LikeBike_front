@@ -8,8 +8,8 @@ import { ACCESS_TOKEN } from '@/constant/storageName'
 
 const OAuthPage = () => {
   const getCode = async () => {
-    const code = new URLSearchParams(window.location.search).get('code')
     const router = useRouter()
+    const code = new URLSearchParams(window.location.search).get('code')
 
     // 서버에 code 보내기
     if (code) {

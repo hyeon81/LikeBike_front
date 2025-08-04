@@ -25,7 +25,7 @@ export default function Home() {
           추천 내역 보기
         </TabList>
       </div>
-      <div className="bg-white p-4">
+      <div className="bg-white p-4 default-border">
         {value == 1 ? (
           <CourseCreate
             goToList={() => {

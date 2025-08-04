@@ -13,6 +13,7 @@ import EmSpan from '../common/EmSpan'
 import WhiteBox from '../common/WhiteBox'
 import ExampleStatusCard from './ExampleStatusCard'
 import UploadModal from './UploadModal'
+import { getCompressionImage } from '@/utils/getCompressionImage'
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const hatFile = useRef<File | null>(null)
@@ -30,21 +31,9 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
 
   const handleUpload = async () => {
     if (hatFile.current && bikeFile.current) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1000,
-        useWebWorker: true,
-      }
-
       try {
-        const compressedbikeFile = await imageCompression(
-          bikeFile.current,
-          options,
-        )
-        const compressedHatFile = await imageCompression(
-          hatFile.current,
-          options,
-        )
+        const compressedbikeFile = await getCompressionImage(bikeFile.current)
+        const compressedHatFile = await getCompressionImage(hatFile.current)
 
         // console.log("Compressed Files:", {
         //   bike: compressedbikeFile,

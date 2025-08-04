@@ -6,7 +6,7 @@ interface Props {
   chipText?: string
   status: keyof typeof LOG_STATUS
   imgUrl?: string
-  strongText: string
+  // strongText: string
   text: string
 }
 
@@ -14,7 +14,7 @@ const PhotoStatusCard = ({
   chipText,
   status,
   imgUrl,
-  strongText,
+  // strongText,
   text,
 }: Props) => {
   return (
@@ -25,24 +25,17 @@ const PhotoStatusCard = ({
             {chipText}
           </div>
         )}
-        {imgUrl && (
-          <Image
-            alt="인증 사진"
-            height={160}
-            objectFit="cover"
-            src={imgUrl}
-            style={{
-              width: '100%',
-            }}
-            width={120}
-          />
-        )}
+        <div className="h-[160px] w-[120px] overflow-hidden">
+          {imgUrl && (
+            <Image alt="인증 사진" fill objectFit="cover" src={imgUrl} />
+          )}
+        </div>
         <div className={`${LOG_STATUS[status]?.color} text-white text-center`}>
           {LOG_STATUS[status]?.text}
         </div>
       </div>
       <div className="text-sm flex flex-col gap-1">
-        <strong>{strongText}</strong>
+        {/* <strong>{strongText}</strong> */}
         <div className="font-normal">{text}</div>
       </div>
     </div>
