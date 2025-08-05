@@ -7,8 +7,8 @@ import { useEffect } from 'react'
 import { ACCESS_TOKEN } from '@/constant/storageName'
 
 const OAuthPage = () => {
+  const router = useRouter()
   const getCode = async () => {
-    const router = useRouter()
     const code = new URLSearchParams(window.location.search).get('code')
 
     // 서버에 code 보내기
