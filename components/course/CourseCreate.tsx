@@ -29,7 +29,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const [openLocation, setOpenLocation] = useState(false)
   const [review, setReview] = useState<string>('') // Placeholder for review content
 
-  const isAlreadyCertified = courseCount && courseCount > 0
+  const isAlreadyCertified = courseCount && courseCount >= 2
 
   const onSubmit = async () => {
     if (locationName === '' || review === '' || !image) {
