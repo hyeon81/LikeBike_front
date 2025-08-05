@@ -15,7 +15,7 @@ import EmSpan from '../common/EmSpan'
 import WhiteBox from '../common/WhiteBox'
 
 const CourseCreate = ({ goToList }: { goToList: () => void }) => {
-  const { data: courseCount } = useQuery({
+  const { data: courseCount, refetch } = useQuery({
     queryKey: ['courseCount'],
     queryFn: getCourseCount,
   })
@@ -69,6 +69,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
         isRed
         onClickButton={() => {
           setModalIsOpen(false)
+          refetch()
           goToList()
         }}
         title="‘자전거 코스 추천’ 완료"
@@ -107,10 +108,10 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
             onClick={() => {if (!isAlreadyCertified) setOpenLocation(!openLocation)}}
           >
             <div
-              className={`border-[1.5px] border-contrast-dark py-2 px-5 ${locationName == '' ? 'text-gray-light' : 'text-black'} flex-1`}
+              className={`border-[1.5px] border-contrast-dark py-2 px-8 ${locationName == '' ? 'text-gray-light' : 'text-black'} flex-1`}
             >
               {locationName === ''
-                ? '추천하고 싶은 한강공원을 선택해주세요'
+                ? '한강공원을 선택해주세요'
                 : locationName}
             </div>
             <div className="w-[47px] h-auto  bg-contrast-dark flex flex-col items-center justify-center">
@@ -177,7 +178,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
           type="file"
         />
         <textarea
-          className="border border-contrast-dark px-8 py-4 outline-none"
+          className="border border-contrast-dark px-8 py-4 outline-none placeholder:text-gray-light"
           onChange={(e) => {
             const value = e.target.value.replace(/\s/g, '')
             if (value.length <= 50) {
@@ -185,9 +186,9 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
             }
           }}
           disabled={!!isAlreadyCertified}
-          placeholder="추천하는 이유를 50자 이내로 적어주세요"
+          placeholder="추천 이유를 50자 이내로 적어주세요"
           rows={3}
-          style={{ resize: 'none' }}
+          style={{ resize: 'none', fontFamily: 'noto-sans' }}
           value={review}
         />
         <button

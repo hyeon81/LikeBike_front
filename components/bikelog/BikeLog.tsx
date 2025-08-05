@@ -22,7 +22,7 @@ const BikeLog = ({
       defaultValue={defaultOpen}
       title={`[${LOG_STATUS[verification_status].text}] ${dayjs(started_at?.replace('GMT', '')).format('YYYY-MM-DD, A hh시 mm분')}`}
     >
-      <div className="flex flex-row gap-4 px-10 pt-2">
+      <div className="flex flex-row gap-4 px-8 pt-2">
         <PhotoStatusCard
           chipText="자전거+사용자"
           imgUrl={bike_photo_url}

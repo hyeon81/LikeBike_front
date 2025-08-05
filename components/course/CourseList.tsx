@@ -50,7 +50,7 @@ const CourseList = () => {
                 defaultValue={idx === 0}
                 title={`[${LOG_STATUS[status as keyof typeof LOG_STATUS].text}] ${dayjs(created_at?.replace('GMT', '')).format('YYYY-MM-DD, A hh시 mm분')}`}
               >
-                <div className="flex flex-row gap-4 px-10 pt-2">
+                <div className="flex flex-row gap-4 px-8 pt-2">
                   <div className="w-[150px]">
                     <PhotoStatusCard
                       chipText={location_name}
