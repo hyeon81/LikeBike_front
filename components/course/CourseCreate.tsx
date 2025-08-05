@@ -159,7 +159,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
           )}
         </label>
         <input
-        disabled={isAlreadyCertified}
+        disabled={!!isAlreadyCertified}
           accept="image/*"
           className="hidden"
           id="file-upload"
@@ -184,7 +184,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
               setReview(e.target.value)
             }
           }}
-          disabled={isAlreadyCertified}
+          disabled={!!isAlreadyCertified}
           placeholder="추천하는 이유를 50자 이내로 적어주세요"
           rows={3}
           style={{ resize: 'none' }}
