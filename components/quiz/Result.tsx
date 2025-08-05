@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import updateScore from '@/apis/user/updateScore'
 import { QuizStatus } from '@/app/quiz/page'
@@ -21,16 +21,21 @@ interface Props {
 const Result = ({ status, setStatus, explanation }: Props) => {
   const router = useRouter()
   const [showModal, setShowModal] = useState(false)
+  const [hasSeenExplanation, setHasSeenExplanation] = useState(false)
+
+  useEffect(() => {
+      setHasSeenExplanation(localStorage.getItem(HAS_SEEN_EXPLANATION) == dayjs().format('YYYY-MM-DD'))
+  }, [])
 
   const onClickExplanation = async () => {
     setShowModal(true)
     const res = localStorage.getItem(HAS_SEEN_EXPLANATION)
 
     if (res == dayjs().format('YYYY-MM-DD')) {
-      console.log('res', res, dayjs().format('YYYY-MM-DD'))
       return
     } else {
       localStorage.setItem(HAS_SEEN_EXPLANATION, dayjs().format('YYYY-MM-DD'))
+      setHasSeenExplanation(true)
 
       await updateScore(SCORE.HAS_SEEN_EXPLANATION, '퀴즈 해설 확인')
       setShowModal(true)
@@ -66,16 +71,16 @@ const Result = ({ status, setStatus, explanation }: Props) => {
         <p className="mt-1 text-2xl">
           {status === QUIZ_STATUS.CORRECT ? (
             <span>
-              안전 퀴즈 <EmSpan>5</EmSpan>점 적립 완료
+              안전 퀴즈 <EmSpan>{SCORE.QUIZ_CORRECT}</EmSpan>점 적립 완료
             </span>
           ) : (
             '내일 다시 도전해주세요!'
           )}
         </p>
         <div className="flex flex-col items-center justify-center relative mt-10 mb-2">
-          <div className="left-0 absolute top-[-28px]">
-            <BubbleChat isPrimary={true} text="+5점" />
-          </div>
+            {!hasSeenExplanation && <div className="absolute top-[-28px] left-[-16px]">
+              <BubbleChat isPrimary={true} text={`+${SCORE.HAS_SEEN_EXPLANATION}점`} />
+            </div>}
           <button
             className="p-2 px-6 bg-black text-white rounded-full my-4 cursor-pointer"
             onClick={onClickExplanation}
@@ -83,10 +88,13 @@ const Result = ({ status, setStatus, explanation }: Props) => {
             해설 확인
           </button>
         </div>
-        <div className="text-center px-4 text-xs">
+        <div className="text-center px-4 text-xs flex flex-col gap-1">
+          <div>
           <EmSpan>[해설 확인]</EmSpan> 추가 점수는 문제당 1회 지급됩니다.
-          <br />
+          </div>
+          <div>
           (버튼을 누른 최초 1회만 점수 인정)
+          </div>
         </div>
       </div>
 

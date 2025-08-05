@@ -23,7 +23,7 @@ const BikeLogList = () => {
       <BubbleChat text="‘인증 내역’ 이란?" />
       <WhiteBox>
         <div>
-          ① <EmSpan>[인증 기준]</EmSpan>에 부합한 사진인지 검토합니다.
+          ① <EmSpan> [기준에 부합한 사진]</EmSpan>인지 검토합니다.
         </div>
         <div>② 사진은 ‘검토 중’ 상태로 전환됩니다.</div>
         <div>

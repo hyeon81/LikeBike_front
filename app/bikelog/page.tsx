@@ -13,10 +13,10 @@ export default function Home() {
     <div>
       <div className="flex">
         <TabList active={value == 1} onClick={() => setValue(1)}>
-          추천하기
+          인증
         </TabList>
         <TabList active={value == 2} onClick={() => setValue(2)}>
-          인증 내역 보기
+          인증 내역
         </TabList>
       </div>
       <div className="bg-white p-4 default-border">

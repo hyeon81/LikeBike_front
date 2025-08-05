@@ -15,7 +15,7 @@ require('dayjs/locale/ko')
 dayjs.locale('ko')
 
 const CourseList = () => {
-  const { data, error, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['courseList'],
     queryFn: getCourse,
   })

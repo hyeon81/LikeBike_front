@@ -47,7 +47,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           bike_photo: compressedbikeFile,
           safety_gear_photo: compressedHatFile,
         })
-        alert('자전거 타기 인증이 완료되었습니다!')
+        // alert('자전거 타기 인증이 완료되었습니다!')
         hatFile.current = null
         bikeFile.current = null
         setCompleteModalOpen(true)
@@ -62,10 +62,10 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   return (
     <div className="flex flex-col gap-4">
       <ButtonModal
-        buttonText="자전거 인증 내역 보기"
+        buttonText="인증 내역 확인하기"
         contents={[
           '점수 지급에 1~2일이 소요됩니다.',
-          '모든 사진 인정 시, 점수가 지급됩니다.',
+          '점수는 자동 지급됩니다.',
         ]}
         isList
         isOpen={completeModalOpen}
@@ -73,7 +73,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           setValue(2)
           setCompleteModalOpen(false)
         }}
-        title="‘자전거 타기 인증’ 완료!"
+        title="‘자전거 타기 인증’ 완료"
       />
       <UploadModal
         confirm={{

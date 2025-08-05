@@ -20,7 +20,7 @@ const PATH = '/users/course-recommendations'
 export const getCourse: () => Promise<ICourse[]> = async () => {
   try {
     const response = await axiosInstance.get<IResponse<ICourse[]>>(`${PATH}`)
-    // return response?.data?.data
+    return response?.data?.data
     return [
       {
         created_at: '2025-08-01T12:30:00Z',

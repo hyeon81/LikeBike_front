@@ -34,6 +34,7 @@ const Header = () => {
             onClick={() => router.push('/')}
             src="/images/logo.svg"
             width={231}
+            priority
           />
           <Avatar
             onClick={() => router.push('/my')}

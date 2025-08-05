@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <Container>
-      <Image alt="logo" height={36} src="/images/logo.svg" width={231} />
+      <Image alt="logo" height={36} src="/images/logo.svg" width={231} priority/>
       <ImageContainer
         onClick={() => {
           const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${window.location.origin}/oauth&response_type=code`
@@ -20,7 +20,7 @@ export default function Home() {
           }
         }}
       >
-        <Image alt="login" fill src="/images/kakao_login_medium_wide.png" />
+        <Image alt="login" fill src="/images/kakao_login_large_wide.png" priority/>
       </ImageContainer>
     </Container>
   )

@@ -39,13 +39,13 @@ const RewardMain = () => {
         </div>
       )}
 
-      <div className="relative w-full h-[50px] bg-white border-2 border-black flex items-center ">
+      <div className="relative w-full h-[50px] bg-transparent border-2 border-black flex items-center z-10">
         <div className="absolute left-[20%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
         <div className="absolute left-[40%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
         <div className="absolute left-[60%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
         <div className="absolute left-[80%] top-0 h-[48px] border-r border-black border-[1.5px] z-10"></div>
         <div
-          className="h-[50px]"
+          className="h-[50px] border-2 border-black border-r-0 border-l-0"
           style={{
             width: `${((points ?? 0) / 500) * 100}%`,
             backgroundColor: `rgba(0,180,147,${level?.opacity ?? 0})`,
