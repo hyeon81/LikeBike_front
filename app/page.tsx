@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
-import BikeLogMain from '@/components/main/BikeLogMain'
-import CourseMain from '@/components/main/CourseMain'
-import NewsMain from '@/components/main/NewsMain'
-import QuizMain from '@/components/main/QuizMain'
-import RewardMain from '@/components/main/RewardMain'
+import BikeLogMain from "@/components/main/BikeLogMain";
+import CourseMain from "@/components/main/CourseMain";
+import NewsMain from "@/components/main/NewsMain";
+import NewsTempMain from "@/components/main/NewsTempMain";
+import QuizMain from "@/components/main/QuizMain";
+import RewardMain from "@/components/main/RewardMain";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
           <CourseMain />
         </div>
       </div>
-      <NewsMain />
+      <NewsTempMain />
     </div>
-  )
+  );
 }
