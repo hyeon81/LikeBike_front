@@ -37,7 +37,7 @@ const Result = ({ status, setStatus, explanation }: Props) => {
       localStorage.setItem(HAS_SEEN_EXPLANATION, dayjs().format('YYYY-MM-DD'))
       setHasSeenExplanation(true)
 
-      await updateScore(SCORE.HAS_SEEN_EXPLANATION, '퀴즈 해설 확인')
+      await updateScore(SCORE.HAS_SEEN_EXPLANATION, '해설 확인')
       setShowModal(true)
     }
   }

@@ -32,7 +32,7 @@ export default function Home() {
         </div>
       </WhiteBox>
       </div>
-      <div className="mt-4 flex flex-col gap-[10px]">
+      <div className="mt-4 flex flex-col gap-[10px] p-2">
         {data?.map((reward) => {
           const date = dayjs(reward.created_at?.replace('GMT', '')).format(
             'YYYY-MM-DD HH:mm',

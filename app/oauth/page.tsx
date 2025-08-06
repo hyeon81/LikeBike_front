@@ -26,13 +26,13 @@ const OAuthPage = () => {
 
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem(ACCESS_TOKEN, data.data[0].access_token)
-        router.push('/')
+        router.replace('/')
       } else {
         throw new Error('Failed to authenticate with OAuth')
       }
     } else {
       if (confirm('로그인에 실패했습니다. 다시 시도해주세요.')) {
-        router.push('/signin')
+        router.replace('/signin')
       }
     }
   }
