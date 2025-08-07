@@ -1,39 +1,39 @@
-import { useQuery } from '@tanstack/react-query'
-import imageCompression from 'browser-image-compression'
-import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useQuery } from "@tanstack/react-query";
+import imageCompression from "browser-image-compression";
+import Image from "next/image";
+import { useRef, useState } from "react";
 
-import createBikeLog from '@/apis/bikelog/createBikeLog'
-import { getBikeCount } from '@/apis/bikelog/getBikeCount'
-import { EXAMPLE_IMAGES } from '@/constant/bikelog'
+import createBikeLog from "@/apis/bikelog/createBikeLog";
+import { getBikeCount } from "@/apis/bikelog/getBikeCount";
+import { EXAMPLE_IMAGES } from "@/constant/bikelog";
 
-import BubbleChat from '../common/BubbleChat'
-import ButtonModal from '../common/ButtonModal'
-import EmSpan from '../common/EmSpan'
-import WhiteBox from '../common/WhiteBox'
-import ExampleStatusCard from './ExampleStatusCard'
-import UploadModal from './UploadModal'
-import { getCompressionImage } from '@/utils/getCompressionImage'
+import BubbleChat from "../common/BubbleChat";
+import ButtonModal from "../common/ButtonModal";
+import EmSpan from "../common/EmSpan";
+import WhiteBox from "../common/WhiteBox";
+import ExampleStatusCard from "./ExampleStatusCard";
+import UploadModal from "./UploadModal";
+import { getCompressionImage } from "@/utils/getCompressionImage";
 
 const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
-  const hatFile = useRef<File | null>(null)
-  const bikeFile = useRef<File | null>(null)
-  const [hatUploadModalOpen, setHatUploadModalOpen] = useState(false)
-  const [bikeUploadModalOpen, setBikeUploadModalOpen] = useState(false)
-  const [completeModalOpen, setCompleteModalOpen] = useState(false)
+  const hatFile = useRef<File | null>(null);
+  const bikeFile = useRef<File | null>(null);
+  const [hatUploadModalOpen, setHatUploadModalOpen] = useState(false);
+  const [bikeUploadModalOpen, setBikeUploadModalOpen] = useState(false);
+  const [completeModalOpen, setCompleteModalOpen] = useState(false);
 
   const { data: bikeCount } = useQuery({
-    queryKey: ['bikeCount'],
+    queryKey: ["bikeCount"],
     queryFn: getBikeCount,
-  })
+  });
 
-  const isAlreadyCertified = bikeCount && bikeCount > 0
+  const isAlreadyCertified = bikeCount && bikeCount > 0;
 
   const handleUpload = async () => {
     if (hatFile.current && bikeFile.current) {
       try {
-        const compressedbikeFile = await getCompressionImage(bikeFile.current)
-        const compressedHatFile = await getCompressionImage(hatFile.current)
+        const compressedbikeFile = await getCompressionImage(bikeFile.current);
+        const compressedHatFile = await getCompressionImage(hatFile.current);
 
         // console.log("Compressed Files:", {
         //   bike: compressedbikeFile,
@@ -46,32 +46,32 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         await createBikeLog({
           bike_photo: compressedbikeFile,
           safety_gear_photo: compressedHatFile,
-        })
+        });
         // alert('자전거 타기 인증이 완료되었습니다!')
-        hatFile.current = null
-        bikeFile.current = null
-        setCompleteModalOpen(true)
+        hatFile.current = null;
+        bikeFile.current = null;
+        setCompleteModalOpen(true);
       } catch (error) {
-        alert('인증에 실패했습니다. 다시 시도해주세요: ' + error)
+        alert("인증에 실패했습니다. 다시 시도해주세요: " + error);
       }
     } else {
-      alert('모든 사진을 업로드해주세요!')
+      alert("모든 사진을 업로드해주세요!");
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <ButtonModal
         buttonText="인증 내역 확인하기"
         contents={[
-          '점수 지급에 1~2일이 소요됩니다.',
-          '점수는 자동 지급됩니다.',
+          "점수 지급에 1~2일이 소요됩니다.",
+          "점수는 자동 지급됩니다.",
         ]}
         isList
         isOpen={completeModalOpen}
         onClickButton={() => {
-          setValue(2)
-          setCompleteModalOpen(false)
+          setValue(2);
+          setCompleteModalOpen(false);
         }}
         title="‘자전거 타기 인증’ 완료"
       />
@@ -79,16 +79,16 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         confirm={{
           title: `[안전모+사용자]를 인증할까요?`,
           onOk: (file) => {
-            hatFile.current = file
-            setHatUploadModalOpen(false)
-            setBikeUploadModalOpen(true)
+            hatFile.current = file;
+            setHatUploadModalOpen(false);
+            setBikeUploadModalOpen(true);
           },
         }}
         upload={{
-          title: '[안전모+사용자] 촬영',
+          title: "[안전모+사용자] 촬영",
           contents: [
-            '안전모를 착용한 사용자 얼굴이',
-            '보이는 정면 사진을 촬영',
+            "안전모를 착용한 사용자 얼굴이",
+            "보이는 정면 사진을 촬영",
           ],
           isOpen: hatUploadModalOpen,
           setOpen: setHatUploadModalOpen,
@@ -98,16 +98,16 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         confirm={{
           title: `[자전거]를 인증할까요?`,
           onOk: async (file) => {
-            bikeFile.current = file
-            setBikeUploadModalOpen(false)
-            await handleUpload()
+            bikeFile.current = file;
+            setBikeUploadModalOpen(false);
+            await handleUpload();
           },
         }}
         upload={{
-          title: '[자전거] 촬영',
+          title: "[자전거] 촬영",
           contents: [
-            '브레이크, 벨, 전조등, 후미등, 거치대가',
-            ' 확인되는 자전거 사진을 촬영',
+            "브레이크, 벨, 후미등, 거치대가",
+            " 확인되는 자전거 사진을 촬영",
           ],
           isOpen: bikeUploadModalOpen,
           setOpen: setBikeUploadModalOpen,
@@ -128,7 +128,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           <div key={idx}>
             <ExampleStatusCard
               chipText={v.chipText}
-              status={v.status ? 'success' : 'error'}
+              status={v.status ? "success" : "error"}
             >
               <Image
                 alt="example"
@@ -136,10 +136,11 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
                 height={160}
                 src={`/images/bikelog/image${v.imageIdx}.png`}
                 width={120}
+                priority
               />
             </ExampleStatusCard>
             <div className="text-xs mt-2 flex flex-col gap-1">
-              <strong>[인증 {v.status ? '성공' : '실패'}] </strong>
+              <strong>[인증 {v.status ? "성공" : "실패"}] </strong>
               {v.description}
             </div>
           </div>
@@ -147,7 +148,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
       </div>
 
       <BubbleChat
-        text={isAlreadyCertified ? '오늘 인증 완료!' : '버튼을 눌러주세요!'}
+        text={isAlreadyCertified ? "오늘 인증 완료!" : "버튼을 눌러주세요!"}
       />
       {isAlreadyCertified ? (
         <button className="bg-gray-lightest p-10 text-center rounded-2xl text-gray-medium">
@@ -164,7 +165,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default BikeLogGuide
+export default BikeLogGuide;
