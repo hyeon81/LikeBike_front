@@ -9,13 +9,13 @@ export const EXAMPLE_IMAGES = [
     status: false,
     chipText: "안전모+사용자",
     description: "안전모를 착용한 사용자 얼굴이 가려진 정면 사진",
-    imageIdx: 2,
+    imageIdx: 10,
   },
   {
     status: false,
     chipText: "안전모+사용자",
     description: "안전모를 착용한 사용자를 확인할 수 없는 사진",
-    imageIdx: 3,
+    imageIdx: 11,
   },
   {
     status: true,
