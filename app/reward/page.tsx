@@ -24,7 +24,7 @@ export default function Home() {
       <div className='mt-11'>
       <WhiteBox>
         <div className='mb-1'>
-        지금까지 적립된 모든 점수 내역을 볼 수 있어요.
+        지금까지 적립된 모든 점수를 볼 수 있어요.
         </div>
         <Divider/>
         <div className='mt-1'>
