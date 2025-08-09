@@ -3,7 +3,6 @@
 import BikeLogMain from "@/components/main/BikeLogMain";
 import CourseMain from "@/components/main/CourseMain";
 import NewsMain from "@/components/main/NewsMain";
-import NewsTempMain from "@/components/main/NewsTempMain";
 import QuizMain from "@/components/main/QuizMain";
 import RewardMain from "@/components/main/RewardMain";
 
@@ -18,7 +17,7 @@ export default function Home() {
           <CourseMain />
         </div>
       </div>
-      <NewsTempMain />
+      <NewsMain />
     </div>
   );
 }

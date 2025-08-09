@@ -1,10 +1,10 @@
-import './globals.css'
+import "./globals.css";
 
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-import type { Metadata } from 'next'
-import { Noto_Sans_KR } from 'next/font/google'
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import type { Metadata } from "next";
+import { Noto_Sans_KR } from "next/font/google";
 
-import BaseLayout from '@/components/BaseLayout'
+import BaseLayout from "@/components/BaseLayout";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -17,20 +17,23 @@ import BaseLayout from '@/components/BaseLayout'
 // });
 
 const notoSansKR = Noto_Sans_KR({
-  variable: '--font-noto-sans-kr',
-  subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700', '900'],
-})
+  variable: "--font-noto-sans-kr",
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 export const metadata: Metadata = {
-  title: 'LIKE BIKE',
-  description: 'LIKE BIKE는 자전거를 타는 사람들을 위한 플랫폼입니다.',
-}
+  title: "LikeBike",
+  description: "LikeBike는 자전거를 타는 사람들을 위한 플랫폼입니다.",
+  icons: {
+    icon: "/icons/appLogo.svg",
+  },
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="ko">
@@ -43,5 +46,5 @@ export default function RootLayout({
         </AppRouterCacheProvider>
       </body>
     </html>
-  )
+  );
 }

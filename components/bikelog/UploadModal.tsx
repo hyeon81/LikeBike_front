@@ -92,6 +92,7 @@ const UploadModal = ({
               top: 0,
             }}
             type="file"
+            
           />
         </div>
       </ReactModal>

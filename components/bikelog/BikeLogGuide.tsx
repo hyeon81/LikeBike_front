@@ -32,9 +32,6 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
   const handleUpload = async () => {
     if (hatFile.current && bikeFile.current) {
       try {
-        const compressedbikeFile = await getCompressionImage(bikeFile.current);
-        const compressedHatFile = await getCompressionImage(hatFile.current);
-
         // console.log("Compressed Files:", {
         //   bike: compressedbikeFile,
         //   hat: compressedHatFile,
@@ -44,8 +41,8 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         // console.log("size of hatFile:", compressedHatFile.size);
 
         await createBikeLog({
-          bike_photo: compressedbikeFile,
-          safety_gear_photo: compressedHatFile,
+          bike_photo: bikeFile.current,
+          safety_gear_photo: hatFile.current,
         });
         // alert('자전거 타기 인증이 완료되었습니다!')
         hatFile.current = null;

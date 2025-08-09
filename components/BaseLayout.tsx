@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { CircularProgress } from '@mui/material'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { usePathname, useRouter } from 'next/navigation'
-import { ReactNode, useEffect, useState } from 'react'
+import { CircularProgress } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
 
-import { ACCESS_TOKEN } from '@/constant/storageName'
+import { ACCESS_TOKEN } from "@/constant/storageName";
 
-import Header from './Header'
+import Header from "./Header";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -21,27 +21,32 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
         staleTime: 1000 * 60 * 5, // 5분 동안은 stale 상태가 아님 → 재요청 안함
       },
     },
-  })
+  });
 
   // 로컬스토리지에 accessToken이 없으면 로그인 페이지로 이동
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN)
-    if (!accessToken && pathname !== '/signin' && pathname !== '/oauth') {
-      router.push('/signin')
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    if (!accessToken && pathname !== "/signin" && pathname !== "/oauth") {
+      router.push("/signin");
+    } else if (
+      accessToken &&
+      (pathname === "/signin" || pathname === "/oauth")
+    ) {
+      router.push("/");
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [pathname, router])
+  }, [pathname, router]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <CircularProgress />
       </div>
-    )
+    );
   }
 
   return (
@@ -55,7 +60,7 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
         </div>
       </div>
     </QueryClientProvider>
-  )
-}
+  );
+};
 
-export default BaseLayout
+export default BaseLayout;
