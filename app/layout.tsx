@@ -26,7 +26,9 @@ export const metadata: Metadata = {
   title: "LikeBike",
   description: "LikeBike는 자전거를 타는 사람들을 위한 플랫폼입니다.",
   icons: {
-    icon: "/icons/appLogo.svg",
+    icon: "/app/favicon.ico",
+    apple: "/app/favicon.ico",
+    shortcut: "/icons/appLogo.svg",
   },
 };
 
