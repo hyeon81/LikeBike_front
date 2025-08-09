@@ -1,42 +1,42 @@
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-import { CircularProgress } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import Slider from 'react-slick'
+import { CircularProgress } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Slider from "react-slick";
 
-import { NewsItem } from '@/app/api/news/route'
+import { NewsItem } from "@/app/api/news/route";
 
 const NewsMain = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const getNewsFromNotion = async () => {
     // Fetch news data from Notion API
-    const response = await fetch('/api/news')
+    const response = await fetch("/api/news");
     if (!response.ok) {
-      throw new Error('Failed to fetch news')
+      throw new Error("Failed to fetch news");
     }
-    const data = await response.json()
-    return data as NewsItem[]
-  }
+    const data = await response.json();
+    return data.reverse() as NewsItem[];
+  };
 
   // react query를 사용하여 뉴스 데이터를 가져옴
   const { data: news, isLoading } = useQuery<NewsItem[] | undefined>({
-    queryKey: ['news'],
+    queryKey: ["news"],
     queryFn: getNewsFromNotion,
-  })
+  });
 
-  console.log('news', news)
+  console.log("news", news);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
         <CircularProgress />
       </div>
-    )
+    );
   }
 
   const settings = {
@@ -48,7 +48,7 @@ const NewsMain = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: false,
-  }
+  };
 
   return (
     <div className="cursor-pointer h-full min-h-[100px] slider-container">
@@ -64,14 +64,14 @@ const NewsMain = () => {
                 className="rounded-[30px] object-cover"
                 fill
                 priority
-                src={item?.thumbnail ?? '/icons/logo.png'}
+                src={item?.thumbnail ?? "/icons/logo.png"}
               />
             </div>
           </Link>
         ))}
       </Slider>
     </div>
-  )
-}
+  );
+};
 
-export default NewsMain
+export default NewsMain;
