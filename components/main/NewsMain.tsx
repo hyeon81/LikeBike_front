@@ -54,7 +54,12 @@ const NewsMain = () => {
     <div className="cursor-pointer h-full min-h-[100px] slider-container">
       <Slider {...settings}>
         {news?.map((item) => (
-          <a key={item.id} href={`${item.url}`} rel="noopener noreferrer">
+          <a
+            key={item.id}
+            href={`${item.url}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <div
               key={item.id}
               className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] min-h-[170px] rounded-[30px] relative"
