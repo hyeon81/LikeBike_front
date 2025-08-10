@@ -44,7 +44,13 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
           review: review || "", // Replace with actual review
           photo: image,
         });
+
         setModalIsOpen(true);
+
+        setLocationName("");
+        setReview("");
+        setImage(null);
+        setImgPreview(null);
       } catch (error) {
         console.error("Error creating course:", error);
         alert("코스 추천에 실패했습니다. 다시 시도해주세요.");

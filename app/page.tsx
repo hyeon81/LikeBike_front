@@ -14,7 +14,7 @@ export default function Home() {
   const isBlock = dayjs().format("YYYY-MM-DD") == "2025-08-10";
   return (
     <>
-      <ButtonModal
+      {/* <ButtonModal
         isOpen={isBlock}
         buttonText="서비스 안내 보기"
         contents={[
@@ -28,7 +28,7 @@ export default function Home() {
           );
         }}
         hasBackDrop={true}
-      />
+      /> */}
       <div className="flex flex-col w-full h-full gap-6">
         <RewardMain />
         <div className="grid grid-cols-2 gap-2 h-full">
