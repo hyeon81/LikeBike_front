@@ -24,7 +24,7 @@ export default function Home() {
         title="🎉 곧 만나요!"
         onClickButton={() => {
           router.push(
-            `https://www.notion.so/22957842371d80f7a36dd27c1ec0d192?v=22757842371d80dab4ac000ce7a6f8c5&source=copy_link`
+            `https://bony-billboard-d87.notion.site/23557842371d805b9c13feea01333b03`
           );
         }}
         hasBackDrop={true}
