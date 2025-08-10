@@ -70,9 +70,7 @@ const UploadModal = ({
           <div className="flex flex-col gap-1 mb-6">
             <strong className="text-lg">{title}</strong>
             <div>
-              {contents.map((content, index) => (
-                <p key={index}>{content}</p>
-              ))}
+              {contents?.map((content, index) => <p key={index}>{content}</p>)}
             </div>
           </div>
           <label
@@ -92,7 +90,6 @@ const UploadModal = ({
               top: 0,
             }}
             type="file"
-            
           />
         </div>
       </ReactModal>

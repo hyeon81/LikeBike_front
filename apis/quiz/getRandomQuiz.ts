@@ -1,10 +1,10 @@
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
-import { IQuiz } from '@/types/quiz'
+import { IQuiz } from "@/types/quiz";
 
-import { axiosInstance } from '../axiosInstance'
+import { axiosInstance } from "../axiosInstance";
 
-const PATH = '/quizzes'
+const PATH = "/quizzes";
 
 // const example = {
 //   answers: ["모자", "선글라스", "헬멧", "장갑"],
@@ -19,17 +19,17 @@ const PATH = '/quizzes'
 
 export const getRandomQuiz: () => Promise<IQuiz | undefined> = async () => {
   try {
-    const res = await axiosInstance.get(PATH)
-    const data = res?.data?.data
+    const res = await axiosInstance.get(PATH);
+    const data = res?.data?.data;
 
-    const count = localStorage.getItem('quizCount')
-    const len = data?.length || 0
-    const index = count ? parseInt(count) % len : 0
+    const count = localStorage.getItem("quizCount");
+    const len = data?.length || 0;
+    const index = count ? parseInt(count) % len : 0;
 
-    const quiz: IQuiz | undefined = data?.[index]
-    return quiz
+    const quiz: IQuiz | undefined = data?.[index];
+    return quiz;
   } catch (e) {
-    console.error('e', e)
-    throw new Error('Failed to fetch todos')
+    console.error("e", e);
+    throw new Error("Failed to fetch todos");
   }
-}
+};
