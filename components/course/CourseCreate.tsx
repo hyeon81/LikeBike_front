@@ -24,7 +24,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const [imgPreview, setImgPreview] = useState<string | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [locationName, setLocationName] = useState<string>(""); // Placeholder for location name
   const [openLocation, setOpenLocation] = useState(false);
   const [review, setReview] = useState<string>(""); // Placeholder for review content
@@ -39,6 +39,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
 
     if (image) {
       try {
+        setLoading(true);
         await createCourse({
           location_name: locationName || "", // Replace with actual location name
           review: review || "", // Replace with actual review
@@ -48,6 +49,8 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
       } catch (error) {
         console.error("Error creating course:", error);
         alert("코스 추천에 실패했습니다. 다시 시도해주세요.");
+      } finally {
+        setLoading(false);
       }
     } else {
       alert("이미지를 업로드해주세요.");
@@ -191,8 +194,10 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
         />
         <button
           className={`${isAlreadyCertified ? "bg-gray-lightest text-gray-medium" : "bg-contrast-dark text-white cursor-pointer"} p-4 rounded-xl text-center text-lg font-bold mt-4`}
-          disabled={!!isAlreadyCertified}
-          onClick={onSubmit}
+          disabled={!!isAlreadyCertified || loading}
+          onClick={() => {
+            if (!loading) onSubmit();
+          }}
         >
           {isAlreadyCertified ? "코스 추천 제출 완료" : "코스 추천 제출하기"}
         </button>
