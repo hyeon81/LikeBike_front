@@ -73,6 +73,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         title="‘자전거 타기 인증’ 완료"
       />
       <UploadModal
+        prefix="hat"
         confirm={{
           title: `[안전모+사용자]를 인증할까요?`,
           onOk: (file) => {
@@ -92,6 +93,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
         }}
       />
       <UploadModal
+        prefix="bike"
         confirm={{
           title: `[자전거]를 인증할까요?`,
           onOk: async (file) => {

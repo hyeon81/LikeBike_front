@@ -1,12 +1,12 @@
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
-import { LOG_STATUS, UserBikeLog } from '@/types/bikeLog'
+import { LOG_STATUS, UserBikeLog } from "@/types/bikeLog";
 
-import ToggleContent from '../common/ToggleContent'
-import PhotoStatusCard from './PhotoStatusCard'
+import ToggleContent from "../common/ToggleContent";
+import PhotoStatusCard from "./PhotoStatusCard";
 
-require('dayjs/locale/ko')
-dayjs.locale('ko')
+require("dayjs/locale/ko");
+dayjs.locale("ko");
 
 const BikeLog = ({
   bike_photo_url,
@@ -15,12 +15,12 @@ const BikeLog = ({
   started_at,
   defaultOpen,
 }: UserBikeLog & {
-  defaultOpen?: boolean
+  defaultOpen?: boolean;
 }) => {
   return (
     <ToggleContent
       defaultValue={defaultOpen}
-      title={`[${LOG_STATUS[verification_status].text}] ${dayjs(started_at?.replace('GMT', '')).format('YYYY-MM-DD, A hh시 mm분')}`}
+      title={`[${LOG_STATUS[verification_status].text}] ${dayjs(started_at?.replace("GMT", "")).format("YYYY-MM-DD, A hh시 mm분")}`}
     >
       <div className="flex flex-row gap-4 px-8 pt-2">
         <PhotoStatusCard
@@ -37,7 +37,7 @@ const BikeLog = ({
         />
       </div>
     </ToggleContent>
-  )
-}
+  );
+};
 
-export default BikeLog
+export default BikeLog;

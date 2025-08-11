@@ -31,14 +31,16 @@ export default function Home() {
       />
       <div className="flex flex-col w-full h-full gap-6">
         <RewardMain />
-        <div className="grid grid-cols-2 gap-2 h-full">
+        <div className="grid grid-cols-2 gap-2">
           <BikeLogMain />
-          <div className="flex flex-col gap-2 h-full">
+          <div className="flex flex-col gap-2">
             <QuizMain />
             <CourseMain />
           </div>
         </div>
-        <NewsMain />
+        <div>
+          <NewsMain />
+        </div>
       </div>
     </>
   );

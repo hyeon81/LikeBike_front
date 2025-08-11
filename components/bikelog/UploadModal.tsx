@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
 interface UploadModalProps {
@@ -30,12 +30,20 @@ const UploadModal = ({
       if (target.files.length !== 0) {
         const newFile = target.files[0];
         const newUrl = URL.createObjectURL(newFile);
+        const oldUrl = preview;
         setPreview(newUrl);
+        URL.revokeObjectURL(oldUrl); // Clean up old URL
         setFile(newFile);
         setConfirmOpen(true);
       }
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, []);
 
   return (
     <>
