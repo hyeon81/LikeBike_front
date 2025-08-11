@@ -20,7 +20,7 @@ const NewsMain = () => {
       throw new Error("Failed to fetch news");
     }
     const data = await response.json();
-    
+
     return data.reverse() as NewsItem[];
   };
 

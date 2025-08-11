@@ -41,8 +41,8 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
       try {
         setLoading(true);
         await createCourse({
-          location_name: locationName || "", // Replace with actual location name
-          review: review || "", // Replace with actual review
+          location_name: locationName,
+          review: review,
           photo: image,
         });
         setModalIsOpen(true);
