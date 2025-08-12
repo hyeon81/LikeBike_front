@@ -18,7 +18,7 @@ const PhotoStatusCard = ({
   text,
 }: Props) => {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col w-full">
       <div className="bg-black relative">
         {chipText && (
           <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-2 left-2 text-xs font-normal">
