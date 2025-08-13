@@ -20,7 +20,7 @@ export interface UserBikeLog {
 }
 
 export const LOG_STATUS = {
-  pending: { text: "검토 중", color: "bg-orange-500" },
-  verified: { text: "인증 완료", color: "bg-green-500" },
-  rejected: { text: "인증 실패", color: "bg-red-500" },
+  pending: { text: "검토 중", color: "bg-gray-light" },
+  verified: { text: "인증 완료", color: "bg-primary" },
+  rejected: { text: "인증 실패", color: "bg-error" },
 };

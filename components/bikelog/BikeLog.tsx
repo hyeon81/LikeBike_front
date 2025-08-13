@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { LOG_STATUS, UserBikeLog } from "@/types/bikeLog";
+import { IBikeLog, LOG_STATUS, UserBikeLog } from "@/types/bikeLog";
 
 import ToggleContent from "../common/ToggleContent";
 import PhotoStatusCard from "./PhotoStatusCard";
@@ -13,10 +13,18 @@ const BikeLog = ({
   safety_gear_photo_url,
   verification_status,
   started_at,
+  admin_notes,
   defaultOpen,
-}: UserBikeLog & {
+}: IBikeLog & {
   defaultOpen?: boolean;
 }) => {
+  const text =
+    verification_status === "pending"
+      ? "올바르게 인증했다면, 자동으로 자전거 타기 점수 30점이 적립돼요!"
+      : verification_status === "verified"
+        ? "자전거 타기 점수 30점 적립완료"
+        : admin_notes || "";
+
   return (
     <ToggleContent
       defaultValue={defaultOpen}
@@ -27,13 +35,13 @@ const BikeLog = ({
           chipText="자전거+사용자"
           imgUrl={bike_photo_url}
           status={verification_status}
-          text="올바르게 인증했다면, 자동으로 자전거 타기 점수 30점이 적립돼요!"
+          text={text}
         />
         <PhotoStatusCard
           chipText="안전모"
           imgUrl={safety_gear_photo_url}
           status={verification_status}
-          text="올바르게 인증했다면, 자동으로 자전거 타기 점수 30점이 적립돼요!"
+          text={text}
         />
       </div>
     </ToggleContent>
