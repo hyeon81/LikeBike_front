@@ -35,7 +35,20 @@ export async function GET() {
     }
 
     const news: NewsItem[] = data?.results
-      ?.map((page: any) => {
+      ?.sort((page1: any, page2: any) => {
+        const properties1 = page1.properties;
+        const properties2 = page2.properties;
+
+        const indexProps1 = properties1.번호;
+        const indexProps2 = properties2.번호;
+
+        //번호 순으로 정렬
+        const index1 = indexProps1?.number || 0;
+        const index2 = indexProps2?.number || 0;
+
+        return index2 - index1;
+      })
+      .map((page: any) => {
         if (!page) return undefined;
 
         const properties = page.properties;
