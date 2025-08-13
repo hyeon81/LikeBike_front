@@ -32,14 +32,14 @@ const BikeLog = ({
     >
       <div className="flex flex-row gap-4 px-8 pt-2">
         <PhotoStatusCard
-          chipText="자전거+사용자"
-          imgUrl={bike_photo_url}
+          chipText="안전모+사용자"
+          imgUrl={safety_gear_photo_url}
           status={verification_status}
           text={text}
         />
         <PhotoStatusCard
-          chipText="안전모"
-          imgUrl={safety_gear_photo_url}
+          chipText="자전거"
+          imgUrl={bike_photo_url}
           status={verification_status}
           text={text}
         />
