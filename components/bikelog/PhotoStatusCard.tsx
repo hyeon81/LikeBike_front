@@ -25,9 +25,17 @@ const PhotoStatusCard = ({
             {chipText}
           </div>
         )}
-        <div className="h-[160px] w-[120px] overflow-hidden">
+        <div>
           {imgUrl && (
-            <Image alt="인증 사진" fill objectFit="cover" src={imgUrl} />
+            <img
+              alt="인증 사진"
+              src={imgUrl}
+              style={{
+                objectFit: "cover",
+                width: "150px",
+                height: "160px",
+              }}
+            />
           )}
         </div>
       </div>

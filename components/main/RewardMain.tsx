@@ -1,33 +1,33 @@
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
-import { getProfile } from '@/apis/user/getProfile'
-import { REWARD_LEVEL } from '@/constant/rewardLevel'
+import { getProfile } from "@/apis/user/getProfile";
+import { REWARD_LEVEL } from "@/constant/rewardLevel";
 
 const RewardMain = () => {
-  const router = useRouter()
-  const { data } = useQuery({ queryKey: ['profile'], queryFn: getProfile })
+  const router = useRouter();
+  const { data } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
 
-  const points = data?.experience_points
+  const points = data?.experience_points;
 
   const level = useMemo(() => {
-    if (!points) return undefined
-    if (points < 100) return REWARD_LEVEL[0]
-    if (points < 200) return REWARD_LEVEL[1]
-    if (points < 300) return REWARD_LEVEL[2]
-    if (points < 400) return REWARD_LEVEL[3]
-    if (points < 500) return REWARD_LEVEL[4]
-    return REWARD_LEVEL[5]
-  }, [points])
+    if (!points) return undefined;
+    if (points < 100) return REWARD_LEVEL[0];
+    if (points < 200) return REWARD_LEVEL[1];
+    if (points < 300) return REWARD_LEVEL[2];
+    if (points < 400) return REWARD_LEVEL[3];
+    if (points < 500) return REWARD_LEVEL[4];
+    return REWARD_LEVEL[5];
+  }, [points]);
 
   return (
     <div className="card">
       {data ? (
         <div className="mb-4 font-medium">
-          <span className="underline">{data?.username}</span> 님의 자전거 레벨은{' '}
-          <span className="underline">{level?.name}</span>{' '}
+          <span className="underline">{data?.username}</span> 님의 자전거 레벨은{" "}
+          <span className="underline">{level?.name}</span>{" "}
           <span>
             (<span className="underline">{points}</span>
           </span>
@@ -66,21 +66,21 @@ const RewardMain = () => {
         <button
           className=" h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#969696] text-xs px-4 py-2 cursor-pointer"
           onClick={() => {
-            location.href = process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL ?? ''
+            location.href = process.env.NEXT_PUBLIC_LEVEL_GUIDE_URL ?? "";
           }}
         >
-          <Image alt="notice" height={16} src="/icons/notice.svg" width={16} />
+          <img alt="notice" height={16} src="/icons/notice.svg" width={16} />
           <span className="text-center">레벨 안내</span>
         </button>
         <button
           className="h-full rounded-[32px] flex flex-row items-center justify-center gap-2 text-white bg-[#00B493] text-xs px-4 py-2 cursor-pointer"
-          onClick={() => router.push('/reward')}
+          onClick={() => router.push("/reward")}
         >
           점수 내역
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RewardMain
+export default RewardMain;

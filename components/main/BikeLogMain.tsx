@@ -1,6 +1,6 @@
-import Image from 'next/image'
+import Image from "next/image";
 
-import MainBase from './MainBase'
+import MainBase from "./MainBase";
 
 function BikeLogMain() {
   return (
@@ -11,10 +11,10 @@ function BikeLogMain() {
       title="자전거 타기 인증"
     >
       <div className="mt-5">
-        <Image alt="bike" height={100} src="/icons/bike.svg" width={100} />
+        <img alt="bike" height={100} src="/icons/bike.svg" width={100} />
       </div>
     </MainBase>
-  )
+  );
 }
 
-export default BikeLogMain
+export default BikeLogMain;

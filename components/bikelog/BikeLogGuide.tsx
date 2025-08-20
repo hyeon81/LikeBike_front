@@ -129,13 +129,12 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
               chipText={v.chipText}
               status={v.status ? "success" : "error"}
             >
-              <Image
+              <img
                 alt="example"
                 className="object-cover h-full pb-4"
                 height={160}
                 src={`/images/bikelog/image${v.imageIdx}.png`}
                 width={120}
-                priority
               />
             </ExampleStatusCard>
             <div className="text-xs mt-2 flex flex-col gap-1">

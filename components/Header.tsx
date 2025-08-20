@@ -1,45 +1,44 @@
-'use client'
+"use client";
 
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import { Avatar } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import { Avatar } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
-import { getProfile } from '@/apis/user/getProfile'
+import { getProfile } from "@/apis/user/getProfile";
 
 const Header = () => {
-  const pathname = usePathname()
-  const router = useRouter()
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const notAllowedPaths = ['/signin', '/signup', '/oauth']
-  const isMain = pathname === '/'
+  const notAllowedPaths = ["/signin", "/signup", "/oauth"];
+  const isMain = pathname === "/";
 
   const { data: user } = useQuery({
-    queryKey: ['profile'],
+    queryKey: ["profile"],
     queryFn: getProfile,
     enabled: !notAllowedPaths.includes(pathname),
-  })
+  });
 
-  if (notAllowedPaths.includes(pathname)) return null
+  if (notAllowedPaths.includes(pathname)) return null;
 
   return (
     <div className="w-full h-16 flex flex-row items-center justify-between px-4 mt-1">
       {isMain ? (
         <>
-          <Image
+          <img
             alt="logo"
             className="cursor-pointer"
             height={36}
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
             src="/images/logo.svg"
             width={231}
-            priority
           />
           <Avatar
-            onClick={() => router.push('/my')}
+            onClick={() => router.push("/my")}
             src={user?.profile_image_url ?? undefined}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: "pointer" }}
           />
         </>
       ) : (
@@ -51,7 +50,7 @@ const Header = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
