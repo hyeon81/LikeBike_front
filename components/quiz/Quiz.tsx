@@ -42,7 +42,7 @@ const Quiz = ({
               onClick={() => setSelectedValue(v)}
               style={{ cursor: "pointer" }}
             >
-              <Image
+              <img
                 alt={selectedValue === v ? "selected" : "unselected"}
                 height={30}
                 src={

@@ -142,11 +142,12 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
         >
           {imgPreview ? (
             <div className="relative w-full h-full rounded-2xl overflow-hidden">
-              <Image
+              <img
                 alt="Uploaded Image"
                 className="object-cover rounded-2xl"
-                layout="fill"
                 src={imgPreview}
+                width={"100%"}
+                height={"100%"}
               />
             </div>
           ) : (

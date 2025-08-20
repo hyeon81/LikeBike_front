@@ -1,29 +1,34 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import styled from 'styled-components'
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import styled from "styled-components";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <Container>
-      <Image alt="logo" height={36} src="/images/logo.svg" width={231} priority/>
+      <img alt="logo" height={36} src="/images/logo.svg" width={231} />
       <ImageContainer
         onClick={() => {
-          const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${window.location.origin}/oauth&response_type=code`
+          const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${window.location.origin}/oauth&response_type=code`;
           if (kakaoLoginUrl) {
-            window.location.href = kakaoLoginUrl
+            window.location.href = kakaoLoginUrl;
           } else {
-            console.error('Kakao login URL is not defined.')
+            console.error("Kakao login URL is not defined.");
           }
         }}
       >
-        <Image alt="login" fill src="/images/kakao_login_large_wide.png" priority/>
+        <img
+          alt="login"
+          src="/images/kakao_login_large_wide.png"
+          width={"100%"}
+          height={"100%"}
+        />
       </ImageContainer>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -35,7 +40,7 @@ const Container = styled.div`
   align-items: center;
 
   gap: 24px;
-`
+`;
 
 const ImageContainer = styled.div`
   display: flex;
@@ -46,4 +51,4 @@ const ImageContainer = styled.div`
   background-color: #f0f0f0;
   position: relative;
   cursor: pointer;
-`
+`;

@@ -17,12 +17,12 @@ const NewsTempMain = () => {
         href={`https://www.bikeseoul.com/customer/notice/noticeView.do?noticeSeq=4683&currentPageNo=1`}
       >
         <div className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] min-h-[170px] rounded-[30px] relative">
-          <Image
+          <img
             alt="banner"
             className="rounded-[30px] object-cover"
-            fill
-            priority
             src={"/images/tempBanner.png"}
+            width={"100%"}
+            height={"100%"}
           />
         </div>
       </Link>

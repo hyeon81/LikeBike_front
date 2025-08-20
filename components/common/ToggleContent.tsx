@@ -1,10 +1,10 @@
-import Image from 'next/image'
-import { useState } from 'react'
+import Image from "next/image";
+import { useState } from "react";
 
 interface ToggleContentProps {
-  title: string
-  defaultValue?: boolean
-  children: React.ReactNode
+  title: string;
+  defaultValue?: boolean;
+  children: React.ReactNode;
 }
 
 const ToggleContent = ({
@@ -12,7 +12,7 @@ const ToggleContent = ({
   defaultValue,
   children,
 }: ToggleContentProps) => {
-  const [open, setOpen] = useState(defaultValue)
+  const [open, setOpen] = useState(defaultValue);
 
   return (
     <div className="flex flex-col gap-1">
@@ -21,14 +21,9 @@ const ToggleContent = ({
         onClick={() => setOpen(!open)}
       >
         {open ? (
-          <Image
-            alt="arrow up"
-            height={24}
-            src="/icons/upArrow.svg"
-            width={24}
-          />
+          <img alt="arrow up" height={24} src="/icons/upArrow.svg" width={24} />
         ) : (
-          <Image
+          <img
             alt="arrow down"
             height={24}
             src="/icons/downArrow.svg"
@@ -39,7 +34,7 @@ const ToggleContent = ({
       </div>
       {open && children}
     </div>
-  )
-}
+  );
+};
 
-export default ToggleContent
+export default ToggleContent;
