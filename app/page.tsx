@@ -6,26 +6,33 @@ import CourseMain from "@/components/main/CourseMain";
 import NewsMain from "@/components/main/NewsMain";
 import QuizMain from "@/components/main/QuizMain";
 import RewardMain from "@/components/main/RewardMain";
-import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
+import { HAS_SEEN_MODAL } from "@/constant/storageName";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const router = useRouter();
-  const isBlock = dayjs().format("YYYY-MM-DD") == "2025-08-10";
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    const hasSeenModal = localStorage.getItem(HAS_SEEN_MODAL);
+    if (!hasSeenModal) setModalOpen(true);
+  }, []);
+
   return (
     <>
       <ButtonModal
-        isOpen={isBlock}
-        buttonText="서비스 안내 보기"
+        isOpen={modalOpen}
+        buttonText="확인"
         contents={[
-          "내일 드디어 Likbike가 오픈합니다.",
-          "서비스가 궁금하다면 지금 미리 살펴보세요!",
+          "라이크바이크 서비스는",
+          "2025년 8월 24일부로 종료됩니다.",
+          "서비스 리워드는",
+          "300점 달성 시 지급됩니다.",
+          "마지막까지 조금만 더 힘내주세요! 🎁",
         ]}
-        title="🎉 곧 만나요!"
+        title="[서비스 종료 예정 안내]"
         onClickButton={() => {
-          router.push(
-            `https://bony-billboard-d87.notion.site/23557842371d805b9c13feea01333b03`
-          );
+          localStorage.setItem(HAS_SEEN_MODAL, "true");
+          setModalOpen(false);
         }}
         hasBackDrop={true}
       />
