@@ -1,24 +1,24 @@
-import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
-import { getCourse } from '@/apis/course/getCourse'
-import { LOG_STATUS } from '@/types/bikeLog'
+import { getCourse } from "@/apis/course/getCourse";
+import { LOG_STATUS } from "@/types/bikeLog";
 
-import PhotoStatusCard from '../bikelog/PhotoStatusCard'
-import BubbleChat from '../common/BubbleChat'
-import EmSpan from '../common/EmSpan'
-import ToggleContent from '../common/ToggleContent'
-import WhiteBox from '../common/WhiteBox'
+import PhotoStatusCard from "../bikelog/PhotoStatusCard";
+import BubbleChat from "../common/BubbleChat";
+import EmSpan from "../common/EmSpan";
+import ToggleContent from "../common/ToggleContent";
+import WhiteBox from "../common/WhiteBox";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-require('dayjs/locale/ko')
-dayjs.locale('ko')
+require("dayjs/locale/ko");
+dayjs.locale("ko");
 
 const CourseList = () => {
   const { data } = useQuery({
-    queryKey: ['courseList'],
+    queryKey: ["courseList"],
     queryFn: getCourse,
-  })
+  });
 
   return (
     <>
@@ -42,13 +42,21 @@ const CourseList = () => {
         {data && data.length > 0 ? (
           data.map(
             (
-              { id, created_at, status, photo_url, location_name, review },
-              idx,
+              {
+                id,
+                created_at,
+                status,
+                photo_url,
+                location_name,
+                review,
+                admin_notes,
+              },
+              idx
             ) => (
               <ToggleContent
                 key={id}
                 defaultValue={idx === 0}
-                title={`[${LOG_STATUS[status as keyof typeof LOG_STATUS].text}] ${dayjs(created_at?.replace('GMT', '')).format('YYYY-MM-DD, A hh시 mm분')}`}
+                title={`[${LOG_STATUS[status as keyof typeof LOG_STATUS].text}] ${dayjs(created_at?.replace("GMT", "")).format("YYYY-MM-DD, A hh시 mm분")}`}
               >
                 <div className="flex flex-row gap-4 px-8 pt-2">
                   <div className="w-[150px]">
@@ -56,19 +64,25 @@ const CourseList = () => {
                       chipText={location_name}
                       imgUrl={photo_url}
                       status={status as keyof typeof LOG_STATUS}
-                      text={review}
+                      text={
+                        status === "pending"
+                          ? "올바르게 인증했다면, 자동으로 코스추천 점수 10점이 적립돼요!"
+                          : status === "verified"
+                            ? "코스추천 점수 10점 적립완료"
+                            : admin_notes || ""
+                      }
                     />
                   </div>
                 </div>
               </ToggleContent>
-            ),
+            )
           )
         ) : (
           <div>아직 인증 내역이 없습니다.</div>
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CourseList
+export default CourseList;
