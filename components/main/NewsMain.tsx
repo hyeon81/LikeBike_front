@@ -58,14 +58,12 @@ const NewsMain = () => {
           <a key={item.id} href={`${item.url}`} rel="noopener noreferrer">
             <div
               key={item.id}
-              className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] min-h-[170px] rounded-[30px] relative"
+              className="flex flex-col justify-center items-center h-full w-full bg-[#f0f0f0] h-[170px] rounded-[30px] relative"
             >
               <img
                 alt="banner"
-                className="rounded-[30px] object-cover"
+                className="rounded-[30px] w-full h-full"
                 src={item?.thumbnail ?? "/icons/logo.png"}
-                width={"100%"}
-                height={"100%"}
               />
             </div>
           </a>
