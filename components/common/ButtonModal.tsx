@@ -9,6 +9,7 @@ interface ButtonModalProps {
   isList?: boolean; // Optional prop to display contents as a list
   isRed?: boolean; // Optional prop to style the button
   hasBackDrop?: boolean; // Optional prop to control backdrop visibility
+  noButton?: boolean;
 }
 
 const ButtonModal = ({
@@ -20,6 +21,7 @@ const ButtonModal = ({
   isList,
   isRed,
   hasBackDrop,
+  noButton,
 }: ButtonModalProps) => {
   return (
     <CommonModal modalIsOpen={isOpen} hasBackdrop={hasBackDrop}>
@@ -40,12 +42,14 @@ const ButtonModal = ({
             )}
           </div>
         </div>
-        <button
-          className={`text-white py-2 px-4 rounded-lg cursor-pointer ${isRed ? "bg-contrast-dark" : "bg-primary"}`}
-          onClick={onClickButton}
-        >
-          {buttonText}
-        </button>
+        {!noButton && (
+          <button
+            className={`text-white py-2 px-4 rounded-lg cursor-pointer ${isRed ? "bg-contrast-dark" : "bg-primary"}`}
+            onClick={onClickButton}
+          >
+            {buttonText}
+          </button>
+        )}
       </div>
     </CommonModal>
   );
