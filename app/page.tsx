@@ -12,11 +12,6 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    const hasSeenModal = localStorage.getItem(HAS_SEEN_MODAL);
-    if (!hasSeenModal) setModalOpen(true);
-  }, []);
-
   return (
     <>
       <div className="flex flex-col w-full h-full gap-6">
