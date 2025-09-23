@@ -39,6 +39,18 @@ const UploadModal = ({
     }
   };
 
+  // useEffect(() => {
+  //   window.addEventListener("cameraResult", (e) => {
+  //     const photo = e.detail;
+  //     console.log("사진 데이터:", photo);
+  //     alert(photo);
+  //   });
+
+  //   return () => {
+  //     window.removeEventListener("cameraResult", (e) => {});
+  //     if (preview) URL.revokeObjectURL(preview);
+  //   };
+  // }, []);
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
@@ -81,6 +93,14 @@ const UploadModal = ({
               {contents?.map((content, index) => <p key={index}>{content}</p>)}
             </div>
           </div>
+          {/* <div
+            className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
+            onClick={() => {
+              (window as any)?.ReactNativeWebView?.postMessage("openCamera");
+            }}
+          >
+            사진 촬영하기
+          </div> */}
           <label
             className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
             htmlFor={`${prefix}-image`}

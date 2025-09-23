@@ -19,24 +19,6 @@ export default function Home() {
 
   return (
     <>
-      <ButtonModal
-        isOpen={true}
-        buttonText="확인"
-        contents={[
-          "라이크바이크 서비스는",
-          "2025년 8월 24일부로 종료되었습니다.",
-          "리워드 관련 안내는",
-          "등록된 연락처를 통해 개별 전달됩니다.",
-          "그동안 이용해 주셔서 감사합니다. 🙏",
-        ]}
-        title="[서비스 종료 안내]"
-        onClickButton={() => {
-          localStorage.setItem(HAS_SEEN_MODAL, "true");
-          setModalOpen(false);
-        }}
-        hasBackDrop={true}
-        noButton={true}
-      />
       <div className="flex flex-col w-full h-full gap-6">
         <RewardMain />
         <div className="grid grid-cols-2 gap-2">
