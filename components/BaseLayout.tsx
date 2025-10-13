@@ -10,7 +10,6 @@ import { ACCESS_TOKEN } from "@/constant/storageName";
 import Header from "./Header";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
-  const [loading, setLoading] = useState(true);
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -27,27 +26,27 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    if (!accessToken && pathname !== "/signin" && pathname !== "/oauth") {
-      router.push("/signin");
-    } else if (
-      accessToken &&
-      (pathname === "/signin" || pathname === "/oauth")
-    ) {
-      router.push("/");
-    } else {
-      setLoading(false);
-    }
-  }, [pathname, router]);
+  // useEffect(() => {
+  //   const accessToken = localStorage.getItem(ACCESS_TOKEN);
+  //   if (!accessToken && pathname !== "/signin" && pathname !== "/oauth") {
+  //     router.push("/signin");
+  //   } else if (
+  //     accessToken &&
+  //     (pathname === "/signin" || pathname === "/oauth")
+  //   ) {
+  //     router.push("/");
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // }, [pathname, router]);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <CircularProgress />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <CircularProgress />
+  //     </div>
+  //   );
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -9,7 +9,7 @@ import { REWARD_LEVEL } from "@/constant/rewardLevel";
 const RewardMain = () => {
   const router = useRouter();
   const { data } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
-
+  const accessToken = localStorage.getItem("accessToken");
   const points = data?.experience_points;
 
   const level = useMemo(() => {
@@ -33,9 +33,18 @@ const RewardMain = () => {
           </span>
           점)입니다.
         </div>
-      ) : (
+      ) : accessToken ? (
         <div className="mb-4 font-medium">
           <span className="underline">데이터 로딩에 실패했습니다.</span>
+        </div>
+      ) : (
+        <div className="mb-4 font-medium">
+          <span
+            className="underline cursor-pointer"
+            onClick={() => router.push("/signin")}
+          >
+            서비스 이용을 하려면 로그인이 필요합니다
+          </span>
         </div>
       )}
 
