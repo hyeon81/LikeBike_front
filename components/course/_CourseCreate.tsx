@@ -14,7 +14,7 @@ import ButtonModal from "../common/ButtonModal";
 import EmSpan from "../common/EmSpan";
 import WhiteBox from "../common/WhiteBox";
 
-const CourseCreate = ({ goToList }: { goToList: () => void }) => {
+const _CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const { data: courseCount, refetch } = useQuery({
     queryKey: ["courseCount"],
     queryFn: getCourseCount,
@@ -89,10 +89,10 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
       <div className="flex flex-col gap-2">
         <WhiteBox>
           <div>
-            ① 추천하고 싶은 <EmSpan>[장소]</EmSpan> 선택하기
+            ① 추천하고 싶은 <EmSpan>[한강공원]</EmSpan> 선택하기
           </div>
           <div>
-            ② 장소 옆 <EmSpan>[사진]</EmSpan> 업로드하기
+            ② <EmSpan>[풍경 사진]</EmSpan> 업로드하기
           </div>
           <div>
             ③ <EmSpan>[추천 이유]</EmSpan>를 적고 코스 추천 제출하기
@@ -207,4 +207,4 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   );
 };
 
-export default CourseCreate;
+export default _CourseCreate;

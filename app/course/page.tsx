@@ -5,8 +5,8 @@ import { useState } from 'react'
 
 import { getCourse } from '@/apis/course/getCourse'
 import TabList from '@/components/common/TabList'
-import CourseCreate from '@/components/course/CourseCreate'
 import CourseList from '@/components/course/CourseList'
+import CourseCreate from '@/components/course/CourseCreate'
 
 export default function Home() {
   const [value, setValue] = useState(1)
