@@ -13,6 +13,8 @@ import BubbleChat from "../common/BubbleChat";
 import ButtonModal from "../common/ButtonModal";
 import EmSpan from "../common/EmSpan";
 import WhiteBox from "../common/WhiteBox";
+import CourseCard from "./CourseCard";
+import { ICourseCard, IPlace } from "@/types/course";
 
 const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const { data: courseCount, refetch } = useQuery({
@@ -25,14 +27,25 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [locationName, setLocationName] = useState<string>(""); // Placeholder for location name
-  const [openLocation, setOpenLocation] = useState(false);
-  const [review, setReview] = useState<string>(""); // Placeholder for review content
+  const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
+    {
+      place: null,
+      text: "",
+      image: null,
+    },
+    {
+      place: null,
+      text: "",
+      image: null,
+    },
+  ]);
+  const [openSearchModal, setOpenSearchModal] = useState(false);
 
+  console.log("courseInfo:", courseInfo);
   const isAlreadyCertified = courseCount && courseCount >= 2;
 
   const onSubmit = async () => {
-    if (locationName === "" || review === "" || !image) {
+    if (place === null || review === "" || !image) {
       setErrorModalIsOpen(true);
       return;
     }
@@ -41,7 +54,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
       try {
         setLoading(true);
         await createCourse({
-          location_name: locationName,
+          place_name: placeName,
           review: review,
           photo: image,
         });
@@ -99,100 +112,37 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
           </div>
         </WhiteBox>
       </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col">
-          <div className="relative flex flex-row w-full justify-center">
-            <BubbleChat isRight text="선택 버튼을 눌러주세요!" />
-          </div>
-          <div
-            className={`flex flex-row mt-4 ${isAlreadyCertified ? "cursor-default" : "cursor-pointer"}`}
-            onClick={() => {
-              if (!isAlreadyCertified) setOpenLocation(!openLocation);
-            }}
-          >
-            <div
-              className={`border-[1.5px] border-contrast-dark py-2 px-8 ${locationName == "" ? "text-gray-light" : "text-black"} flex-1`}
-            >
-              {locationName === "" ? "한강공원을 선택해주세요" : locationName}
-            </div>
-            <div className="w-[47px] h-auto  bg-contrast-dark flex flex-col items-center justify-center">
-              <KeyboardArrowDownIcon fontSize="large" sx={{ color: "white" }} />
-            </div>
-          </div>
-          {openLocation && (
-            <div className="grid grid-cols-2 gap-2 px-4 py-8 bg-gray-lightest rounded-b-2xl border-[1.5px] border-contrast-dark border-t-0">
-              {RIVER_LIST.map((river) => (
-                <div
-                  key={river}
-                  className={`py-3 text-center cursor-pointer ${locationName == river ? "bg-contrast-dark text-white" : "bg-white"}`}
-                  onClick={() => {
-                    setLocationName(river);
-                    setOpenLocation(false);
-                  }}
-                >
-                  {river}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        <label
-          className={`${isAlreadyCertified ? "bg-gray-lightest" : "bg-contrast cursor-pointer"} rounded-2xl h-[174px] w-full flex items-center justify-center`}
-          htmlFor="file-upload"
-        >
-          {imgPreview ? (
-            <div className="relative w-full h-full rounded-2xl overflow-hidden">
-              <img
-                alt="Uploaded Image"
-                className="object-cover rounded-2xl"
-                src={imgPreview}
-                width={"100%"}
-                height={"100%"}
-              />
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center gap-2">
-              <PhotoIcon color={isAlreadyCertified ? "#969696" : "#FF7272"} />
-              <div
-                className={`${isAlreadyCertified ? "text-gray-medium" : "text-contrast-dark"}`}
-              >
-                사진 업로드 하기
-              </div>
-            </div>
-          )}
-        </label>
-        <input
-          disabled={!!isAlreadyCertified}
-          accept="image/*"
-          className="hidden"
-          id="file-upload"
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              const file = e.target.files[0];
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                setImage(file);
-                setImgPreview(reader.result as string);
-              };
-              reader.readAsDataURL(file);
-            }
-          }}
-          type="file"
+      <div className="flex flex-col gap-4">
+        <div
+          className={`bg-green-200 rounded-2xl h-[174px] w-full flex items-center justify-center`}
         />
-        <textarea
-          className="border border-contrast-dark px-8 py-4 outline-none placeholder:text-gray-light"
-          onChange={(e) => {
-            const value = e.target.value.replace(/\s/g, "");
-            if (value.length <= 50) {
-              setReview(e.target.value);
-            }
-          }}
-          disabled={!!isAlreadyCertified}
-          placeholder="추천 이유를 50자 이내로 적어주세요"
-          rows={3}
-          style={{ resize: "none", fontFamily: "noto-sans" }}
-          value={review}
-        />
+        {courseInfo.map((v, idx) => {
+          const position =
+            idx === 0
+              ? "start"
+              : idx === courseInfo.length - 1
+                ? "end"
+                : "stopover";
+          return (
+            <CourseCard
+              {...v}
+              idx={idx + 1}
+              key={idx}
+              position={position}
+              setInfo={(newInfo: ICourseCard) => {
+                const updatedCourseInfo = [...courseInfo];
+                updatedCourseInfo[idx] = newInfo;
+                setCourseInfo(updatedCourseInfo);
+              }}
+              removeCourse={() => {
+                const updatedCourseInfo = courseInfo.filter(
+                  (_, courseIdx) => courseIdx !== idx
+                );
+                setCourseInfo(updatedCourseInfo);
+              }}
+            />
+          );
+        })}
         <button
           className={`${isAlreadyCertified ? "bg-gray-lightest text-gray-medium" : "bg-contrast-dark text-white cursor-pointer"} p-4 rounded-xl text-center text-lg font-bold mt-4`}
           disabled={!!isAlreadyCertified || loading}
