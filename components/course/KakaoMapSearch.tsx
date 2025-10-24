@@ -1,95 +1,92 @@
 import React, { useEffect, useRef, useState } from "react";
+import useKakao from "@/hooks/useKakao";
 
 export default function KakaoMapSearch() {
-  const mapRef = useRef(null);
+  const mapRef = useRef<HTMLDivElement>(null);
   const [keyword, setKeyword] = useState("이태원 맛집");
-  const [places, setPlaces] = useState([]);
-  const [pagination, setPagination] = useState(null);
+  const [places, setPlaces] = useState<any[]>([]);
+  const [pagination, setPagination] = useState<any>(null);
+  const { loaded, error } = useKakao();
 
   useEffect(() => {
-    // Kakao 지도 SDK 로드
-    const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&libraries=services`;
-    script.async = true;
-    script.onload = initMap;
-    document.head.appendChild(script);
-  }, []);
+    if (!loaded) return;
+    if (error) return console.error(error);
+    initMap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded]);
 
-  // 지도 초기화
   const initMap = () => {
-    const { kakao } = window;
+    const { kakao } = window as any;
     if (!kakao || !kakao.maps) return;
 
-    const map = new kakao.maps.Map(mapRef.current, {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567),
-      level: 3,
-    });
-
-    const ps = new kakao.maps.services.Places();
-    const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-    let markers = [];
-
-    const searchPlaces = (keyword) => {
-      if (!keyword.trim()) {
-        alert("키워드를 입력해주세요!");
-        return;
-      }
-      ps.keywordSearch(keyword, (data, status, pagination) => {
-        if (status === kakao.maps.services.Status.OK) {
-          setPlaces(data);
-          setPagination(pagination);
-          displayMarkers(data);
-        } else {
-          alert("검색 결과가 없습니다.");
-        }
+    kakao.maps.load(() => {
+      const map = new kakao.maps.Map(mapRef.current, {
+        center: new kakao.maps.LatLng(37.566826, 126.9786567),
+        level: 3,
       });
-    };
 
-    const displayMarkers = (places) => {
-      clearMarkers();
-      const bounds = new kakao.maps.LatLngBounds();
+      const ps = new kakao.maps.services.Places();
+      const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+      let markers: any[] = [];
 
-      places.forEach((place, i) => {
-        const position = new kakao.maps.LatLng(place.y, place.x);
-        const marker = new kakao.maps.Marker({
-          position,
-          map,
-        });
+      const clearMarkers = () => {
+        markers.forEach((m) => m.setMap(null));
+        markers = [];
+      };
 
-        kakao.maps.event.addListener(marker, "mouseover", () => {
-          infowindow.setContent(
-            `<div style="padding:5px;">${place.place_name}</div>`
+      const displayMarkers = (places: any[]) => {
+        clearMarkers();
+        const bounds = new kakao.maps.LatLngBounds();
+
+        places.forEach((place, i) => {
+          const lat = Number(place.y) || 0;
+          const lng = Number(place.x) || 0;
+          const position = new kakao.maps.LatLng(lat, lng);
+          const marker = new kakao.maps.Marker({ position, map });
+
+          kakao.maps.event.addListener(marker, "mouseover", () => {
+            infowindow.setContent(
+              `<div style="padding:5px;">${place.place_name}</div>`
+            );
+            infowindow.open(map, marker);
+          });
+          kakao.maps.event.addListener(marker, "mouseout", () =>
+            infowindow.close()
           );
-          infowindow.open(map, marker);
+
+          markers.push(marker);
+          bounds.extend(position);
         });
-        kakao.maps.event.addListener(marker, "mouseout", () =>
-          infowindow.close()
+
+        map.setBounds(bounds);
+      };
+
+      const searchPlaces = (keyword: string) => {
+        if (!keyword.trim()) return alert("키워드를 입력해주세요!");
+        ps.keywordSearch(
+          keyword,
+          (data: any[], status: any, pagination: any) => {
+            if (status === kakao.maps.services.Status.OK) {
+              setPlaces(data);
+              setPagination(pagination);
+              displayMarkers(data);
+            }
+          }
         );
+      };
 
-        markers.push(marker);
-        bounds.extend(position);
-      });
+      // 전역 함수에 저장 (폼에서 접근하기 위함)
+      (window as any).__searchKakaoPlaces = searchPlaces;
 
-      map.setBounds(bounds);
-    };
-
-    const clearMarkers = () => {
-      markers.forEach((m) => m.setMap(null));
-      markers = [];
-    };
-
-    // 초기 실행
-    searchPlaces(keyword);
-
-    // 검색용 핸들러 저장
-    window.__searchKakaoPlaces = searchPlaces;
+      // 초기 검색 실행
+      searchPlaces(keyword);
+    });
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (window.__searchKakaoPlaces) {
-      window.__searchKakaoPlaces(keyword);
-    }
+    const fn = (window as any).__searchKakaoPlaces;
+    if (fn) fn(keyword);
   };
 
   return (

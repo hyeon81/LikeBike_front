@@ -8,6 +8,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { ACCESS_TOKEN } from "@/constant/storageName";
 
 import Header from "./Header";
+import KakaoLoader from "./KakaoLoader";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient({
@@ -50,6 +51,7 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <KakaoLoader />
       <div className="flex flex-col justify-center items-center w-full h-full bg-gray-400">
         <div className="flex flex-col w-full max-w-[460px] h-full min-h-screen bg-gray-background">
           <Header />

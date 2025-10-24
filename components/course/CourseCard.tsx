@@ -1,15 +1,18 @@
 import PhotoIcon from "@/public/icons/PhotoIcon";
 import { ICourseCard, IPlace } from "@/types/course";
 import Image from "next/image";
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import CourseSearch from "./CourseSearch";
 import ReactModal from "react-modal";
 
 interface ICourseCardProps extends ICourseCard {
   idx: number;
   position: "start" | "end" | "stopover";
+  courseLength: number;
+  showError?: boolean;
   setInfo: (course: ICourseCard) => void;
   removeCourse: () => void;
+  addNextCourse: () => void;
 }
 
 const CourseCard = ({
@@ -18,11 +21,26 @@ const CourseCard = ({
   text,
   image,
   position,
+  courseLength,
+  showError,
   setInfo,
   removeCourse,
+  addNextCourse,
 }: ICourseCardProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [openSearchModal, setOpenSearchModal] = useState(false);
+
+  const errorInfo = {
+    place: showError && !place,
+    text: showError && (!text || text.trim() === ""),
+    image: showError && (position === "start" || position === "end") && !image,
+    hasError:
+      showError &&
+      (!place ||
+        !text ||
+        text.trim() === "" ||
+        ((position === "start" || position === "end") && !image)),
+  };
 
   return (
     <>
@@ -30,6 +48,10 @@ const CourseCard = ({
         isOpen={openSearchModal}
         ariaHideApp={false}
         className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full"
+        style={{
+          overlay: { zIndex: 2000 },
+          content: { zIndex: 2100 },
+        }}
       >
         <CourseSearch
           onClose={() => setOpenSearchModal(false)}
@@ -39,14 +61,17 @@ const CourseCard = ({
           }}
         />
       </ReactModal>
-      <div className="flex flex-row align-center gap-2 bg-white">
+      <div className="flex flex-row align-center gap-2 bg-white relative">
         <div className="flex flex-col justify-center">
           <div className="bg-contrast w-[32px] h-[32px] rounded-full text-center leading-7 text-white font-bold absolute">
             {idx}
           </div>
         </div>
-        <div className="flex flex-row gap-3 p-3 border-[1.5px] border-gray-light w-full ml-2 pl-5">
-          {image ? (
+
+        <div
+          className={`flex flex-row gap-3 p-3 border-[1.5px] ${errorInfo.hasError ? "border-contrast-dark" : "border-gray-light"}   w-full ml-2 pl-5`}
+        >
+          {preview ? (
             <label
               className="h-full xxs:w-[74px] xs:w-[96px] bg-gray-lightest rounded-xl flex items-center justify-center p-1 text-white cursor-pointer overflow-hidden relative"
               htmlFor={`image-${idx}`}
@@ -56,13 +81,13 @@ const CourseCard = ({
                 alt="Course Image"
                 layout="fill"
                 objectFit="cover"
-                className="rounded-xl"
+                className={`rounded-xl`}
               />
             </label>
           ) : (
             <label
               htmlFor={`image-${idx}`}
-              className="h-full xxs:w-[74px] xs:w-[96px] bg-gray-lightest rounded-xl flex flex-col items-center justify-center p-1 text-white cursor-pointer"
+              className={`h-full xxs:w-[74px] xs:w-[96px] bg-gray-lightest rounded-xl flex flex-col items-center justify-center p-1 text-white cursor-pointer ${errorInfo.image ? "border-1 border-contrast-dark" : ""}`}
             >
               <PhotoIcon color={"#969696"} />
             </label>
@@ -114,15 +139,29 @@ const CourseCard = ({
 
               {position === "stopover" && (
                 <div
-                  className="bg-contrast px-2 rounded-full h-full aspect-square text-center text-white leading-7 cursor-pointer"
-                  onClick={removeCourse}
+                  className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeCourse();
+                  }}
                 >
                   −
                 </div>
               )}
+              {position === "end" && courseLength < 4 && (
+                <div
+                  className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 text-xl cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addNextCourse();
+                  }}
+                >
+                  +
+                </div>
+              )}
             </div>
             <textarea
-              className="border-[1.5px] w-full resize-none border-gray-light p-2 focus:border-contrast"
+              className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
               placeholder="추천 이유를 작성해주세요"
               value={text}
               onChange={(e) => {

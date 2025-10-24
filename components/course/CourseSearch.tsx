@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import useKakao from "@/hooks/useKakao";
 import ReactModal from "react-modal";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
@@ -14,23 +15,18 @@ interface Props {
 
 export default function CourseSearch({ onClose, onSelect }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [keyword, setKeyword] = useState("한강공원");
+  const [keyword, setKeyword] = useState("");
   const [places, setPlaces] = useState<any[]>([]);
   const [currentPlace, setCurrentPlace] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const { loaded, error } = useKakao();
 
   useEffect(() => {
-    if (window.kakao && window.kakao.maps) {
-      initMap();
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false&libraries=services`;
-    script.async = true;
-    script.onload = () => window.kakao.maps.load(initMap);
-    document.head.appendChild(script);
-  }, []);
+    if (!loaded) return;
+    if (error) return console.error(error);
+    initMap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded]);
 
   const initMap = () => {
     const { kakao } = window;
@@ -65,7 +61,9 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
       const bounds = new kakao.maps.LatLngBounds();
 
       places.forEach((place) => {
-        const position = new kakao.maps.LatLng(place.y, place.x);
+        const lat = Number(place.y) || 0;
+        const lng = Number(place.x) || 0;
+        const position = new kakao.maps.LatLng(lat, lng);
         const marker = new kakao.maps.Marker({
           position,
           map,
@@ -99,16 +97,15 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
     };
 
     const searchPlaces = (keyword: string) => {
-      if (!keyword.trim()) return alert("검색어를 입력해주세요.");
+      if (!keyword.trim()) return;
       setLoading(true);
-      ps.keywordSearch(keyword, (data, status, pagination) => {
+      ps.keywordSearch(keyword, (data: any[], status: any, pagination: any) => {
         setLoading(false);
         if (status === kakao.maps.services.Status.OK) {
           setPlaces(data);
           displayMarkers(data);
         } else {
           setPlaces([]);
-          alert("검색 결과가 없습니다.");
         }
       });
     };
@@ -128,8 +125,8 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
     setCurrentPlace(place);
 
     const { kakao } = window;
-    const map = window.__kakaoMapInstance as kakao.maps.Map;
-    const infowindow = window.__kakaoInfoWindow as kakao.maps.InfoWindow;
+    const map = window.__kakaoMapInstance as any;
+    const infowindow = window.__kakaoInfoWindow as any;
     const markers = window.__kakaoMarkers as any[];
     const { normalImage, selectedImage } = window.__markerImages;
 
@@ -164,7 +161,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
   };
 
   return (
-    <>
+    <div>
       <div className="flex flex-row justify-end items-center mb-2">
         <button type="button" className="cursor-pointer" onClick={onClose}>
           <CloseIcon fontSize="large" />
@@ -237,6 +234,6 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
       >
         선택
       </button>
-    </>
+    </div>
   );
 }
