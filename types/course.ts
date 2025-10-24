@@ -36,9 +36,12 @@ export interface IKakaoMapPoint {
   distance?: string;
 }
 
-export interface ICourse {
+export interface IPlace {
   name: string;
-  address: string;
+  address_name: string;
   description: string;
-  photo_field: string | null;
+  photo: string;
+  x: string;
+  y: string;
+  _file: File | null;
 }

@@ -1,7 +1,7 @@
 import PhotoIcon from "@/public/icons/PhotoIcon";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import Image from "next/image";
-import { RefObject, useState } from "react";
+import { RefObject, useReducer, useState } from "react";
 import CourseSearch from "./CourseSearch";
 import ReactModal from "react-modal";
 
@@ -28,8 +28,10 @@ const CourseCard = ({
   addNextCourse,
 }: ICourseCardProps) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [placeName, setPlaceName] = useState(place ? place.place_name : null);
   const [openSearchModal, setOpenSearchModal] = useState(false);
 
+  console.log("place", place?.place_name, placeName);
   const errorInfo = {
     place: showError && !place,
     text: showError && (!text || text.trim() === ""),
@@ -57,6 +59,7 @@ const CourseCard = ({
           onClose={() => setOpenSearchModal(false)}
           onSelect={(newPlace: IKakaoMapPoint) => {
             setInfo({ place: newPlace, text, image });
+            setPlaceName(newPlace.place_name);
             setOpenSearchModal(false);
           }}
         />
@@ -114,9 +117,9 @@ const CourseCard = ({
               className="flex flex-row justify-between cursor-pointer"
               onClick={() => setOpenSearchModal(true)}
             >
-              {place && place.place_name ? (
+              {placeName ? (
                 <div className="leading-7 text-lg cursor-pointer">
-                  {place.place_name}
+                  {placeName}
                 </div>
               ) : (
                 <div className="flex flex-row gap-1">
@@ -163,7 +166,6 @@ const CourseCard = ({
             <textarea
               className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
               placeholder="추천 이유를 작성해주세요"
-              value={text}
               onChange={(e) => {
                 if (setInfo) setInfo({ place, text: e.target.value, image });
               }}

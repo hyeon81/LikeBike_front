@@ -3,49 +3,40 @@
 import { IResponse } from "@/types/base";
 
 import { axiosInstance } from "../axiosInstance";
-import { ICourse, ICourseCard } from "@/types/course";
-
-interface CreateCourseRequest {
-  // title?: string;
-  // description: string;
-  courses: ICourse[];
-}
-
-// {
-//   "id": 34,
-//   "title": "한강",
-//   “description” : “설명“,
-//   "courses": [
-//         {
-//           "point_id": 0,
-//           "name": "출발지 이름",
-//           "address": "서울시 테스트구 1번지",
-//       “description” : “설명“,
-//           "photo_url": "https://test.com/point_start.jpg"
-//         },
-//         {
-//           "point_id": 1,
-//           "name": "경유지 이름",
-//           "address": "서울시 테스트구 2번지",
-//       “description” : “설명“,
-//           "photo_url": "https://test.com/point_finish.jpg"
-//         },
-//         {
-//           "point_id": 2,
-//           "name": "도착지 이름",
-//           "address": "서울시 테스트구 2번지",
-//       “description” : “설명“,
-//           "photo_url": "https://test.com/point_finish.jpg"
-//         }
-//       ]
-//  }
+import { IPlace, ICourseCard } from "@/types/course";
 
 const PATH = "/users/course-recommendations";
 
+interface ICourseCreateBody {
+  places: IPlace[];
+}
+
+const makeBody = (courseData: ICourseCard[]): ICourseCreateBody => {
+  // IPlace의 photo는 파일 이름
+  const places: IPlace[] = courseData.map((course, idx) => ({
+    name: course.place?.place_name || "",
+    address_name: course.place?.address_name || "",
+    description: course.text,
+    photo: course.image ? "place_photo" + idx : "",
+    x: course.place?.x || "",
+    y: course.place?.y || "",
+    _file: course.image || null,
+  }));
+
+  return { places };
+};
+
 export const createCourse = async (courseData: ICourseCard[]) => {
+  const { places } = makeBody(courseData);
+  console.log("places", places);
   const formData = new FormData();
-  formData.append("title", courseData.title ?? "");
-  formData.append("courses", JSON.stringify(courseData.courses ?? []));
+  formData.append("places", JSON.stringify(places));
+  places.forEach((place, idx) => {
+    if (place._file) {
+      if (idx == 0) formData.append("photo", place._file);
+      formData.append(place.photo, place._file);
+    }
+  });
 
   try {
     const response = await axiosInstance.post<IResponse<any>>(
