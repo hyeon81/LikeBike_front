@@ -1,5 +1,5 @@
 export interface ICourseCard {
-  place: IPlace | null;
+  place: IKakaoMapPoint | null;
   text: string;
   image: File | null;
 }
@@ -20,7 +20,7 @@ export interface ICourseCard {
     "y": "37.52638860108943"
 }
  */
-export interface IPlace {
+export interface IKakaoMapPoint {
   id: string;
   place_name: string;
   address_name: string;
@@ -34,4 +34,11 @@ export interface IPlace {
   category_group_name?: string;
   place_url?: string;
   distance?: string;
+}
+
+export interface ICourse {
+  name: string;
+  address: string;
+  description: string;
+  photo_field: string | null;
 }

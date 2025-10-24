@@ -1,5 +1,5 @@
 import PhotoIcon from "@/public/icons/PhotoIcon";
-import { ICourseCard, IPlace } from "@/types/course";
+import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import Image from "next/image";
 import { RefObject, useState } from "react";
 import CourseSearch from "./CourseSearch";
@@ -55,7 +55,7 @@ const CourseCard = ({
       >
         <CourseSearch
           onClose={() => setOpenSearchModal(false)}
-          onSelect={(newPlace: IPlace) => {
+          onSelect={(newPlace: IKakaoMapPoint) => {
             setInfo({ place: newPlace, text, image });
             setOpenSearchModal(false);
           }}

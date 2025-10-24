@@ -14,7 +14,7 @@ import ButtonModal from "../common/ButtonModal";
 import EmSpan from "../common/EmSpan";
 import WhiteBox from "../common/WhiteBox";
 import CourseCard from "./CourseCard";
-import { ICourseCard, IPlace } from "@/types/course";
+import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import KakaoMapView from "./KakaoMapView";
 
 const CourseCreate = ({ goToList }: { goToList: () => void }) => {
@@ -58,7 +58,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
 
   const places = courseInfo
     .map((info) => info.place)
-    .filter((p): p is IPlace => p !== null);
+    .filter((p): p is IKakaoMapPoint => p !== null);
 
   const onSubmit = async () => {
     if (checkCompletedCourses() === false) {

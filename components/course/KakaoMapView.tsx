@@ -1,12 +1,12 @@
-import { IPlace } from "@/types/course";
+import { IKakaoMapPoint } from "@/types/course";
 import React, { useEffect, useRef } from "react";
 import useKakao from "@/hooks/useKakao";
 
-interface IKakaoMapViewProps {
-  places: IPlace[];
+interface IKakaoMapPointViewProps {
+  places: IKakaoMapPoint[];
 }
 
-export default function KakaoMapView({ places }: IKakaoMapViewProps) {
+export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const { loaded, error } = useKakao();
 
