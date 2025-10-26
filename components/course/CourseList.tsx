@@ -9,6 +9,9 @@ import BubbleChat from "../common/BubbleChat";
 import EmSpan from "../common/EmSpan";
 import ToggleContent from "../common/ToggleContent";
 import WhiteBox from "../common/WhiteBox";
+import CourseViewer from "./CourseViewer";
+import { useState } from "react";
+import CourseListElement from "./CourseListElement";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dayjs/locale/ko");
@@ -30,53 +33,16 @@ const CourseList = () => {
           </div>
           <div>② 코스 추천은 ‘검토 중’ 상태로 전환됩니다.</div>
           <div>
-            ③ 검토 결과를 <EmSpan>[O, X]</EmSpan>로 나타냅니다.
-          </div>
-          <div>
-            ④ <EmSpan>[풍경 사진, 추천 이유]</EmSpan> 모두가 <br />
+            ③ <EmSpan>[코스, 추천 이유]</EmSpan> 모두가 <br />
             인정되면 점수를 지급 받습니다.
           </div>
         </WhiteBox>
       </div>
       <div className="mt-4 flex flex-col gap-4">
         {data && data.length > 0 ? (
-          data.map(
-            (
-              {
-                id,
-                created_at,
-                status,
-                photo_url,
-                location_name,
-                review,
-                admin_notes,
-              },
-              idx
-            ) => (
-              <ToggleContent
-                key={id}
-                defaultValue={idx === 0}
-                title={`[${LOG_STATUS[status as keyof typeof LOG_STATUS].text}] ${dayjs(created_at?.replace("GMT", "")).format("YYYY-MM-DD, A hh시 mm분")}`}
-              >
-                <div className="flex flex-row gap-4 px-8 pt-2">
-                  <div className="w-[150px]">
-                    <PhotoStatusCard
-                      chipText={location_name}
-                      imgUrl={photo_url}
-                      status={status as keyof typeof LOG_STATUS}
-                      text={
-                        status === "pending"
-                          ? "올바르게 인증했다면, 자동으로 코스추천 점수 10점이 적립돼요!"
-                          : status === "verified"
-                            ? "코스추천 점수 10점 적립완료"
-                            : admin_notes || ""
-                      }
-                    />
-                  </div>
-                </div>
-              </ToggleContent>
-            )
-          )
+          data.map((v, idx) => {
+            return <CourseListElement key={v.id} v={v} idx={idx} />;
+          })
         ) : (
           <div>아직 인증 내역이 없습니다.</div>
         )}
