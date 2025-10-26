@@ -222,7 +222,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
           </div>
         ))}
         {places.length === 0 && !loading && (
-          <div className="text-center text-gray-400 py-6 text-sm">
+          <div className="text-center text-gray-400 py-6">
             검색 결과가 없습니다.
           </div>
         )}

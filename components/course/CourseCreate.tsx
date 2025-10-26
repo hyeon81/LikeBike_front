@@ -130,7 +130,11 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
                 : "stopover";
           return (
             <CourseCard
-              {...v}
+              info={{
+                place: v.place,
+                text: v.text,
+                image: v.image,
+              }}
               idx={idx + 1}
               key={idx}
               position={position}
@@ -138,6 +142,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
                 const updatedCourseInfo = [...courseInfo.current];
                 updatedCourseInfo[idx] = newInfo;
                 courseInfo.current = updatedCourseInfo;
+                forceRender();
               }}
               removeCourse={() => {
                 const updatedCourseInfo = courseInfo.current.filter(
@@ -160,6 +165,9 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
               }}
               courseLength={courseInfo.current.length}
               showError={showError}
+              place={null}
+              text={""}
+              image={null}
             />
           );
         })}

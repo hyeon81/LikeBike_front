@@ -2,7 +2,7 @@ import { IKakaoMapPoint } from "@/types/course";
 import React, { useEffect, useRef } from "react";
 import useKakao from "@/hooks/useKakao";
 
-interface IKakaoMapPointViewProps {
+export interface IKakaoMapPointViewProps {
   places: IKakaoMapPoint[];
 }
 

@@ -4,34 +4,40 @@ import Image from "next/image";
 import { RefObject, useReducer, useState } from "react";
 import CourseSearch from "./CourseSearch";
 import ReactModal from "react-modal";
+import CourseViewer from "./CourseViewer";
 
-interface ICourseCardProps extends ICourseCard {
+interface ICourseCardProps {
   idx: number;
-  position: "start" | "end" | "stopover";
-  courseLength: number;
+  info: {
+    place: IKakaoMapPoint | null;
+    text: string;
+    image: File | null;
+    photoUrl?: string;
+  };
+  position?: "start" | "end" | "stopover";
+  courseLength?: number;
   showError?: boolean;
-  setInfo: (course: ICourseCard) => void;
-  removeCourse: () => void;
-  addNextCourse: () => void;
+  setInfo?: (course: ICourseCard) => void;
+  removeCourse?: () => void;
+  addNextCourse?: () => void;
+  readOnly?: boolean;
 }
 
 const CourseCard = ({
   idx,
-  place,
-  text,
-  image,
+  info: { place, text, image, photoUrl },
   position,
   courseLength,
   showError,
   setInfo,
   removeCourse,
   addNextCourse,
+  readOnly = false,
 }: ICourseCardProps) => {
-  const [preview, setPreview] = useState<string | null>(null);
-  const [placeName, setPlaceName] = useState(place ? place.place_name : null);
+  const [preview, setPreview] = useState<string | null>(photoUrl || null);
+  const [placeName, setPlaceName] = useState(place ? place!.place_name : null);
   const [openSearchModal, setOpenSearchModal] = useState(false);
 
-  console.log("place", place?.place_name, placeName);
   const errorInfo = {
     place: showError && !place,
     text: showError && (!text || text.trim() === ""),
@@ -44,26 +50,41 @@ const CourseCard = ({
         ((position === "start" || position === "end") && !image)),
   };
 
+  const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (readOnly) return;
+    const file = e.target.files ? e.target.files[0] : null;
+    setInfo?.({ place, text, image: file });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <>
-      <ReactModal
-        isOpen={openSearchModal}
-        ariaHideApp={false}
-        className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full"
-        style={{
-          overlay: { zIndex: 2000 },
-          content: { zIndex: 2100 },
-        }}
-      >
-        <CourseSearch
-          onClose={() => setOpenSearchModal(false)}
-          onSelect={(newPlace: IKakaoMapPoint) => {
-            setInfo({ place: newPlace, text, image });
-            setPlaceName(newPlace.place_name);
-            setOpenSearchModal(false);
+      {!readOnly && (
+        <ReactModal
+          isOpen={openSearchModal}
+          ariaHideApp={false}
+          className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full"
+          style={{
+            overlay: { zIndex: 2000 },
+            content: { zIndex: 2100 },
           }}
-        />
-      </ReactModal>
+        >
+          <CourseSearch
+            onClose={() => setOpenSearchModal(false)}
+            onSelect={(newPlace: IKakaoMapPoint) => {
+              setInfo?.({ place: newPlace, text, image });
+              setPlaceName(newPlace.place_name);
+              setOpenSearchModal(false);
+            }}
+          />
+        </ReactModal>
+      )}
       <div className="flex flex-row align-center gap-2 bg-white relative">
         <div className="flex flex-col justify-center">
           <div className="bg-contrast w-[32px] h-[32px] rounded-full text-center leading-7 text-white font-bold absolute">
@@ -101,21 +122,18 @@ const CourseCard = ({
             className="hidden"
             accept="image/*"
             onChange={(e) => {
-              const file = e.target.files ? e.target.files[0] : null;
-              setInfo({ place, text, image: file });
-              if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  setPreview(reader.result as string);
-                };
-                reader.readAsDataURL(file);
-              }
+              if (readOnly) return;
+              onChangeFile(e);
             }}
+            disabled={readOnly}
           />
           <div className="flex flex-col flex-1 gap-1">
             <div
               className="flex flex-row justify-between cursor-pointer"
-              onClick={() => setOpenSearchModal(true)}
+              onClick={() => {
+                if (readOnly) return;
+                setOpenSearchModal(true);
+              }}
             >
               {placeName ? (
                 <div className="leading-7 text-lg cursor-pointer">
@@ -140,23 +158,23 @@ const CourseCard = ({
                 </div>
               )}
 
-              {position === "stopover" && (
+              {!readOnly && position === "stopover" && (
                 <div
                   className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    removeCourse();
+                    removeCourse?.();
                   }}
                 >
                   −
                 </div>
               )}
-              {position === "end" && courseLength < 4 && (
+              {!readOnly && position === "end" && (courseLength ?? 0) < 4 && (
                 <div
                   className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 text-xl cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    addNextCourse();
+                    addNextCourse?.();
                   }}
                 >
                   +
@@ -164,6 +182,8 @@ const CourseCard = ({
               )}
             </div>
             <textarea
+              readOnly={readOnly}
+              defaultValue={text}
               className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
               placeholder="추천 이유를 작성해주세요"
               onChange={(e) => {

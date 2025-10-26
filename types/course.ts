@@ -24,8 +24,8 @@ export interface IKakaoMapPoint {
   id: string;
   place_name: string;
   address_name: string;
-  road_address_name: string;
-  phone: string;
+  road_address_name?: string;
+  phone?: string;
   x: string; // longitude
   y: string; // latitude
 
