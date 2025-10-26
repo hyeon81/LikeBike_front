@@ -17,13 +17,12 @@ const Quiz = ({
   handleClick: (selectedValue: string) => void;
 }) => {
   const [answer, setAnswer] = useState("");
-  const quizType: QUIZ_TYPE = QUIZ_TYPE.INPUT;
+  const quizType: QUIZ_TYPE = quiz?.quiz_type ?? QUIZ_TYPE.SELECT;
 
-  // if (!quiz) {
-  //   return <div className="pt-4">오늘의 퀴즈가 게시되지 않았습니다.</div>;
-  // }
+  if (!quiz) {
+    return <div className="pt-4">오늘의 퀴즈가 게시되지 않았습니다.</div>;
+  }
 
-  console.log("quiz", quiz);
   return (
     <div className="h-full flex flex-col">
       <div className="bg-secondary-light w-full flex flex-col items-center justify-center p-4 mt-4 text-2xl font-bold default-border ">
@@ -35,7 +34,7 @@ const Quiz = ({
           {/* <Link href={quiz?.hint_link ?? ""} className="text-blue-500 underline">
         <div className="p-2">힌트 보러 가기</div>
       </Link> */}
-          {quizType === QUIZ_TYPE.SELECT && (
+          {quizType == QUIZ_TYPE.SELECT && (
             <SelectQuestion quiz={quiz} answer={answer} setAnswer={setAnswer} />
           )}
           {quizType === QUIZ_TYPE.INPUT && (
@@ -46,19 +45,24 @@ const Quiz = ({
               hint={quiz?.hint_link}
             />
           )}
-          {quizType === QUIZ_TYPE.OX && (
+          {quizType == QUIZ_TYPE.OX && (
             <OXQuestion quiz={quiz} answer={answer} setAnswer={setAnswer} />
           )}
         </div>
-        <Button
-          onClick={() => {
-            if (!answer || answer === "") return;
-            handleClick(answer);
-          }}
-          disabled={!answer || answer === ""}
-        >
-          정답 제출하기
-        </Button>
+        <div className="w-full mt-4">
+          <Button
+            style={{
+              width: "100%",
+            }}
+            onClick={() => {
+              if (!answer || answer === "") return;
+              handleClick(answer);
+            }}
+            disabled={!answer || answer === ""}
+          >
+            정답 제출하기
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ export interface IQuiz {
   explanation: string;
   hint_link: string;
   display_date: string;
+  quiz_type: QUIZ_TYPE;
 }
 
 export enum QUIZ_TYPE {

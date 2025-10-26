@@ -1,5 +1,6 @@
 import { IQuiz } from "@/types/quiz";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   quiz: IQuiz | undefined;
@@ -20,9 +21,15 @@ const InputQuestion = ({ quiz, answer, setAnswer }: Props) => {
       />
       <div className="flex flex-row align-center mt-2 justify-center">
         <Image width={24} height={24} alt="hint" src={"/icons/question.svg"} />
-        <div className=" text-primary ml-[4px]">
-          {quiz?.hint_link ? quiz.hint_link : "힌트가 없습니다."}
-        </div>
+        {quiz?.hint_link ? (
+          <Link href={quiz.hint_link}>
+            <div className=" text-primary ml-[4px] underline">
+              {quiz.hint_link}
+            </div>
+          </Link>
+        ) : (
+          <div className=" text-primary ml-[4px]">힌트가 없습니다.</div>
+        )}
       </div>
     </div>
   );

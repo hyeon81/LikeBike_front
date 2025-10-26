@@ -83,7 +83,7 @@ const CourseCard = ({
           <CourseSearch
             onClose={() => setOpenSearchModal(false)}
             onSelect={(newPlace: IKakaoMapPoint) => {
-              setPlaceInfo?.(newPlace);
+              setInfo?.({ image, place: newPlace, text });
               setOpenSearchModal(false);
             }}
           />
@@ -187,7 +187,7 @@ const CourseCard = ({
             </div>
             <textarea
               readOnly={readOnly}
-              value={text}
+              defaultValue={text}
               className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
               placeholder="추천 이유를 작성해주세요"
               onChange={(e) => onChangeText(e.target.value)}

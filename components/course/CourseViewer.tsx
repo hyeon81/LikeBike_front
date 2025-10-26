@@ -4,7 +4,7 @@ import { ICourseResponse, IPlaceResponse } from "@/apis/course/getCourse";
 import CourseCard from "./CourseCard";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import CloseIcon from "@mui/icons-material/Close";
-import { LOG_STATUS } from "@/types/bikeLog";
+import { IStatus, LOG_STATUS } from "@/types/bikeLog";
 import dayjs from "dayjs";
 
 export default function CourseViewer({
@@ -45,7 +45,7 @@ export default function CourseViewer({
       </div>
 
       <div className="border border-gray-300 p-3 rounded-lg mb-4">
-        [{LOG_STATUS[courses.status].text}]{" "}
+        [{LOG_STATUS[courses.status as IStatus].text}]{" "}
         {dayjs(courses.created_at?.replace("GMT", "")).format(
           "YYYY-MM-DD, A hh시 mm분"
         )}
