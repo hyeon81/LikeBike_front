@@ -38,21 +38,22 @@ export default function CourseViewer({
         content: { zIndex: 2100 },
       }}
     >
-      <div className="flex flex-row justify-between items-center pb-2 border-b border-gray-light">
-        <div className="text-lg">
-          [{LOG_STATUS[courses.status].text}]{" "}
-          {dayjs(courses.created_at?.replace("GMT", "")).format(
-            "YYYY-MM-DD, A hh시 mm분"
-          )}
-        </div>
+      <div className="flex flex-row justify-end items-center pb-3">
         <button type="button" className="cursor-pointer" onClick={onClose}>
           <CloseIcon fontSize="large" />
         </button>
       </div>
 
+      <div className="border border-gray-300 p-3 rounded-lg mb-4">
+        [{LOG_STATUS[courses.status].text}]{" "}
+        {dayjs(courses.created_at?.replace("GMT", "")).format(
+          "YYYY-MM-DD, A hh시 mm분"
+        )}
+      </div>
+
       <div className="flex flex-col gap-4">
         <div
-          className={`bg-green-200 rounded-2xl h-[174px] w-full flex items-center justify-center`}
+          className={`bg-gray-light rounded-2xl h-[174px] w-full flex items-center justify-center`}
         >
           <KakaoMapView places={processedPlaces} />
         </div>

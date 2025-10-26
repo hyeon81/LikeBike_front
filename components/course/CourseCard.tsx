@@ -1,10 +1,10 @@
 import PhotoIcon from "@/public/icons/PhotoIcon";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import Image from "next/image";
-import { RefObject, useReducer, useState } from "react";
+import { RefObject, useCallback, useReducer, useState } from "react";
 import CourseSearch from "./CourseSearch";
 import ReactModal from "react-modal";
-import CourseViewer from "./CourseViewer";
+import { debounce } from "@mui/material";
 
 interface ICourseCardProps {
   idx: number;
@@ -18,6 +18,7 @@ interface ICourseCardProps {
   courseLength?: number;
   showError?: boolean;
   setInfo?: (course: ICourseCard) => void;
+  setTextInfo?: (text: string) => void;
   removeCourse?: () => void;
   addNextCourse?: () => void;
   readOnly?: boolean;
@@ -30,12 +31,12 @@ const CourseCard = ({
   courseLength,
   showError,
   setInfo,
+  setTextInfo,
   removeCourse,
   addNextCourse,
   readOnly = false,
 }: ICourseCardProps) => {
   const [preview, setPreview] = useState<string | null>(photoUrl || null);
-  const [placeName, setPlaceName] = useState(place ? place!.place_name : null);
   const [openSearchModal, setOpenSearchModal] = useState(false);
 
   const errorInfo = {
@@ -63,6 +64,10 @@ const CourseCard = ({
     }
   };
 
+  const onChangeText = (s: string) => {
+    setTextInfo?.(s);
+  };
+
   return (
     <>
       {!readOnly && (
@@ -78,8 +83,7 @@ const CourseCard = ({
           <CourseSearch
             onClose={() => setOpenSearchModal(false)}
             onSelect={(newPlace: IKakaoMapPoint) => {
-              setInfo?.({ place: newPlace, text, image });
-              setPlaceName(newPlace.place_name);
+              setPlaceInfo?.(newPlace);
               setOpenSearchModal(false);
             }}
           />
@@ -135,9 +139,9 @@ const CourseCard = ({
                 setOpenSearchModal(true);
               }}
             >
-              {placeName ? (
+              {place ? (
                 <div className="leading-7 text-lg cursor-pointer">
-                  {placeName}
+                  {place.place_name}
                 </div>
               ) : (
                 <div className="flex flex-row gap-1">
@@ -183,12 +187,10 @@ const CourseCard = ({
             </div>
             <textarea
               readOnly={readOnly}
-              defaultValue={text}
+              value={text}
               className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
               placeholder="추천 이유를 작성해주세요"
-              onChange={(e) => {
-                if (setInfo) setInfo({ place, text: e.target.value, image });
-              }}
+              onChange={(e) => onChangeText(e.target.value)}
             />
           </div>
         </div>

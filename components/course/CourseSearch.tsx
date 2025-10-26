@@ -173,7 +173,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="장소를 입력하세요"
-          className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <button
           type="submit"

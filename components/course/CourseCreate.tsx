@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 
 import { createCourse } from "@/apis/course/createCourse";
 import { getCourseCount } from "@/apis/course/getCourseCount";
@@ -27,21 +27,28 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [, forceRender] = useReducer((x) => x + 1, 0);
-
-  const courseInfo = useRef<ICourseCard[]>([
+  const textInfo = useRef<string[]>(["", ""]);
+  const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
     { place: null, text: "", image: null },
     { place: null, text: "", image: null },
   ]);
 
   const isAlreadyCertified = courseCount && courseCount >= 2;
-  const checkCompletedCourses = () => {
-    for (let i = 0; i < courseInfo.current.length; i++) {
-      const course = courseInfo.current[i];
+  const places = useMemo(
+    () =>
+      courseInfo
+        .filter((p) => p.place !== null)
+        .map((p) => p.place!) as IKakaoMapPoint[],
+    [courseInfo]
+  );
+
+  const checkCompletedCourses = (res: ICourseCard[]) => {
+    for (let i = 0; i < res.length; i++) {
+      const course = res[i];
       if (!course.place || !course.text.trim()) {
         return false;
       }
-      if (i == 0 || i == courseInfo.current.length - 1) {
+      if (i == 0 || i == res.length - 1) {
         if (!course.image) {
           return false;
         }
@@ -50,12 +57,13 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
     return true;
   };
 
-  const places = courseInfo.current
-    .map((info) => info.place)
-    .filter((p): p is IKakaoMapPoint => p !== null);
-
   const onSubmit = async () => {
-    if (checkCompletedCourses() === false) {
+    const res = courseInfo.map((v, idx) => ({
+      ...v,
+      text: textInfo.current[idx] || v.text,
+    }));
+
+    if (checkCompletedCourses(res) === false) {
       setShowError(true);
       setErrorModalIsOpen(true);
       return;
@@ -63,7 +71,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
 
     try {
       setLoading(true);
-      await createCourse(courseInfo.current);
+      await createCourse(res);
       setModalIsOpen(true);
     } catch (error) {
       console.error("Error creating course:", error);
@@ -121,53 +129,50 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
         >
           <KakaoMapView places={places} />
         </div>
-        {courseInfo.current.map((v, idx) => {
+        {courseInfo.map((v, idx) => {
           const position =
             idx === 0
               ? "start"
-              : idx === courseInfo.current.length - 1
+              : idx === courseInfo.length - 1
                 ? "end"
                 : "stopover";
           return (
             <CourseCard
               info={{
                 place: v.place,
-                text: v.text,
+                text: textInfo.current[idx] || v.text,
                 image: v.image,
               }}
               idx={idx + 1}
               key={idx}
               position={position}
               setInfo={(newInfo: ICourseCard) => {
-                const updatedCourseInfo = [...courseInfo.current];
+                const updatedCourseInfo = [...courseInfo];
                 updatedCourseInfo[idx] = newInfo;
-                courseInfo.current = updatedCourseInfo;
-                forceRender();
+                setCourseInfo(updatedCourseInfo);
+              }}
+              setTextInfo={(text: string) => {
+                textInfo.current[idx] = text;
               }}
               removeCourse={() => {
-                const updatedCourseInfo = courseInfo.current.filter(
+                const updatedCourseInfo = courseInfo.filter(
                   (_, courseIdx) => courseIdx !== idx
                 );
-                courseInfo.current = updatedCourseInfo;
-                forceRender();
+                setCourseInfo(updatedCourseInfo);
               }}
               addNextCourse={() => {
-                if (courseInfo.current.length >= 4) return;
+                if (courseInfo.length >= 4) return;
                 //전체 배열에서 뒤에서 두번째 인덱스에 추가
-                const updatedCourseInfo = [...courseInfo.current];
+                const updatedCourseInfo = [...courseInfo];
                 updatedCourseInfo.splice(-1, 0, {
                   place: null,
                   text: "",
                   image: null,
                 });
-                courseInfo.current = updatedCourseInfo;
-                forceRender();
+                setCourseInfo(updatedCourseInfo);
               }}
-              courseLength={courseInfo.current.length}
+              courseLength={courseInfo.length}
               showError={showError}
-              place={null}
-              text={""}
-              image={null}
             />
           );
         })}
