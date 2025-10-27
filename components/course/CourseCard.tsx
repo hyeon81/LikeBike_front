@@ -82,6 +82,7 @@ const CourseCard = ({
         >
           <CourseSearch
             onClose={() => setOpenSearchModal(false)}
+            defaultPlace={place}
             onSelect={(newPlace: IKakaoMapPoint) => {
               setInfo?.({ image, place: newPlace, text });
               setOpenSearchModal(false);

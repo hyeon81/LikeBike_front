@@ -7,17 +7,25 @@ import ReactModal from "react-modal";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
+import { IKakaoMapPoint } from "@/types/course";
 
 interface Props {
+  defaultPlace: IKakaoMapPoint | null;
   onClose: () => void;
   onSelect: (place: any) => void;
 }
 
-export default function CourseSearch({ onClose, onSelect }: Props) {
+export default function CourseSearch({
+  defaultPlace,
+  onClose,
+  onSelect,
+}: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState(defaultPlace?.place_name || "");
   const [places, setPlaces] = useState<any[]>([]);
-  const [currentPlace, setCurrentPlace] = useState<any>(null);
+  const [currentPlace, setCurrentPlace] = useState<IKakaoMapPoint | null>(
+    defaultPlace || null
+  );
   const [loading, setLoading] = useState(false);
   const { loaded, error } = useKakao();
 
