@@ -22,7 +22,7 @@ const OAuthPage = () => {
       });
 
       const data = await response.json();
-      console.log("data", data);
+      // console.log("data", data);
 
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem(ACCESS_TOKEN, data.data[0].access_token);

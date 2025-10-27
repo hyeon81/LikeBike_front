@@ -21,19 +21,19 @@ const PhotoStatusCard = ({
     <div className="flex flex-col w-full">
       <div className="bg-black relative">
         {chipText && (
-          <div className="bg-white size-fit p-1 z-10 rounded-3xl absolute top-2 left-2 text-xs font-normal">
+          <div className="bg-white size-fit p-1 px-1 z-10 rounded-3xl absolute top-2 left-2 text-xs font-normal">
             {chipText}
           </div>
         )}
-        <div>
+        <div className="w-full h-[160px] bg-gray-lightest">
           {imgUrl && (
             <img
               alt="인증 사진"
               src={imgUrl}
               style={{
                 objectFit: "cover",
-                width: "150px",
-                height: "160px",
+                width: "100%",
+                height: "100%",
               }}
             />
           )}

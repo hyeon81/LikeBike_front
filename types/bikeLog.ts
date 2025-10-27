@@ -5,7 +5,7 @@ export interface IBikeLog extends UserBikeLog {
   safety_gear_photo_url: string;
   started_at: string;
   created_at: string;
-  verification_status: "pending" | "verified" | "rejected";
+  verification_status: IStatus;
   verified_at: string | null;
   points_awarded: number;
   admin_notes: string | null;
@@ -16,8 +16,10 @@ export interface UserBikeLog {
   bike_photo_url: string;
   safety_gear_photo_url: string;
   started_at: string;
-  verification_status: "pending" | "verified" | "rejected";
+  verification_status: IStatus;
 }
+
+export type IStatus = "pending" | "verified" | "rejected";
 
 export const LOG_STATUS = {
   pending: { text: "검토 중", color: "bg-gray-light" },
