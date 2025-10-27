@@ -71,7 +71,7 @@ export default function CourseViewer({
                   y: v.y,
                 },
                 text: v.description || "",
-                photoUrl: v.photo_url,
+                preview: v.photo_url,
               }}
               idx={idx + 1}
               key={idx}
