@@ -32,7 +32,7 @@ export default function CourseViewer({
     <ReactModal
       isOpen={isOpen}
       ariaHideApp={false}
-      className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full"
+      className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full overflow-y-auto"
       style={{
         overlay: { zIndex: 2000 },
         content: { zIndex: 2100 },

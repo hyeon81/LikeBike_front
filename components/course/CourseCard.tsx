@@ -74,7 +74,7 @@ const CourseCard = ({
         <ReactModal
           isOpen={openSearchModal}
           ariaHideApp={false}
-          className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full"
+          className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-[100vh]"
           style={{
             overlay: { zIndex: 2000 },
             content: { zIndex: 2100 },
@@ -188,7 +188,7 @@ const CourseCard = ({
             <textarea
               readOnly={readOnly}
               defaultValue={text}
-              className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
+              className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast-dark`}
               placeholder="추천 이유를 작성해주세요"
               onChange={(e) => onChangeText(e.target.value)}
             />

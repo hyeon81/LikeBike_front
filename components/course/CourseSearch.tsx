@@ -42,19 +42,18 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
 
     let markers: any[] = [];
 
-    // 마커 이미지 설정
+    // ✅ 마커 이미지 설정
     const normalImage = new kakao.maps.MarkerImage(
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 회색/작은 마커로 바꿀 수도 있음
-      new kakao.maps.Size(24, 35)
+      "/icons/location_marker.svg",
+      new kakao.maps.Size(18, 18)
     );
 
     const selectedImage = new kakao.maps.MarkerImage(
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 선택 시 빨간색 마커
-      new kakao.maps.Size(32, 46)
+      "/icons/location_marker_selected.svg",
+      new kakao.maps.Size(24, 35) // 살짝 확대 (애니메이션 효과 느낌)
     );
 
     const displayMarkers = (places: any[]) => {
-      // 기존 마커 제거
       markers.forEach((m) => m.setMap(null));
       markers = [];
 
@@ -68,6 +67,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
           position,
           map,
           image: normalImage,
+          zIndex: 1, // 기본 zIndex
         });
 
         kakao.maps.event.addListener(marker, "mouseover", () => {
@@ -121,6 +121,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
     }
   };
 
+  // ✅ 선택 시 강조 + 위로 올라오게 (zIndex + 이미지 변경)
   const handlePlaceClick = (place: any) => {
     setCurrentPlace(place);
 
@@ -132,15 +133,18 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
 
     if (!map || !markers) return;
 
-    // 선택된 마커 찾기
     const selectedMarker = markers.find((m: any) => m.placeId === place.id);
     if (!selectedMarker) return;
 
-    // 모든 마커를 기본 이미지로 초기화
-    markers.forEach((m) => m.setImage(normalImage));
+    // 모든 마커 초기화
+    markers.forEach((m) => {
+      m.setImage(normalImage);
+      m.setZIndex(1);
+    });
 
-    // 선택된 마커만 강조
+    // 선택된 마커 강조 + 위로 올리기
     selectedMarker.setImage(selectedImage);
+    selectedMarker.setZIndex(10);
 
     // 지도 중심 이동
     const pos = new kakao.maps.LatLng(place.y, place.x);
@@ -161,7 +165,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-[100vh]">
       <div className="flex flex-row justify-end items-center mb-2">
         <button type="button" className="cursor-pointer" onClick={onClose}>
           <CloseIcon fontSize="large" />
@@ -173,7 +177,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="장소를 입력하세요"
-          className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-primary"
+          className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-contrast-dark"
         />
         <button
           type="submit"
@@ -196,8 +200,8 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
       )}
 
       {/* 결과 리스트 */}
-      <div className="flex-1 border border-gray-200 rounded-lg divide-y divide-gray-200 overflow-y-auto h-[500px]">
-        {places.map((p, i) => (
+      <div className="flex-1 border border-gray-200 rounded-lg divide-y divide-gray-200 overflow-y-auto min-h-0">
+        {places.map((p) => (
           <div
             key={p.id}
             onClick={() => handlePlaceClick(p)}
@@ -227,8 +231,14 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
           </div>
         )}
       </div>
+
+      {/* 선택 버튼 */}
       <button
-        className={`${!currentPlace ? "bg-gray-lightest text-gray-medium" : "bg-contrast-dark text-white cursor-pointer"} p-4 rounded-xl text-center text-lg font-bold my-4 w-full`}
+        className={`${
+          !currentPlace
+            ? "bg-gray-lightest text-gray-medium"
+            : "bg-contrast-dark text-white cursor-pointer"
+        } p-4 rounded-xl text-center text-lg font-bold mt-4 sticky bottom-0`}
         disabled={!currentPlace || loading}
         onClick={onSubmitPlace}
       >
