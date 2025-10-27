@@ -1,12 +1,13 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { getCourse } from "@/apis/course/getCourse";
 import TabList from "@/components/common/TabList";
 import CourseList from "@/components/course/CourseList";
 import CourseCreate from "@/components/course/CourseCreate";
+import { ICourseCard } from "@/types/course";
 
 export default function Home() {
   const [value, setValue] = useState(1);
@@ -14,6 +15,17 @@ export default function Home() {
     queryKey: ["courseList"],
     queryFn: getCourse,
   });
+  const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
+    { place: null, text: "", image: null },
+    { place: null, text: "", image: null },
+  ]);
+
+  const clearInfo = () => {
+    setCourseInfo([
+      { place: null, text: "", image: null },
+      { place: null, text: "", image: null },
+    ]);
+  };
 
   return (
     <div>
@@ -38,6 +50,9 @@ export default function Home() {
               refetch();
               setValue(2);
             }}
+            courseInfo={courseInfo}
+            setCourseInfo={setCourseInfo}
+            clearInfo={clearInfo}
           />
         ) : (
           <CourseList />

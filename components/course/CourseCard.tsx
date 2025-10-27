@@ -4,7 +4,6 @@ import Image from "next/image";
 import { RefObject, useCallback, useReducer, useState } from "react";
 import CourseSearch from "./CourseSearch";
 import ReactModal from "react-modal";
-import { debounce } from "@mui/material";
 
 interface ICourseCardProps {
   idx: number;
@@ -12,13 +11,12 @@ interface ICourseCardProps {
     place: IKakaoMapPoint | null;
     text: string;
     image: File | null;
-    photoUrl?: string;
+    preview?: string | null;
   };
   position?: "start" | "end" | "stopover";
   courseLength?: number;
   showError?: boolean;
   setInfo?: (course: ICourseCard) => void;
-  setTextInfo?: (text: string) => void;
   removeCourse?: () => void;
   addNextCourse?: () => void;
   readOnly?: boolean;
@@ -26,17 +24,15 @@ interface ICourseCardProps {
 
 const CourseCard = ({
   idx,
-  info: { place, text, image, photoUrl },
+  info: { place, text, image, preview },
   position,
   courseLength,
   showError,
   setInfo,
-  setTextInfo,
   removeCourse,
   addNextCourse,
   readOnly = false,
 }: ICourseCardProps) => {
-  const [preview, setPreview] = useState<string | null>(photoUrl || null);
   const [openSearchModal, setOpenSearchModal] = useState(false);
 
   const errorInfo = {
@@ -54,18 +50,22 @@ const CourseCard = ({
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (readOnly) return;
     const file = e.target.files ? e.target.files[0] : null;
-    setInfo?.({ place, text, image: file });
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result as string);
+        setInfo?.({
+          place,
+          text,
+          image: file,
+          preview: reader.result as string,
+        });
       };
       reader.readAsDataURL(file);
     }
   };
 
   const onChangeText = (s: string) => {
-    setTextInfo?.(s);
+    setInfo?.({ text: s, image, preview, place });
   };
 
   return (
@@ -74,7 +74,7 @@ const CourseCard = ({
         <ReactModal
           isOpen={openSearchModal}
           ariaHideApp={false}
-          className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-full"
+          className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-[100vh]"
           style={{
             overlay: { zIndex: 2000 },
             content: { zIndex: 2100 },
@@ -82,8 +82,9 @@ const CourseCard = ({
         >
           <CourseSearch
             onClose={() => setOpenSearchModal(false)}
+            defaultPlace={place}
             onSelect={(newPlace: IKakaoMapPoint) => {
-              setInfo?.({ image, place: newPlace, text });
+              setInfo?.({ image, place: newPlace, text, preview });
               setOpenSearchModal(false);
             }}
           />
@@ -187,8 +188,8 @@ const CourseCard = ({
             </div>
             <textarea
               readOnly={readOnly}
-              defaultValue={text}
-              className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast`}
+              value={text}
+              className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast-dark`}
               placeholder="추천 이유를 작성해주세요"
               onChange={(e) => onChangeText(e.target.value)}
             />

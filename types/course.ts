@@ -2,6 +2,7 @@ export interface ICourseCard {
   place: IKakaoMapPoint | null;
   text: string;
   image: File | null;
+  preview?: string | null;
 }
 
 /**

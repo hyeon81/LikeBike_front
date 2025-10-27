@@ -44,7 +44,7 @@ export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
           new kakao.maps.CustomOverlay({
             position,
             content: `<div style="
-              background:red; color:white; border-radius:50%;
+              background:#FF7272; color:white; border-radius:50%;
               width:24px; height:24px;
               display:flex; justify-content:center; align-items:center;
               font-weight:bold;">${i + 1}</div>`,

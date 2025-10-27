@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useMemo, useState } from "react";
 
 import { createCourse } from "@/apis/course/createCourse";
 import { getCourseCount } from "@/apis/course/getCourseCount";
@@ -17,7 +17,19 @@ import CourseCard from "./CourseCard";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import KakaoMapView from "./KakaoMapView";
 
-const CourseCreate = ({ goToList }: { goToList: () => void }) => {
+interface Props {
+  goToList: () => void;
+  courseInfo: ICourseCard[];
+  setCourseInfo: Dispatch<SetStateAction<ICourseCard[]>>;
+  clearInfo: () => void;
+}
+
+const CourseCreate = ({
+  goToList,
+  courseInfo,
+  setCourseInfo,
+  clearInfo,
+}: Props) => {
   const { data: courseCount, refetch } = useQuery({
     queryKey: ["courseCount"],
     queryFn: getCourseCount,
@@ -27,11 +39,6 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const textInfo = useRef<string[]>(["", ""]);
-  const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
-    { place: null, text: "", image: null },
-    { place: null, text: "", image: null },
-  ]);
 
   const isAlreadyCertified = courseCount && courseCount >= 2;
   const places = useMemo(
@@ -58,10 +65,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
   };
 
   const onSubmit = async () => {
-    const res = courseInfo.map((v, idx) => ({
-      ...v,
-      text: textInfo.current[idx] || v.text,
-    }));
+    const res = courseInfo;
 
     if (checkCompletedCourses(res) === false) {
       setShowError(true);
@@ -94,6 +98,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
         isRed
         onClickButton={() => {
           setModalIsOpen(false);
+          clearInfo();
           refetch();
           goToList();
         }}
@@ -140,8 +145,9 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
             <CourseCard
               info={{
                 place: v.place,
-                text: textInfo.current[idx] || v.text,
+                text: v.text,
                 image: v.image,
+                preview: v.preview,
               }}
               idx={idx + 1}
               key={idx}
@@ -150,9 +156,6 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
                 const updatedCourseInfo = [...courseInfo];
                 updatedCourseInfo[idx] = newInfo;
                 setCourseInfo(updatedCourseInfo);
-              }}
-              setTextInfo={(text: string) => {
-                textInfo.current[idx] = text;
               }}
               removeCourse={() => {
                 const updatedCourseInfo = courseInfo.filter(
@@ -168,6 +171,7 @@ const CourseCreate = ({ goToList }: { goToList: () => void }) => {
                   place: null,
                   text: "",
                   image: null,
+                  preview: null,
                 });
                 setCourseInfo(updatedCourseInfo);
               }}
