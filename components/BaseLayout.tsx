@@ -26,28 +26,29 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
   // 로컬스토리지에 accessToken이 없으면 로그인 페이지로 이동
   const router = useRouter();
   const pathname = usePathname();
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const accessToken = localStorage.getItem(ACCESS_TOKEN);
-  //   if (!accessToken && pathname !== "/signin" && pathname !== "/oauth") {
-  //     router.push("/signin");
-  //   } else if (
-  //     accessToken &&
-  //     (pathname === "/signin" || pathname === "/oauth")
-  //   ) {
-  //     router.push("/");
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // }, [pathname, router]);
+  useEffect(() => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    if (!accessToken && pathname !== "/signin" && pathname !== "/oauth") {
+      router.push("/signin");
+    } else if (
+      accessToken &&
+      (pathname === "/signin" || pathname === "/oauth")
+    ) {
+      router.push("/");
+    } else {
+      setLoading(false);
+    }
+  }, [pathname, router]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center h-screen">
-  //       <CircularProgress />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
