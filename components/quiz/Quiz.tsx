@@ -42,7 +42,6 @@ const Quiz = ({
               quiz={quiz}
               answer={answer}
               setAnswer={setAnswer}
-              hint={quiz?.hint_link}
             />
           )}
           {quizType == QUIZ_TYPE.OX && (

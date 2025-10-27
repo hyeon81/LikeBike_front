@@ -4,7 +4,6 @@ import Link from "next/link";
 
 interface Props {
   quiz: IQuiz | undefined;
-  hint?: string;
   answer: string;
   setAnswer: (value: string) => void;
 }
@@ -24,11 +23,13 @@ const InputQuestion = ({ quiz, answer, setAnswer }: Props) => {
         {quiz?.hint_link ? (
           <Link href={quiz.hint_link}>
             <div className=" text-primary ml-[4px] underline">
-              {quiz.hint_link}
+              {quiz?.hint_explation ?? quiz?.hint_link}
             </div>
           </Link>
         ) : (
-          <div className=" text-primary ml-[4px]">힌트가 없습니다.</div>
+          quiz?.hint_explation && (
+            <div className=" text-primary ml-[4px]">{quiz?.hint_explation}</div>
+          )
         )}
       </div>
     </div>

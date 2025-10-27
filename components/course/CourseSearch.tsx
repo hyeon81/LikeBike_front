@@ -200,7 +200,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
       )}
 
       {/* 결과 리스트 */}
-      <div className="flex-1 border border-gray-200 rounded-lg divide-y divide-gray-200 overflow-y-auto min-h-0">
+      <div className="flex-1 border border-gray-200 rounded-lg divide-y divide-gray-200 overflow-y-auto min-h-0 mb-8">
         {places.map((p) => (
           <div
             key={p.id}
@@ -238,7 +238,7 @@ export default function CourseSearch({ onClose, onSelect }: Props) {
           !currentPlace
             ? "bg-gray-lightest text-gray-medium"
             : "bg-contrast-dark text-white cursor-pointer"
-        } p-4 rounded-xl text-center text-lg font-bold mt-4 sticky bottom-0`}
+        } p-4 rounded-xl text-center text-lg font-bold mt-4 sticky bottom-4`}
         disabled={!currentPlace || loading}
         onClick={onSubmitPlace}
       >
