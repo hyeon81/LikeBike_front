@@ -12,6 +12,7 @@ interface ICourseCardProps {
     text: string;
     image: File | null;
     preview?: string | null;
+    id: string;
   };
   position?: "start" | "end" | "stopover";
   courseLength?: number;
@@ -24,7 +25,7 @@ interface ICourseCardProps {
 
 const CourseCard = ({
   idx,
-  info: { place, text, image, preview },
+  info: { place, text, image, preview, id },
   position,
   courseLength,
   showError,
@@ -58,6 +59,7 @@ const CourseCard = ({
           text,
           image: file,
           preview: reader.result as string,
+          id,
         });
       };
       reader.readAsDataURL(file);
@@ -65,7 +67,7 @@ const CourseCard = ({
   };
 
   const onChangeText = (s: string) => {
-    setInfo?.({ text: s, image, preview, place });
+    setInfo?.({ text: s, image, preview, place, id });
   };
 
   return (
@@ -84,7 +86,7 @@ const CourseCard = ({
             onClose={() => setOpenSearchModal(false)}
             defaultPlace={place}
             onSelect={(newPlace: IKakaoMapPoint) => {
-              setInfo?.({ image, place: newPlace, text, preview });
+              setInfo?.({ image, place: newPlace, text, preview, id });
               setOpenSearchModal(false);
             }}
           />
@@ -188,7 +190,7 @@ const CourseCard = ({
             </div>
             <textarea
               readOnly={readOnly}
-              value={text}
+              defaultValue={text}
               className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast-dark`}
               placeholder="추천 이유를 작성해주세요"
               onChange={(e) => onChangeText(e.target.value)}

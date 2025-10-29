@@ -1,4 +1,5 @@
 export interface ICourseCard {
+  id: string;
   place: IKakaoMapPoint | null;
   text: string;
   image: File | null;

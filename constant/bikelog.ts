@@ -20,13 +20,13 @@ export const EXAMPLE_IMAGES = [
   {
     status: true,
     chipText: "자전거",
-    description: "브레이크, 벨, 후미등, 거치대가 확인되는 자전거",
+    description: "브레이크가 확인되는 자전거",
     imageIdx: 4,
   },
   {
     status: false,
     chipText: "자전거",
-    description: "브레이크, 벨, 후미등, 거치대가 1개 이상 없는 자전거",
+    description: "브레이크가 1개 이상 없는 자전거",
     imageIdx: 5,
   },
   {
