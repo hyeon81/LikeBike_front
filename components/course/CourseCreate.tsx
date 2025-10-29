@@ -1,29 +1,13 @@
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useState } from "react";
 
-import { createCourse } from "@/apis/course/createCourse";
 import { getCourseCount } from "@/apis/course/getCourseCount";
-import { RIVER_LIST } from "@/constant/riverList";
-import PhotoIcon from "@/public/icons/PhotoIcon";
-import { getCompressionImage } from "@/utils/getCompressionImage";
 
 import BubbleChat from "../common/BubbleChat";
 import ButtonModal from "../common/ButtonModal";
 import EmSpan from "../common/EmSpan";
 import WhiteBox from "../common/WhiteBox";
-import CourseCard from "./CourseCard";
-import { ICourseCard, IKakaoMapPoint } from "@/types/course";
-import KakaoMapView from "./KakaoMapView";
+import CourseCardList from "./CourseCardList";
 
 interface Props {
   goToList: () => void;
@@ -37,97 +21,6 @@ const CourseCreate = ({ goToList }: Props) => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const index = useRef(3);
-  const isAlreadyCertified = courseCount && courseCount >= 2;
-  const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
-    { id: Date.now().toString() + 1, place: null, text: "", image: null },
-    {
-      id: Date.now().toString() + 2,
-      place: null,
-      text: "",
-      image: null,
-    },
-  ]);
-
-  const places = useMemo(
-    () =>
-      courseInfo
-        .filter((p) => p.place !== null)
-        .map((p) => p.place!) as IKakaoMapPoint[],
-    []
-  );
-
-  const checkCompletedCourses = (res: ICourseCard[]) => {
-    for (let i = 0; i < res.length; i++) {
-      const course = res[i];
-      if (!course.place || !course.text.trim()) {
-        return false;
-      }
-      if (i == 0 || i == res.length - 1) {
-        if (!course.image) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-
-  const onSubmit = async () => {
-    const res = courseInfo;
-
-    if (checkCompletedCourses(res) === false) {
-      setShowError(true);
-      setErrorModalIsOpen(true);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      await createCourse(res);
-      setModalIsOpen(true);
-    } catch (error) {
-      console.error("Error creating course:", error);
-      alert("코스 추천에 실패했습니다. 다시 시도해주세요.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const removeCourse = useCallback(
-    (selectedId: string) => {
-      const updatedCourseInfo = courseInfo.filter(
-        ({ id }) => id !== selectedId
-      );
-      setCourseInfo(updatedCourseInfo);
-    },
-    [courseInfo]
-  );
-
-  const setInfo = useCallback(
-    (newInfo: ICourseCard, index: number) => {
-      const updatedCourseInfo = [...courseInfo];
-      updatedCourseInfo[index] = newInfo;
-      setCourseInfo(updatedCourseInfo);
-    },
-    [courseInfo]
-  );
-
-  const addNextCourse = useCallback(() => {
-    if (courseInfo.length >= 4) return;
-    //전체 배열에서 뒤에서 두번째 인덱스에 추가
-    const updatedCourseInfo = [...courseInfo];
-    updatedCourseInfo.splice(-1, 0, {
-      id: Date.now().toString() + index + 1,
-      place: null,
-      text: "",
-      image: null,
-      preview: null,
-    });
-    index.current = index.current + 1;
-    setCourseInfo(updatedCourseInfo);
-  }, [courseInfo]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -171,49 +64,11 @@ const CourseCreate = ({ goToList }: Props) => {
           </div>
         </WhiteBox>
       </div>
-      <div className="flex flex-col gap-4">
-        <div
-          className={`bg-green-200 rounded-2xl h-[174px] w-full flex items-center justify-center`}
-        >
-          <KakaoMapView places={places} />
-        </div>
-        {courseInfo.map((v, idx) => {
-          const position =
-            idx === 0
-              ? "start"
-              : idx === courseInfo.length - 1
-                ? "end"
-                : "stopover";
-          return (
-            <CourseCard
-              info={{
-                place: v.place,
-                text: v.text,
-                image: v.image,
-                preview: v.preview,
-                id: v.id,
-              }}
-              idx={idx + 1}
-              key={v.id}
-              position={position}
-              setInfo={(newInfo) => setInfo(newInfo, idx)}
-              removeCourse={() => removeCourse(v.id)}
-              addNextCourse={addNextCourse}
-              courseLength={courseInfo.length}
-              showError={showError}
-            />
-          );
-        })}
-        <button
-          className={`${isAlreadyCertified ? "bg-gray-lightest text-gray-medium" : "bg-contrast-dark text-white cursor-pointer"} p-4 rounded-xl text-center text-lg font-bold mt-4`}
-          disabled={!!isAlreadyCertified || loading}
-          onClick={() => {
-            if (!loading) onSubmit();
-          }}
-        >
-          {isAlreadyCertified ? "코스 추천 제출 완료" : "코스 추천 제출하기"}
-        </button>
-      </div>
+      <CourseCardList
+        courseCount={courseCount}
+        setErrorModalIsOpen={setErrorModalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+      />
     </div>
   );
 };
