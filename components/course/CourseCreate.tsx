@@ -1,7 +1,15 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { Dispatch, RefObject, SetStateAction, useMemo, useState } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { createCourse } from "@/apis/course/createCourse";
 import { getCourseCount } from "@/apis/course/getCourseCount";
@@ -19,17 +27,9 @@ import KakaoMapView from "./KakaoMapView";
 
 interface Props {
   goToList: () => void;
-  courseInfo: ICourseCard[];
-  setCourseInfo: Dispatch<SetStateAction<ICourseCard[]>>;
-  clearInfo: () => void;
 }
 
-const CourseCreate = ({
-  goToList,
-  courseInfo,
-  setCourseInfo,
-  clearInfo,
-}: Props) => {
+const CourseCreate = ({ goToList }: Props) => {
   const { data: courseCount, refetch } = useQuery({
     queryKey: ["courseCount"],
     queryFn: getCourseCount,
@@ -39,14 +39,24 @@ const CourseCreate = ({
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-
+  const index = useRef(3);
   const isAlreadyCertified = courseCount && courseCount >= 2;
+  const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
+    { id: Date.now().toString() + 1, place: null, text: "", image: null },
+    {
+      id: Date.now().toString() + 2,
+      place: null,
+      text: "",
+      image: null,
+    },
+  ]);
+
   const places = useMemo(
     () =>
       courseInfo
         .filter((p) => p.place !== null)
         .map((p) => p.place!) as IKakaoMapPoint[],
-    [courseInfo]
+    []
   );
 
   const checkCompletedCourses = (res: ICourseCard[]) => {
@@ -85,6 +95,40 @@ const CourseCreate = ({
     }
   };
 
+  const removeCourse = useCallback(
+    (selectedId: string) => {
+      const updatedCourseInfo = courseInfo.filter(
+        ({ id }) => id !== selectedId
+      );
+      setCourseInfo(updatedCourseInfo);
+    },
+    [courseInfo]
+  );
+
+  const setInfo = useCallback(
+    (newInfo: ICourseCard, index: number) => {
+      const updatedCourseInfo = [...courseInfo];
+      updatedCourseInfo[index] = newInfo;
+      setCourseInfo(updatedCourseInfo);
+    },
+    [courseInfo]
+  );
+
+  const addNextCourse = useCallback(() => {
+    if (courseInfo.length >= 4) return;
+    //전체 배열에서 뒤에서 두번째 인덱스에 추가
+    const updatedCourseInfo = [...courseInfo];
+    updatedCourseInfo.splice(-1, 0, {
+      id: Date.now().toString() + index + 1,
+      place: null,
+      text: "",
+      image: null,
+      preview: null,
+    });
+    index.current = index.current + 1;
+    setCourseInfo(updatedCourseInfo);
+  }, [courseInfo]);
+
   return (
     <div className="flex flex-col gap-4">
       <ButtonModal
@@ -98,7 +142,6 @@ const CourseCreate = ({
         isRed
         onClickButton={() => {
           setModalIsOpen(false);
-          clearInfo();
           refetch();
           goToList();
         }}
@@ -148,33 +191,14 @@ const CourseCreate = ({
                 text: v.text,
                 image: v.image,
                 preview: v.preview,
+                id: v.id,
               }}
               idx={idx + 1}
-              key={idx}
+              key={v.id}
               position={position}
-              setInfo={(newInfo: ICourseCard) => {
-                const updatedCourseInfo = [...courseInfo];
-                updatedCourseInfo[idx] = newInfo;
-                setCourseInfo(updatedCourseInfo);
-              }}
-              removeCourse={() => {
-                const updatedCourseInfo = courseInfo.filter(
-                  (_, courseIdx) => courseIdx !== idx
-                );
-                setCourseInfo(updatedCourseInfo);
-              }}
-              addNextCourse={() => {
-                if (courseInfo.length >= 4) return;
-                //전체 배열에서 뒤에서 두번째 인덱스에 추가
-                const updatedCourseInfo = [...courseInfo];
-                updatedCourseInfo.splice(-1, 0, {
-                  place: null,
-                  text: "",
-                  image: null,
-                  preview: null,
-                });
-                setCourseInfo(updatedCourseInfo);
-              }}
+              setInfo={(newInfo) => setInfo(newInfo, idx)}
+              removeCourse={() => removeCourse(v.id)}
+              addNextCourse={addNextCourse}
               courseLength={courseInfo.length}
               showError={showError}
             />
