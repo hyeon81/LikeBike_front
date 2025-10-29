@@ -1,9 +1,10 @@
 import PhotoIcon from "@/public/icons/PhotoIcon";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import Image from "next/image";
-import { RefObject, useCallback, useReducer, useState } from "react";
+import React, { useState } from "react";
 import CourseSearch from "./CourseSearch";
 import ReactModal from "react-modal";
+import { useDebouncedCallback } from "use-debounce";
 
 interface ICourseCardProps {
   idx: number;
@@ -12,7 +13,6 @@ interface ICourseCardProps {
     text: string;
     image: File | null;
     preview?: string | null;
-    id: string;
   };
   position?: "start" | "end" | "stopover";
   courseLength?: number;
@@ -25,7 +25,7 @@ interface ICourseCardProps {
 
 const CourseCard = ({
   idx,
-  info: { place, text, image, preview, id },
+  info: { place, text, image, preview },
   position,
   courseLength,
   showError,
@@ -35,6 +35,13 @@ const CourseCard = ({
   readOnly = false,
 }: ICourseCardProps) => {
   const [openSearchModal, setOpenSearchModal] = useState(false);
+
+  const onChangeText = (s: string) => {
+    setInfo?.({ text: s, image, preview, place });
+  };
+  const debouncedText = useDebouncedCallback((value) => {
+    onChangeText(value);
+  }, 500);
 
   const errorInfo = {
     place: showError && !place,
@@ -59,15 +66,10 @@ const CourseCard = ({
           text,
           image: file,
           preview: reader.result as string,
-          id,
         });
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const onChangeText = (s: string) => {
-    setInfo?.({ text: s, image, preview, place, id });
   };
 
   return (
@@ -86,7 +88,7 @@ const CourseCard = ({
             onClose={() => setOpenSearchModal(false)}
             defaultPlace={place}
             onSelect={(newPlace: IKakaoMapPoint) => {
-              setInfo?.({ image, place: newPlace, text, preview, id });
+              setInfo?.({ image, place: newPlace, text, preview });
               setOpenSearchModal(false);
             }}
           />
@@ -100,7 +102,7 @@ const CourseCard = ({
         </div>
 
         <div
-          className={`flex flex-row gap-3 p-3 border-[1.5px] ${errorInfo.hasError ? "border-contrast-dark" : "border-gray-light"}   w-full ml-2 pl-5`}
+          className={`flex flex-row gap-3 p-3 border-[1.5px] ${errorInfo.hasError ? "border-contrast-dark" : "border-gray-light"}   w-full ml-2 pl-5 rounded-lg`}
         >
           {preview ? (
             <label
@@ -133,6 +135,7 @@ const CourseCard = ({
               onChangeFile(e);
             }}
             disabled={readOnly}
+            maxLength={50}
           />
           <div className="flex flex-col flex-1 gap-1">
             <div
@@ -193,7 +196,14 @@ const CourseCard = ({
               defaultValue={text}
               className={`border-[1.5px] w-full resize-none ${errorInfo.text ? "border-contrast-dark" : "border-gray-light"} p-2 focus:border-contrast-dark`}
               placeholder="추천 이유를 작성해주세요"
-              onChange={(e) => onChangeText(e.target.value)}
+              onChange={(e) => debouncedText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  e.currentTarget.blur();
+                }
+              }}
+              maxLength={40}
             />
           </div>
         </div>
@@ -202,4 +212,8 @@ const CourseCard = ({
   );
 };
 
-export default CourseCard;
+const propsAreEqual = (prev: ICourseCardProps, next: ICourseCardProps) => {
+  return prev.info === next.info;
+};
+
+export default React.memo(CourseCard, propsAreEqual);

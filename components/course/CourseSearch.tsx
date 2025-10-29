@@ -3,10 +3,8 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import useKakao from "@/hooks/useKakao";
-import ReactModal from "react-modal";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
-import { Stack } from "@mui/material";
 import { IKakaoMapPoint } from "@/types/course";
 
 interface Props {
@@ -182,7 +180,8 @@ export default function CourseSearch({
       {/* 검색창 */}
       <form onSubmit={handleSearch} className="flex items-center mb-4 relative">
         <input
-          value={keyword}
+          maxLength={10}
+          defaultValue={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="장소를 입력하세요"
           className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-contrast-dark"
