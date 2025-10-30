@@ -184,7 +184,7 @@ export default function CourseCard({
               )}
               {!readOnly && position === "end" && (courseLength ?? 0) < 4 && (
                 <div
-                  className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 text-xl cursor-pointer"
+                  className="bg-contrast-dark px-2 rounded-full aspect-square text-center text-white leading-7 text-xl cursor-pointer w-[28px] h-[28px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     addNextCourse?.();
