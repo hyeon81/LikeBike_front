@@ -18,22 +18,24 @@ interface ICourseCardProps {
   courseLength?: number;
   showError?: boolean;
   setInfo?: (course: ICourseCard) => void;
+  setPlaceInfo?: (place: IKakaoMapPoint | null) => void;
   removeCourse?: () => void;
   addNextCourse?: () => void;
   readOnly?: boolean;
 }
 
-const CourseCard = ({
+export default function CourseCard({
   idx,
   info: { place, text, image, preview },
   position,
   courseLength,
   showError,
   setInfo,
+  setPlaceInfo,
   removeCourse,
   addNextCourse,
   readOnly = false,
-}: ICourseCardProps) => {
+}: ICourseCardProps) {
   const [openSearchModal, setOpenSearchModal] = useState(false);
 
   const onChangeText = (s: string) => {
@@ -55,6 +57,7 @@ const CourseCard = ({
         ((position === "start" || position === "end") && !image)),
   };
 
+  console.log("text", text);
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (readOnly) return;
     const file = e.target.files ? e.target.files[0] : null;
@@ -88,7 +91,7 @@ const CourseCard = ({
             onClose={() => setOpenSearchModal(false)}
             defaultPlace={place}
             onSelect={(newPlace: IKakaoMapPoint) => {
-              setInfo?.({ image, place: newPlace, text, preview });
+              setPlaceInfo?.(newPlace);
               setOpenSearchModal(false);
             }}
           />
@@ -170,7 +173,7 @@ const CourseCard = ({
 
               {!readOnly && position === "stopover" && (
                 <div
-                  className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 cursor-pointer"
+                  className="bg-contrast-dark px-2 rounded-full aspect-square text-center text-white leading-7 cursor-pointer w-[28px] h-[28px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     removeCourse?.();
@@ -181,7 +184,7 @@ const CourseCard = ({
               )}
               {!readOnly && position === "end" && (courseLength ?? 0) < 4 && (
                 <div
-                  className="bg-contrast-dark px-2 rounded-full h-full aspect-square text-center text-white leading-7 text-xl cursor-pointer"
+                  className="bg-contrast-dark px-2 rounded-full aspect-square text-center text-white leading-7 text-xl cursor-pointer w-[28px] h-[28px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     addNextCourse?.();
@@ -199,7 +202,6 @@ const CourseCard = ({
               onChange={(e) => debouncedText(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault();
                   e.currentTarget.blur();
                 }
               }}
@@ -210,10 +212,4 @@ const CourseCard = ({
       </div>
     </>
   );
-};
-
-const propsAreEqual = (prev: ICourseCardProps, next: ICourseCardProps) => {
-  return prev.info === next.info;
-};
-
-export default React.memo(CourseCard, propsAreEqual);
+}

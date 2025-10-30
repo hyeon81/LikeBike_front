@@ -23,7 +23,8 @@ export default function Home() {
   const onClickLogout = async () => {
     try {
       await logout();
-      if (confirm("로그아웃 되었습니다")) {
+      if (confirm("로그아웃 하시겠습니까?")) {
+        alert("로그아웃 되었습니다");
         router.push("/siginin");
       }
     } catch (error) {

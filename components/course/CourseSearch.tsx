@@ -185,6 +185,11 @@ export default function CourseSearch({
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="장소를 입력하세요"
           className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-contrast-dark"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.currentTarget.blur();
+            }
+          }}
         />
         <button
           type="submit"

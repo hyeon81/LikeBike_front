@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import KakaoMapView from "./KakaoMapView";
 import { createCourse } from "@/apis/course/createCourse";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
@@ -8,44 +8,38 @@ interface Props {
   courseCount: number | undefined;
   setErrorModalIsOpen: (value: boolean) => void;
   setModalIsOpen: (value: boolean) => void;
+  placeInfo: (IKakaoMapPoint | null)[];
+  setPlaceInfo: Dispatch<SetStateAction<(IKakaoMapPoint | null)[]>>;
 }
 
 export default function CourseCardList({
   courseCount,
   setErrorModalIsOpen,
   setModalIsOpen,
+  placeInfo,
+  setPlaceInfo,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const isAlreadyCertified = courseCount && courseCount >= 2;
+
   const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
     { place: null, text: "", image: null },
-    {
-      place: null,
-      text: "",
-      image: null,
-    },
+    { place: null, text: "", image: null },
   ]);
 
   const checkCompletedCourses = (res: ICourseCard[]) => {
     for (let i = 0; i < res.length; i++) {
       const course = res[i];
-      if (!course.place || !course.text.trim()) {
-        return false;
-      }
-      if (i == 0 || i == res.length - 1) {
-        if (!course.image) {
-          return false;
-        }
-      }
+      if (!course.place || !course.text.trim()) return false;
+      if ((i === 0 || i === res.length - 1) && !course.image) return false;
     }
     return true;
   };
 
   const onSubmit = async () => {
-    const res = courseInfo;
-
-    if (checkCompletedCourses(res) === false) {
+    const res = courseInfo.map((v, idx) => ({ ...v, place: placeInfo[idx] }));
+    if (!checkCompletedCourses(res)) {
       setShowError(true);
       setErrorModalIsOpen(true);
       return;
@@ -63,53 +57,54 @@ export default function CourseCardList({
     }
   };
 
-  const removeCourse = useCallback(
-    (selectedId: number) => {
-      const updatedCourseInfo = courseInfo.filter(
-        (_, idx) => idx !== selectedId
-      );
-      setCourseInfo(updatedCourseInfo);
-    },
-    [courseInfo]
-  );
+  const removeCourse = useCallback((selectedId: number) => {
+    setCourseInfo((prev) => prev.filter((_, idx) => idx !== selectedId));
+    setPlaceInfo((prev) => prev.filter((_, idx) => idx !== selectedId));
+  }, []);
 
-  const setInfo = useCallback(
-    (newInfo: ICourseCard, index: number) => {
-      const updatedCourseInfo = [...courseInfo];
-      updatedCourseInfo[index] = newInfo;
-      setCourseInfo(updatedCourseInfo);
+  const updateInfo = useCallback((newInfo: ICourseCard, index: number) => {
+    setCourseInfo((prev) => {
+      const updated = [...prev];
+      updated[index] = newInfo;
+      return updated;
+    });
+  }, []);
+
+  const updatePlaceInfo = useCallback(
+    (newPlace: IKakaoMapPoint | null, index: number) => {
+      setPlaceInfo((prev) => {
+        const updated = [...prev];
+        updated[index] = newPlace;
+        return updated;
+      });
     },
-    [courseInfo]
+    []
   );
 
   const addNextCourse = useCallback(() => {
-    if (courseInfo.length >= 4) return;
-    //전체 배열에서 뒤에서 두번째 인덱스에 추가
-    const updatedCourseInfo = [...courseInfo];
-    updatedCourseInfo.splice(-1, 0, {
-      place: null,
-      text: "",
-      image: null,
-      preview: null,
+    setCourseInfo((prev) => {
+      if (prev.length >= 4) return prev;
+      const updated = [...prev];
+      updated.splice(-1, 0, {
+        place: null,
+        text: "",
+        image: null,
+        preview: null,
+      });
+      return updated;
     });
-    setCourseInfo(updatedCourseInfo);
-  }, [courseInfo]);
 
-  const places = useMemo(
-    () =>
-      courseInfo
-        .filter((p) => p.place !== null)
-        .map((p) => p.place!) as IKakaoMapPoint[],
-    [courseInfo]
-  );
+    setPlaceInfo((prev) => {
+      if (prev.length >= 4) return prev;
+      const updated = [...prev];
+      updated.splice(-1, 0, null);
+      return updated;
+    });
+  }, [courseInfo, placeInfo]);
 
+  console.log("courseInfo", courseInfo, placeInfo);
   return (
-    <div className="flex flex-col gap-4">
-      <div
-        className={`bg-gray-light rounded-2xl h-[174px] w-full flex items-center justify-center`}
-      >
-        <KakaoMapView places={places} />
-      </div>
+    <>
       {courseInfo.map((v, idx) => {
         const position =
           idx === 0
@@ -117,18 +112,20 @@ export default function CourseCardList({
             : idx === courseInfo.length - 1
               ? "end"
               : "stopover";
+
         return (
           <CourseCard
+            key={idx + v.text}
+            idx={idx + 1}
+            position={position}
             info={{
-              place: v.place,
+              place: placeInfo[idx],
               text: v.text,
               image: v.image,
               preview: v.preview,
             }}
-            idx={idx + 1}
-            key={idx}
-            position={position}
-            setInfo={(newInfo) => setInfo(newInfo, idx)}
+            setInfo={(newInfo) => updateInfo(newInfo, idx)}
+            setPlaceInfo={(newPlace) => updatePlaceInfo(newPlace, idx)}
             removeCourse={() => removeCourse(idx)}
             addNextCourse={addNextCourse}
             courseLength={courseInfo.length}
@@ -136,8 +133,13 @@ export default function CourseCardList({
           />
         );
       })}
+
       <button
-        className={`${isAlreadyCertified ? "bg-gray-lightest text-gray-medium" : "bg-contrast-dark text-white cursor-pointer"} p-4 rounded-xl text-center text-lg font-bold mt-4`}
+        className={`${
+          isAlreadyCertified
+            ? "bg-gray-lightest text-gray-medium"
+            : "bg-contrast-dark text-white cursor-pointer"
+        } p-4 rounded-xl text-center text-lg font-bold mt-4`}
         disabled={!!isAlreadyCertified || loading}
         onClick={() => {
           if (!loading) onSubmit();
@@ -145,6 +147,6 @@ export default function CourseCardList({
       >
         {isAlreadyCertified ? "코스 추천 제출 완료" : "코스 추천 제출하기"}
       </button>
-    </div>
+    </>
   );
 }

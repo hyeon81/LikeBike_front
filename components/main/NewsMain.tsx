@@ -32,14 +32,6 @@ const NewsMain = () => {
 
   console.log("news", news);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <CircularProgress />
-      </div>
-    );
-  }
-
   const settings = {
     dots: true,
     infinite: true,
@@ -51,6 +43,13 @@ const NewsMain = () => {
     arrows: false,
   };
 
+  if (isLoading) {
+    return (
+      <div className="h-[190px] rounded-[30px] w-full bg-white flex items-center justify-center ">
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <div className="cursor-pointer h-full min-h-[100px] slider-container">
       <Slider {...settings}>

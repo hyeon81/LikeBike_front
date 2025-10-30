@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { getCourseCount } from "@/apis/course/getCourseCount";
 
@@ -8,6 +8,8 @@ import ButtonModal from "../common/ButtonModal";
 import EmSpan from "../common/EmSpan";
 import WhiteBox from "../common/WhiteBox";
 import CourseCardList from "./CourseCardList";
+import KakaoMapView from "./KakaoMapView";
+import { IKakaoMapPoint } from "@/types/course";
 
 interface Props {
   goToList: () => void;
@@ -21,6 +23,16 @@ const CourseCreate = ({ goToList }: Props) => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
+
+  const [placeInfo, setPlaceInfo] = useState<(IKakaoMapPoint | null)[]>([
+    null,
+    null,
+  ]);
+
+  const places = useMemo(
+    () => placeInfo.filter((p) => p !== null),
+    [placeInfo]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -64,11 +76,20 @@ const CourseCreate = ({ goToList }: Props) => {
           </div>
         </WhiteBox>
       </div>
-      <CourseCardList
-        courseCount={courseCount}
-        setErrorModalIsOpen={setErrorModalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-      />
+      <div className="flex flex-col gap-4">
+        <div
+          className={`bg-gray-light rounded-2xl h-[174px] w-full flex items-center justify-center`}
+        >
+          <KakaoMapView places={places} />
+        </div>
+        <CourseCardList
+          courseCount={courseCount}
+          setErrorModalIsOpen={setErrorModalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          placeInfo={placeInfo}
+          setPlaceInfo={setPlaceInfo}
+        />
+      </div>
     </div>
   );
 };
