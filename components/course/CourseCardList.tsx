@@ -145,7 +145,7 @@ export default function CourseCardList({
           if (!loading) onSubmit();
         }}
       >
-        {isAlreadyCertified ? "코스 추천 제출 완료" : "코스 추천 제출하기"}
+        {isAlreadyCertified ? "코스 추천 주 2회 제출 완료" : "코스 추천 제출하기"}
       </button>
     </>
   );

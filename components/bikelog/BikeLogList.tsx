@@ -25,12 +25,8 @@ const BikeLogList = () => {
         <div>
           ① <EmSpan> [기준에 부합한 사진]</EmSpan>인지 검토합니다.
         </div>
-        <div>② 사진은 ‘검토 중’ 상태로 전환됩니다.</div>
         <div>
-          ③ 검토 결과를 <EmSpan>[O, X]</EmSpan>로 나타냅니다.
-        </div>
-        <div>
-          ④ <EmSpan>[안전모+사용자, 자전거]</EmSpan> 사진 모두가
+          ② <EmSpan>[안전모+사용자, 자전거]</EmSpan> 모두가
           <br />
           인정되면 점수를 지급 받습니다.
         </div>

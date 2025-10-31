@@ -187,7 +187,9 @@ export default function CourseSearch({
           className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-contrast-dark"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              e.currentTarget.blur();
+              e.preventDefault(); // 폼 기본 submit 막기
+              e.currentTarget.blur(); // 키패드 닫기
+              handleSearch(e); // 직접 검색 실행
             }
           }}
         />
