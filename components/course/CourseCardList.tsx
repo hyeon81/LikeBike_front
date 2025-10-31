@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { createCourse } from "@/apis/course/createCourse";
