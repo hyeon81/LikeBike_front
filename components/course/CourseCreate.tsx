@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
 import { getCourseCount } from "@/apis/course/getCourseCount";
 
@@ -31,7 +31,7 @@ const CourseCreate = ({ goToList }: Props) => {
 
   const places = useMemo(
     () => placeInfo.filter((p) => p !== null),
-    [placeInfo]
+    [placeInfo],
   );
 
   return (
@@ -82,6 +82,7 @@ const CourseCreate = ({ goToList }: Props) => {
         >
           <KakaoMapView places={places} />
         </div>
+        <Suspense>
         <CourseCardList
           courseCount={courseCount}
           setErrorModalIsOpen={setErrorModalIsOpen}
@@ -89,6 +90,7 @@ const CourseCreate = ({ goToList }: Props) => {
           placeInfo={placeInfo}
           setPlaceInfo={setPlaceInfo}
         />
+        </Suspense>
       </div>
     </div>
   );

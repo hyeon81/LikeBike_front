@@ -22,7 +22,7 @@ export default function CourseSearch({
   const [keyword, setKeyword] = useState(defaultPlace?.place_name || "");
   const [places, setPlaces] = useState<any[]>([]);
   const [currentPlace, setCurrentPlace] = useState<IKakaoMapPoint | null>(
-    defaultPlace || null
+    defaultPlace || null,
   );
   const [loading, setLoading] = useState(false);
   const { loaded, error } = useKakao();
@@ -51,12 +51,12 @@ export default function CourseSearch({
     // ✅ 마커 이미지 설정
     const normalImage = new kakao.maps.MarkerImage(
       "/icons/location_marker.svg",
-      new kakao.maps.Size(18, 18)
+      new kakao.maps.Size(18, 18),
     );
 
     const selectedImage = new kakao.maps.MarkerImage(
       "/icons/location_marker_selected.svg",
-      new kakao.maps.Size(24, 35) // 살짝 확대 (애니메이션 효과 느낌)
+      new kakao.maps.Size(24, 35), // 살짝 확대 (애니메이션 효과 느낌)
     );
 
     const displayMarkers = (places: any[]) => {
@@ -78,13 +78,13 @@ export default function CourseSearch({
 
         kakao.maps.event.addListener(marker, "mouseover", () => {
           infowindow.setContent(
-            `<div style="padding:5px;">${place.place_name}</div>`
+            `<div style="padding:5px;">${place.place_name}</div>`,
           );
           infowindow.open(map, marker);
         });
 
         kakao.maps.event.addListener(marker, "mouseout", () =>
-          infowindow.close()
+          infowindow.close(),
         );
 
         (marker as any).placeId = place.id;
@@ -158,7 +158,7 @@ export default function CourseSearch({
 
     // 인포윈도우 표시
     infowindow.setContent(
-      `<div style="padding:5px;">${place.place_name}</div>`
+      `<div style="padding:5px;">${place.place_name}</div>`,
     );
     infowindow.open(map, selectedMarker);
   };
@@ -166,7 +166,6 @@ export default function CourseSearch({
   const onSubmitPlace = () => {
     if (currentPlace) {
       onSelect(currentPlace);
-      onClose();
     }
   };
 
@@ -187,7 +186,9 @@ export default function CourseSearch({
           className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-contrast-dark"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              e.currentTarget.blur();
+              e.preventDefault(); // 폼 기본 submit 막기
+              e.currentTarget.blur(); // 키패드 닫기
+              handleSearch(e); // 직접 검색 실행
             }
           }}
         />

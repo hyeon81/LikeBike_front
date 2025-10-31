@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // 토큰 재발급 중복 요청 방지를 위한 플래그
@@ -66,10 +66,10 @@ axiosInstance.interceptors.response.use(
     // 401이지만 이미 재시도했거나 재발급 중인 경우
     if (error.response && error.response.status === 401) {
       console.error(
-        "Unauthorized access - token refresh failed or already attempted"
+        "Unauthorized access - token refresh failed or already attempted",
       );
     }
 
     return Promise.reject(error);
-  }
+  },
 );

@@ -90,7 +90,7 @@ export async function GET() {
     console.error("Error fetching news from Notion:", error);
     return NextResponse.json(
       { error: "Failed to fetch news from Notion" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

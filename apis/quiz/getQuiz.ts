@@ -13,7 +13,7 @@ export const getQuiz: () => Promise<IQuiz | undefined> = async () => {
     const data = res?.data?.data;
 
     const quiz: IQuiz | undefined = data?.find(
-      (v: IQuiz) => v.display_date === dayjs().format("YYYY-MM-DD")
+      (v: IQuiz) => v.display_date === dayjs().format("YYYY-MM-DD"),
     );
 
     return quiz;

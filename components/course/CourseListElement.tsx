@@ -29,7 +29,10 @@ export default function CourseListElement({
         title={`[${LOG_STATUS[status as keyof typeof LOG_STATUS]?.text ?? ""}] ${dayjs(created_at?.replace("GMT", "")).format("YYYY-MM-DD, A hh시 mm분")}`}
       >
         <div className="flex flex-row gap-4 pt-2 cursor-pointer">
-          <div className="w-full" onClick={() => setOpenViewModal(true)}>
+          <div
+            className="w-full rounded-lg overflow-hidden active:opacity-70"
+            onClick={() => setOpenViewModal(true)}
+          >
             <PhotoStatusCard
               chipText={places.map((place) => place.name).join(" → ")}
               imgUrl={photo_url}

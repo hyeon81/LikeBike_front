@@ -38,11 +38,7 @@ const Quiz = ({
             <SelectQuestion quiz={quiz} answer={answer} setAnswer={setAnswer} />
           )}
           {quizType === QUIZ_TYPE.INPUT && (
-            <InputQuestion
-              quiz={quiz}
-              answer={answer}
-              setAnswer={setAnswer}
-            />
+            <InputQuestion quiz={quiz} answer={answer} setAnswer={setAnswer} />
           )}
           {quizType == QUIZ_TYPE.OX && (
             <OXQuestion quiz={quiz} answer={answer} setAnswer={setAnswer} />
