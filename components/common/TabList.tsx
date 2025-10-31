@@ -4,14 +4,14 @@ const TabList = ({
   isRed,
   children,
 }: {
-  onClick: () => void
-  active: boolean
-  isRed?: boolean // Optional prop to indicate if the tab should be red
-  children: React.ReactNode
+  onClick: () => void;
+  active: boolean;
+  isRed?: boolean; // Optional prop to indicate if the tab should be red
+  children: React.ReactNode;
 }) => {
   return active ? (
     <div
-      className={`flex-1 default-border py-4 text-center font-bold ${isRed ? 'bg-contrast' : 'bg-secondary-light'} rounded-t-3xl  cursor-pointer text-lg`}
+      className={`flex-1 default-border py-4 text-center font-bold ${isRed ? "bg-contrast" : "bg-secondary-light"} rounded-t-3xl  cursor-pointer text-lg`}
       onClick={onClick}
     >
       {children}
@@ -23,7 +23,7 @@ const TabList = ({
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default TabList
+export default TabList;

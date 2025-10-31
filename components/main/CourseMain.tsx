@@ -1,4 +1,4 @@
-import MainBase from './MainBase'
+import MainBase from "./MainBase";
 
 function CourseMain() {
   return (
@@ -8,7 +8,7 @@ function CourseMain() {
       scoreText="+10점"
       title="자전거 코스 추천"
     />
-  )
+  );
 }
 
-export default CourseMain
+export default CourseMain;

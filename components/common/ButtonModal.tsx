@@ -38,7 +38,7 @@ const ButtonModal = ({
                 <div key={index} className="font-normal">
                   {content}
                 </div>
-              )
+              ),
             )}
           </div>
         </div>

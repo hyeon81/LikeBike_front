@@ -64,7 +64,7 @@ function KakaoMapView({ places }: IKakaoMapPointViewProps) {
 
         // 경로 연결
         const linePath = places.map(
-          (p) => new kakao.maps.LatLng(Number(p.y) || 0, Number(p.x) || 0)
+          (p) => new kakao.maps.LatLng(Number(p.y) || 0, Number(p.x) || 0),
         );
         new kakao.maps.Polyline({
           path: linePath,

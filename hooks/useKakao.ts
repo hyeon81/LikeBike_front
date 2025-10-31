@@ -36,7 +36,7 @@ export default function useKakao() {
     };
 
     const existing = document.getElementById(
-      SCRIPT_ID
+      SCRIPT_ID,
     ) as HTMLScriptElement | null;
     if (existing) {
       // script tag exists; wait for kakao to be ready or attach load
@@ -45,7 +45,7 @@ export default function useKakao() {
       } else {
         existing.addEventListener("load", () => callMapsLoad());
         existing.addEventListener("error", () =>
-          setError(new Error("Failed to load Kakao SDK"))
+          setError(new Error("Failed to load Kakao SDK")),
         );
       }
       return;

@@ -31,7 +31,7 @@ const SelectQuestion = ({ quiz, answer, setAnswer }: Props) => {
             }
             width={30}
           />
-          <div className="flex items-center h-[30px]">{v}</div>
+          <div className="flex items-center ">{v}</div>
         </div>
       ))}
     </div>

@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react";
 
 interface WhiteBoxProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const WhiteBox = ({ children }: WhiteBoxProps) => {
@@ -9,7 +9,7 @@ const WhiteBox = ({ children }: WhiteBoxProps) => {
     <div className="bg-white px-2 py-4 text-center border-[1.5px] border-gray-lightest flex flex-col gap-1">
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default WhiteBox
+export default WhiteBox;

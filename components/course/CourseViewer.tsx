@@ -25,7 +25,7 @@ export default function CourseViewer({
       address_name: place.address_name,
       x: place.x,
       y: place.y,
-    })
+    }),
   );
 
   return (
@@ -47,7 +47,7 @@ export default function CourseViewer({
       <div className="border border-gray-300 p-3 rounded-lg mb-4">
         [{LOG_STATUS[courses.status as IStatus].text}]{" "}
         {dayjs(courses.created_at?.replace("GMT", "")).format(
-          "YYYY-MM-DD, A hh시 mm분"
+          "YYYY-MM-DD, A hh시 mm분",
         )}
       </div>
 

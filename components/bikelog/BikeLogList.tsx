@@ -1,22 +1,22 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 
-import getBikeLog from '@/apis/bikelog/getBikeLog'
-import { IBikeLog } from '@/types/bikeLog'
+import getBikeLog from "@/apis/bikelog/getBikeLog";
+import { IBikeLog } from "@/types/bikeLog";
 
-import BubbleChat from '../common/BubbleChat'
-import EmSpan from '../common/EmSpan'
-import WhiteBox from '../common/WhiteBox'
-import BikeLog from './BikeLog'
+import BubbleChat from "../common/BubbleChat";
+import EmSpan from "../common/EmSpan";
+import WhiteBox from "../common/WhiteBox";
+import BikeLog from "./BikeLog";
 
 const BikeLogList = () => {
   const { data } = useQuery<IBikeLog[]>({
-    queryKey: ['bikeLogs'],
+    queryKey: ["bikeLogs"],
     queryFn: getBikeLog,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
-  })
+  });
 
-  console.log('BikeLogList data:', data)
+  console.log("BikeLogList data:", data);
 
   return (
     <div className="flex flex-col gap-4">
@@ -41,7 +41,7 @@ const BikeLogList = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BikeLogList
+export default BikeLogList;

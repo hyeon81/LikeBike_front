@@ -31,9 +31,13 @@ const CourseList = () => {
           <div>
             ① <EmSpan>[올바른 코스 추천]</EmSpan>인지 검토합니다.
           </div>
-          <div>② <EmSpan>[코스, 추천 이유]</EmSpan> 모두가 인정되면 <br/>점수를 지급받습니다.</div>
           <div>
-            ③ <EmSpan>[전체 코스 추천]</EmSpan> 은 <br/>썸네일을 눌러 확인 가능합니다.
+            ② <EmSpan>[코스, 추천 이유]</EmSpan> 모두가 인정되면 <br />
+            점수를 지급받습니다.
+          </div>
+          <div>
+            ③ <EmSpan>[전체 코스 추천]</EmSpan> 은 <br />
+            썸네일을 눌러 확인 가능합니다.
           </div>
         </WhiteBox>
       </div>

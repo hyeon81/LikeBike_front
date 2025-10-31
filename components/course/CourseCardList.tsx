@@ -1,8 +1,12 @@
+'use client'
+
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
-import KakaoMapView from "./KakaoMapView";
 import { createCourse } from "@/apis/course/createCourse";
 import { ICourseCard, IKakaoMapPoint } from "@/types/course";
 import CourseCard from "./CourseCard";
+import ReactModal from "react-modal";
+import { useRouter, useSearchParams } from "next/navigation";
+import CourseSearch from "./CourseSearch";
 
 interface Props {
   courseCount: number | undefined;
@@ -21,6 +25,11 @@ export default function CourseCardList({
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
+
+  const router = useRouter();
+  const params = useSearchParams();
+  const modalIdx = params.has("modal") ? Number(params.get("modal")) : null;
+
   const isAlreadyCertified = courseCount && courseCount >= 2;
 
   const [courseInfo, setCourseInfo] = useState<ICourseCard[]>([
@@ -28,6 +37,7 @@ export default function CourseCardList({
     { place: null, text: "", image: null },
   ]);
 
+  // 체크: 모든 코스 완성 여부
   const checkCompletedCourses = (res: ICourseCard[]) => {
     for (let i = 0; i < res.length; i++) {
       const course = res[i];
@@ -37,6 +47,7 @@ export default function CourseCardList({
     return true;
   };
 
+  // 코스 제출
   const onSubmit = async () => {
     const res = courseInfo.map((v, idx) => ({ ...v, place: placeInfo[idx] }));
     if (!checkCompletedCourses(res)) {
@@ -57,11 +68,13 @@ export default function CourseCardList({
     }
   };
 
+  // 코스 삭제
   const removeCourse = useCallback((selectedId: number) => {
     setCourseInfo((prev) => prev.filter((_, idx) => idx !== selectedId));
     setPlaceInfo((prev) => prev.filter((_, idx) => idx !== selectedId));
   }, []);
 
+  // 텍스트/이미지 업데이트
   const updateInfo = useCallback((newInfo: ICourseCard, index: number) => {
     setCourseInfo((prev) => {
       const updated = [...prev];
@@ -70,17 +83,20 @@ export default function CourseCardList({
     });
   }, []);
 
+  // 장소 업데이트 (modalIdx 기준)
   const updatePlaceInfo = useCallback(
-    (newPlace: IKakaoMapPoint | null, index: number) => {
+    (newPlace: IKakaoMapPoint | null) => {
+      if (modalIdx == null) return;
       setPlaceInfo((prev) => {
         const updated = [...prev];
-        updated[index] = newPlace;
+        updated[modalIdx] = newPlace;
         return updated;
       });
     },
-    []
+    [modalIdx, setPlaceInfo],
   );
 
+  // 코스 추가
   const addNextCourse = useCallback(() => {
     setCourseInfo((prev) => {
       if (prev.length >= 4) return prev;
@@ -100,11 +116,30 @@ export default function CourseCardList({
       updated.splice(-1, 0, null);
       return updated;
     });
-  }, [courseInfo, placeInfo]);
+  }, []);
 
-  console.log("courseInfo", courseInfo, placeInfo);
   return (
     <>
+      {/* 모달: 부모에서 단일 렌더 */}
+      <ReactModal
+        isOpen={modalIdx !== null}
+        ariaHideApp={false}
+        className="max-w-[460px] mx-auto p-6 bg-white rounded-lg shadow-lg outline-none h-[100vh]"
+        style={{ overlay: { zIndex: 2000 }, content: { zIndex: 2100 } }}
+      >
+        {modalIdx !== null && (
+          <CourseSearch
+            onClose={() => router.back()}
+            defaultPlace={placeInfo[modalIdx]}
+            onSelect={(newPlace: IKakaoMapPoint) => {
+              updatePlaceInfo(newPlace);
+              router.back();
+            }}
+          />
+        )}
+      </ReactModal>
+
+      {/* 코스 카드 리스트 */}
       {courseInfo.map((v, idx) => {
         const position =
           idx === 0
@@ -115,8 +150,8 @@ export default function CourseCardList({
 
         return (
           <CourseCard
-            key={idx + v.text}
-            idx={idx + 1}
+            key={idx}
+            idx={idx}
             position={position}
             info={{
               place: placeInfo[idx],
@@ -125,7 +160,6 @@ export default function CourseCardList({
               preview: v.preview,
             }}
             setInfo={(newInfo) => updateInfo(newInfo, idx)}
-            setPlaceInfo={(newPlace) => updatePlaceInfo(newPlace, idx)}
             removeCourse={() => removeCourse(idx)}
             addNextCourse={addNextCourse}
             courseLength={courseInfo.length}
@@ -134,6 +168,7 @@ export default function CourseCardList({
         );
       })}
 
+      {/* 제출 버튼 */}
       <button
         className={`${
           isAlreadyCertified
@@ -145,7 +180,9 @@ export default function CourseCardList({
           if (!loading) onSubmit();
         }}
       >
-        {isAlreadyCertified ? "코스 추천 주 2회 제출 완료" : "코스 추천 제출하기"}
+        {isAlreadyCertified
+          ? "코스 추천 주 2회 제출 완료"
+          : "코스 추천 제출하기"}
       </button>
     </>
   );
