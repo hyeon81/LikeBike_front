@@ -143,7 +143,7 @@ export default function CourseCard({
               )}
 
               <Image
-                src={place ? "/icons/search_black.svg":"/icons/search.svg"}
+                src={place ? "/icons/search_black.svg" : "/icons/search.svg"}
                 alt="장소 검색"
                 width={20}
                 height={20}

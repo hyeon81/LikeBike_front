@@ -12,6 +12,7 @@ import WhiteBox from "../common/WhiteBox";
 import CourseViewer from "./CourseViewer";
 import { useState } from "react";
 import CourseListElement from "./CourseListElement";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dayjs/locale/ko");
@@ -22,6 +23,10 @@ const CourseList = () => {
     queryKey: ["courseList"],
     queryFn: getCourse,
   });
+
+  const router = useRouter();
+  const params = useSearchParams();
+  const modalIdx = params.has("viewModal") ? Number(params.get("modal")) : null;
 
   return (
     <>
@@ -41,6 +46,11 @@ const CourseList = () => {
           </div>
         </WhiteBox>
       </div>
+      <CourseViewer
+        isOpen={modalIdx !== null}
+        courses={modalIdx == null ? undefined : data?.[modalIdx]}
+        onClose={() => router.back()}
+      />
       <div className="mt-4 flex flex-col gap-4">
         {data && data.length > 0 ? (
           data.map((v, idx) => {

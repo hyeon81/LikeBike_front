@@ -14,7 +14,7 @@ export default function CourseViewer({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  courses: ICourseResponse;
+  courses: ICourseResponse | undefined;
 }) {
   if (!courses) return null;
 

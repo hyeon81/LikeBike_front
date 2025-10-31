@@ -83,13 +83,13 @@ const CourseCreate = ({ goToList }: Props) => {
           <KakaoMapView places={places} />
         </div>
         <Suspense>
-        <CourseCardList
-          courseCount={courseCount}
-          setErrorModalIsOpen={setErrorModalIsOpen}
-          setModalIsOpen={setModalIsOpen}
-          placeInfo={placeInfo}
-          setPlaceInfo={setPlaceInfo}
-        />
+          <CourseCardList
+            courseCount={courseCount}
+            setErrorModalIsOpen={setErrorModalIsOpen}
+            setModalIsOpen={setModalIsOpen}
+            placeInfo={placeInfo}
+            setPlaceInfo={setPlaceInfo}
+          />
         </Suspense>
       </div>
     </div>

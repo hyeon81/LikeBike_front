@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 import { getCourse } from "@/apis/course/getCourse";
 import TabList from "@/components/common/TabList";
@@ -41,7 +41,9 @@ export default function Home() {
             }}
           />
         ) : (
-          <CourseList />
+          <Suspense>
+            <CourseList />
+          </Suspense>
         )}
       </div>
     </div>
