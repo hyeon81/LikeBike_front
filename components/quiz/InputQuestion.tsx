@@ -30,7 +30,7 @@ const InputQuestion = ({ quiz, answer, setAnswer }: Props) => {
             {quiz?.hint_link ? (
               <Link href={quiz.hint_link}>
                 <div className=" text-primary ml-[4px] underline">
-                  {quiz?.hint_explation ?? quiz?.hint_link}
+                  {quiz?.hint_explation ?? "힌트 보러 가기"}
                 </div>
               </Link>
             ) : (
