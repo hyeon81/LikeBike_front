@@ -83,10 +83,10 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           },
         }}
         upload={{
-          title: "[안전모+사용자] 촬영",
+          title: "[안전모+사용자] 업로드",
           contents: [
             "안전모를 착용한 사용자 얼굴이",
-            "보이는 정면 사진을 촬영",
+            "보이는 정면 사진을 업로드",
           ],
           isOpen: hatUploadModalOpen,
           setOpen: setHatUploadModalOpen,
@@ -103,11 +103,8 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           },
         }}
         upload={{
-          title: "[자전거] 촬영",
-          contents: [
-            "브레이크, 벨, 후미등, 거치대가",
-            " 확인되는 자전거 사진을 촬영",
-          ],
+          title: "[자전거] 업로드",
+          contents: ["브레이크가 확인되는 자전거 사진을 업로드"],
           isOpen: bikeUploadModalOpen,
           setOpen: setBikeUploadModalOpen,
         }}
@@ -118,7 +115,7 @@ const BikeLogGuide = ({ setValue }: { setValue: (value: any) => void }) => {
           ① 하단의 <EmSpan>[인증 시작]</EmSpan> 누르기
         </div>
         <div>
-          ② <EmSpan>[안전모+사용자, 자전거]</EmSpan> 촬영하기
+          ② <EmSpan>[안전모+사용자, 자전거]</EmSpan> 업로드 하기
         </div>
       </WhiteBox>
       <BubbleChat text="인증 기준" />

@@ -37,7 +37,7 @@ const PATH = "/users/course-recommendations";
 export const getCourse: () => Promise<ICourseResponse[]> = async () => {
   try {
     const response = await axiosInstance.get<IResponse<ICourseResponse[]>>(
-      `${PATH}`
+      `${PATH}`,
     );
     return response?.data?.data;
   } catch (error) {

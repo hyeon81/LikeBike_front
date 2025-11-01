@@ -99,13 +99,13 @@ const UploadModal = ({
               (window as any)?.ReactNativeWebView?.postMessage("openCamera");
             }}
           >
-            사진 촬영하기
+           사진 업로드하기
           </div> */}
           <label
             className="bg-primary text-white py-2 px-4 rounded-lg cursor-pointer"
             htmlFor={`${prefix}-image`}
           >
-            사진 촬영하기
+            사진 업로드하기
           </label>
           <input
             accept="image/*"

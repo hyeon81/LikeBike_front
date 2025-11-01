@@ -6,7 +6,7 @@ export interface IKakaoMapPointViewProps {
   places: IKakaoMapPoint[];
 }
 
-export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
+function KakaoMapView({ places }: IKakaoMapPointViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const { loaded, error } = useKakao();
 
@@ -23,14 +23,19 @@ export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
     if (!kakao || !kakao.maps) return;
 
     kakao.maps.load(() => {
-      // 기본 중심 위치
       const defaultPosition = new kakao.maps.LatLng(37.566826, 126.9786567);
 
-      // places가 없으면 그냥 기본 위치 중심으로 지도 생성
       const map = new kakao.maps.Map(mapRef.current, {
         center: defaultPosition,
         level: 4,
       });
+
+      // ✅ 여기서 인터랙션 비활성화
+      map.setDraggable(false); // 드래그 금지
+      map.setZoomable(false); // 마우스 휠 줌 금지
+      map.setKeyboardShortcuts(false); // 키보드 이동 금지
+      map.setZoomable(false); // 터치 확대 축소 금지
+      map.setLevel(map.getLevel(), { animate: false }); // 확대 축소 애니메이션 제거
 
       if (places.length > 0) {
         const bounds = new kakao.maps.LatLngBounds();
@@ -40,14 +45,13 @@ export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
           const lng = Number(place.x) || 0;
           const position = new kakao.maps.LatLng(lat, lng);
 
-          // 커스텀 오버레이로 숫자 표시
           new kakao.maps.CustomOverlay({
             position,
             content: `<div style="
-              background:red; color:white; border-radius:50%;
-              width:24px; height:24px;
-              display:flex; justify-content:center; align-items:center;
-              font-weight:bold;">${i + 1}</div>`,
+            background:#FF7272; color:white; border-radius:50%;
+            width:24px; height:24px;
+            display:flex; justify-content:center; align-items:center;
+            font-weight:bold;">${i + 1}</div>`,
             yAnchor: 0.5,
             map,
           });
@@ -55,11 +59,12 @@ export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
           bounds.extend(position);
         });
 
-        map.setBounds(bounds);
+        map.setBounds(bounds, 50, 50, 50, 50); // 여백 설정
+        map.setLevel(map.getLevel(), { animate: false }); // ✅ 애니메이션 없이 반영
 
         // 경로 연결
         const linePath = places.map(
-          (p) => new kakao.maps.LatLng(Number(p.y) || 0, Number(p.x) || 0)
+          (p) => new kakao.maps.LatLng(Number(p.y) || 0, Number(p.x) || 0),
         );
         new kakao.maps.Polyline({
           path: linePath,
@@ -81,3 +86,5 @@ export default function KakaoMapView({ places }: IKakaoMapPointViewProps) {
     />
   );
 }
+
+export default React.memo(KakaoMapView);

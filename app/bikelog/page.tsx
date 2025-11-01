@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import * as React from 'react'
+import * as React from "react";
 
-import BikeLogGuide from '@/components/bikelog/BikeLogGuide'
-import BikeLogList from '@/components/bikelog/BikeLogList'
-import TabList from '@/components/common/TabList'
+import BikeLogGuide from "@/components/bikelog/BikeLogGuide";
+import BikeLogList from "@/components/bikelog/BikeLogList";
+import TabList from "@/components/common/TabList";
 
 export default function Home() {
-  const [value, setValue] = React.useState(1)
+  const [value, setValue] = React.useState(1);
 
   return (
     <div>
@@ -23,5 +23,5 @@ export default function Home() {
         {value == 1 ? <BikeLogGuide setValue={setValue} /> : <BikeLogList />}
       </div>
     </div>
-  )
+  );
 }

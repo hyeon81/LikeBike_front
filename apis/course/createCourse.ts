@@ -41,7 +41,7 @@ export const createCourse = async (courseData: ICourseCard[]) => {
   try {
     const response = await axiosInstance.post<IResponse<any>>(
       `${PATH}`,
-      formData
+      formData,
     );
     return response.data;
   } catch (error) {

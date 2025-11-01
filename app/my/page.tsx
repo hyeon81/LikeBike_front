@@ -8,6 +8,10 @@ import styled from "styled-components";
 
 import { getProfile } from "@/apis/user/getProfile";
 import logout from "@/apis/user/logout";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
@@ -19,7 +23,8 @@ export default function Home() {
   const onClickLogout = async () => {
     try {
       await logout();
-      if (confirm("로그아웃 되었습니다")) {
+      if (confirm("로그아웃 하시겠습니까?")) {
+        alert("로그아웃 되었습니다");
         router.push("/siginin");
       }
     } catch (error) {
@@ -46,7 +51,7 @@ export default function Home() {
             process.env.NEXT_PUBLIC_QNA_URL || window.location.origin;
         }}
       >
-        <img alt="setting" height={24} src="/icons/setting.svg" width={24} />
+        <HelpOutlineIcon />
         <Typography>Q&A</Typography>
       </ButtonContainer>
       {/* <ButtonContainer
@@ -57,8 +62,14 @@ export default function Home() {
         <img src="/icons/setting.svg" alt="setting" width={24} height={24} />
         <Typography>설정</Typography>
       </ButtonContainer> */}
+      <Link href={"https://hangang.seoul.go.kr/www/contents/823.do?mid=595"}>
+        <ButtonContainer>
+          <CampaignOutlinedIcon />
+          <Typography>안전 신문고</Typography>
+        </ButtonContainer>
+      </Link>
       <ButtonContainer onClick={onClickLogout}>
-        <img alt="logout" height={24} src="/icons/exit.svg" width={24} />
+        <LogoutOutlinedIcon />
         <Typography>로그아웃</Typography>
       </ButtonContainer>
     </Container>

@@ -31,14 +31,14 @@ const ButtonModal = ({
           <div className="flex flex-col mt-1">
             {contents?.map((content, index) =>
               isList ? (
-                <li key={index} className="font-normal list-disc pl-4">
-                  {content}
-                </li>
+                <div key={index} className="font-normal">
+                  {`•\u00A0\u00A0${content}`}
+                </div>
               ) : (
                 <div key={index} className="font-normal">
                   {content}
                 </div>
-              )
+              ),
             )}
           </div>
         </div>

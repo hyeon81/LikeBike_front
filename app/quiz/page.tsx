@@ -23,15 +23,13 @@ export default function Home() {
     queryFn: getQuizStatus,
   });
 
-  console.log("Quiz Status:", quizStatus);
-
   const [status, setStatus] = useState<QuizStatus | undefined>(undefined);
   const isCorrect = useRef<boolean | null>(null);
 
   useEffect(() => {
     if (quizStatus?.attempted) {
       setStatus(
-        quizStatus.is_correct ? QUIZ_STATUS.CORRECT : QUIZ_STATUS.WRONG
+        quizStatus.is_correct ? QUIZ_STATUS.CORRECT : QUIZ_STATUS.WRONG,
       );
       isCorrect.current = quizStatus.is_correct;
     } else {

@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react";
 
 const EmSpan = ({ children }: { children: ReactNode }) => {
-  return <span className="emphasis">{children}</span>
-}
+  return <span className="emphasis">{children}</span>;
+};
 
-export default EmSpan
+export default EmSpan;

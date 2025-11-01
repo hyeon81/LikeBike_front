@@ -12,6 +12,7 @@ import WhiteBox from "../common/WhiteBox";
 import CourseViewer from "./CourseViewer";
 import { useState } from "react";
 import CourseListElement from "./CourseListElement";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dayjs/locale/ko");
@@ -23,6 +24,10 @@ const CourseList = () => {
     queryFn: getCourse,
   });
 
+  const router = useRouter();
+  const params = useSearchParams();
+  const modalIdx = params.has("viewModal") ? Number(params.get("modal")) : null;
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -31,13 +36,21 @@ const CourseList = () => {
           <div>
             ① <EmSpan>[올바른 코스 추천]</EmSpan>인지 검토합니다.
           </div>
-          <div>② 코스 추천은 ‘검토 중’ 상태로 전환됩니다.</div>
           <div>
-            ③ <EmSpan>[코스, 추천 이유]</EmSpan> 모두가 <br />
-            인정되면 점수를 지급 받습니다.
+            ② <EmSpan>[코스, 추천 이유]</EmSpan> 모두가 인정되면 <br />
+            점수를 지급받습니다.
+          </div>
+          <div>
+            ③ <EmSpan>[전체 코스 추천]</EmSpan> 은 <br />
+            썸네일을 눌러 확인 가능합니다.
           </div>
         </WhiteBox>
       </div>
+      <CourseViewer
+        isOpen={modalIdx !== null}
+        courses={modalIdx == null ? undefined : data?.[modalIdx]}
+        onClose={() => router.back()}
+      />
       <div className="mt-4 flex flex-col gap-4">
         {data && data.length > 0 ? (
           data.map((v, idx) => {
